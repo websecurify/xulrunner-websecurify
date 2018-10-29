@@ -1,0 +1,56 @@
+#
+# chrome registration
+#
+
+resource     org.gnucitizen.weaponry.development                                                    file:chrome/
+content      org.gnucitizen.weaponry.development                                                    file:chrome/content/
+locale       org.gnucitizen.weaponry.development en-US                                              file:chrome/locale/en-US/
+skin         org.gnucitizen.weaponry.development classic/1.0                                        file:chrome/skin/classic/
+
+overlay      chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul                         chrome://org.gnucitizen.weaponry.development/content/ovl/common.xul
+overlay      chrome://org.gnucitizen.weaponry.common/content/ovl/toolsMenu.xul                      chrome://org.gnucitizen.weaponry.development/content/ovl/toolsMenu.xul
+overlay      chrome://org.gnucitizen.weaponry.preferences/content/xul/preferencesPrefwindow.xul     chrome://org.gnucitizen.weaponry.development/content/ovl/preferencesPrefwindow.xul
+
+#
+# xpcom registration
+#
+
+interfaces     components/IWeaponryDevelopmentCommandLineHandler.xpt
+interfaces     components/IWeaponryDevelopmentService.xpt
+
+component      {31a09f50-fab4-49e4-97d4-a994e8a6375f}                          components/WeaponryDevelopmentCommandLineHandler.js
+contract       @development.weaponry.gnucitizen.org/command-line-handler;1     {31a09f50-fab4-49e4-97d4-a994e8a6375f}
+
+component      {3ce142e4-ddbc-49d3-a262-a855bf2da226}                          components/WeaponryDevelopmentService.js
+contract       @development.weaponry.gnucitizen.org/service;1                  {3ce142e4-ddbc-49d3-a262-a855bf2da226}
+
+category       command-line-handler WeaponryDevelopmentCommandLineHandler      @development.weaponry.gnucitizen.org/command-line-handler;1
+category       profile-after-change WeaponryDevelopmentService                 @development.weaponry.gnucitizen.org/service;1
+category       profile-before-change WeaponryDevelopmentService                @development.weaponry.gnucitizen.org/service;1
+
+#
+# inspector manifest
+#
+
+content     inspector                                         jar:sites/inspector/chrome/inspector.jar!/content/inspector/ xpcnativewrappers=no
+locale      inspector en-US                                   jar:sites/inspector/chrome/inspector.jar!/locale/en-US/inspector/
+locale      inspector de                                      jar:sites/inspector/chrome/inspector.jar!/locale/de/inspector/
+locale      inspector fr                                      jar:sites/inspector/chrome/inspector.jar!/locale/fr/inspector/
+locale      inspector pl                                      jar:sites/inspector/chrome/inspector.jar!/locale/pl/inspector/
+locale      inspector ru                                      jar:sites/inspector/chrome/inspector.jar!/locale/ru/inspector/
+locale      inspector sk                                      jar:sites/inspector/chrome/inspector.jar!/locale/sk/inspector/
+skin        inspector modern/1.0                              jar:sites/inspector/chrome/inspector.jar!/skin/modern/inspector/
+skin        inspector classic/1.0                             jar:sites/inspector/chrome/inspector.jar!/skin/classic/inspector/
+
+overlay     chrome://inspector/content/popupOverlay.xul       chrome://inspector/content/viewers/dom/popupOverlay.xul
+overlay     chrome://inspector/content/popupOverlay.xul       chrome://inspector/content/viewers/styleRules/popupOverlay.xul
+overlay     chrome://inspector/content/keysetOverlay.xul      chrome://inspector/content/viewers/dom/keysetOverlay.xul
+overlay     chrome://inspector/content/commandOverlay.xul     chrome://inspector/content/viewers/dom/commandOverlay.xul
+overlay     chrome://inspector/content/commandOverlay.xul     chrome://inspector/content/viewers/styleRules/commandOverlay.xul
+
+#
+# jsshell manifest
+#
+
+content      jsshell           jar:sites/jsshell/chrome/jsshell.jar!/content/
+locale       jsshell en-US     jar:sites/jsshell/chrome/jsshell.jar!/locale/en-US/

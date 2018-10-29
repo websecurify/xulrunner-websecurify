@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/htmlbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:cmn="http://www.gnucitizen.org/cmn"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="htmlbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="htmlbox-container" flex="1" cmn:exposed="$container">
+				<xul:description class="htmlbox-description" flex="1" cmn:exposed="$description"/>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="value">
+				<getter><![CDATA[
+					if (this.$description.firstChild) {
+						this.$description.firstChild.innerHTML;
+					} else {
+						return '';
+					}
+				]]></getter>
+				
+				<setter><![CDATA[
+					if (this.$description.firstChild) {
+						this.$description.removeChild(this.$description.firstChild);
+					}
+					
+					let $div = document.createElementNS('http://www.w3.org/1999/xhtml', 'div');
+					
+					$div.innerHTML = val;
+					
+					this.$description.appendChild($div);
+				]]></setter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					this._linkAttributeProperty(this, 'value', 'value');
+				]]></action>
+			</constructor>
+		</implementation>
+	</binding>
+	
+</bindings>

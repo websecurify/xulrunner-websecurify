@@ -1,0 +1,396 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/basedatatree.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="basedatatreecol" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<implementation>
+			<property name="$treecol">
+				<getter><![CDATA[
+					if (!this.$realTreecol) {
+						this.$realTreecol = document.createElement('treecol');
+						
+						this.$realTreecol.setAttribute('class', 'basedatatreecol-treecol tree-col');
+						this.$realTreecol.setAttribute('flex', '1');
+						
+						this._bindAttributes(this, this.$realTreecol, ['label', 'properties', 'primary', 'hidden', 'flex', 'field', 'sort']);
+					}
+					
+					return this.$realTreecol;
+				]]></getter>
+			</property>
+			
+			<property name="$splitter">
+				<getter><![CDATA[
+					if (!this.$realSplitter) {
+						this.$realSplitter = document.createElement('splitter');
+						
+						this.$realSplitter.setAttribute('class', 'basedatatreecol-splitter tree-splitter');
+					}
+					
+					return this.$realSplitter;
+				]]></getter>
+			</property>
+		</implementation>
+	</binding>
+	
+	<binding id="basedatatree" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basedatabox.xml#basedatabox">
+		<content>
+			<xul:vbox class="basedatatree-container" flex="1">
+				<xul:tree class="basedatatree-tree" seltype="single" flex="1" xbl:inherits="rows">
+					<xul:treecols class="basedatatree-treecols"/>
+					<xul:treechildren class="basedatatree-treechildren"/>
+				</xul:tree>
+				
+				<xul:box class="basedatatree-content">
+					<children/>
+				</xul:box>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$tree">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$treecols">
+				<getter><![CDATA[
+					return this.$tree.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$treechildren">
+				<getter><![CDATA[
+					return this.$tree.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="selectedIndex">
+				<getter><![CDATA[
+					return this.$tree.currentIndex;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.$tree.currentIndex = val;
+				]]></setter>
+			</property>
+			
+			<property name="selectedDataRow">
+				<getter><![CDATA[
+					throw new Error('not implemented: selectedDataRow');
+				]]></getter>
+			</property>
+			
+			<method name="refresh">
+				<body><![CDATA[
+					if (this._fireEvent('refresh')) {
+						this.dataTreeView.treebox.beginUpdateBatch();
+						this.dataTreeView.treebox.endUpdateBatch();
+					}
+				]]></body>
+			</method>
+			
+			<method name="rebuild">
+				<body><![CDATA[
+					if (this._fireEvent('rebuild')) {
+						this.refresh();
+					}
+				]]></body>
+			</method>
+			
+			<method name="_wireNode">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					let $treecol = $element.$treecol;
+					let $splitter = $element.$splitter;
+					
+					if ($element.nextSibling) {
+						this.$treecols.insertBefore($treecol, $element.nextSibling.$treecol);
+						this.$treecols.insertBefore($splitter, $treecol);
+					} else {
+						this.$treecols.insertBefore($treecol, null);
+						this.$treecols.insertBefore($splitter, null);
+					}
+				]]></body>
+			</method>
+			
+			<method name="_unwireNode">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					this.$treecols.removeChild($element.$treecols);
+					this.$treecols.removeChild($element.$splitter);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.dataTreeView = {
+						getDataLen: function () {
+							throw new Error('not implemented: dataTreeView.getDataLen');
+						},
+						
+						getDataRow: function (row) {
+							throw new Error('not implemented: dataTreeView.getDataRow');
+						},
+						
+						setTree: function (treebox) {
+							this.treebox = treebox;
+						},
+						
+						get rowCount() {
+							return this.getDataLen();
+						},
+						
+						getLevel: function (row) {
+							return 0;
+						},
+						
+						getCellText: function (row, column) {
+							let dataRow = this.getDataRow(row);
+							let property = column.element.getAttribute('field');
+							
+							return dataRow[property] ? dataRow[property] : '';
+						},
+						
+						getCellValue: function (row, column) {
+							let dataRow = this.getDataRow(row);
+							let property = '_metaCellValue_' + column.element.getAttribute('field');
+							
+							return dataRow[property] ? dataRow[property] : '';
+						},
+						
+						getImageSrc: function (row, column) {
+							let dataRow = this.getDataRow(row);
+							let property = '_metaCellSrc_' + column.element.getAttribute('field');
+							
+							return dataRow[property] ? dataRow[property] : '';
+						},
+						
+						getProgressMode: function (row, column) {
+							let dataRow = this.getDataRow(row);
+							let property = '_metaCellProgress_' + column.element.getAttribute('field');
+							
+							return dataRow[property] ? dataRow[property] : '';
+						},
+						
+						getRowProperties: function (row, properties) {
+							let dataRow = this.getDataRow(row);
+							
+							if (dataRow['_metaRowProperties']) {
+								let _properties = dataRow['_metaRowProperties'].split(/\s+/g);
+								let _propertiesLength = _properties.length;
+								
+								for (let i = 0; i < _propertiesLength; i += 1) {
+									properties.AppendElement(weaponryCommon.atomService.getAtom(_properties[i]));
+								}
+							}
+						},
+						
+						getColumnProperties: function (column, properties) {
+							if (column.element.hasAttribute('properties')) {
+								let _properties = column.element.getAttribute('properties').split(/\s*,\s*/g);
+								let _propertiesLength = _properties.length;
+								
+								for (let i = 0; i < _propertiesLength; i += 1) {
+									properties.AppendElement(weaponryCommon.atomService.getAtom(_properties[i]));
+								}
+							}
+						},
+						
+						getCellProperties: function (row, column, properties) {
+							let dataRow = this.getDataRow(row);
+							let field = column.element.getAttribute('field');
+							
+							if (dataRow['_metaCellProperties_' + field]) {
+								let _properties = dataRow['_metaCellProperties_' + field].split(/\s+/g);
+								let _propertiesLength = _properties.length;
+								
+								for (let i = 0; i < _propertiesLength; i += 1) {
+									properties.AppendElement(weaponryCommon.atomService.getAtom(_properties[i]));
+								}
+							}
+						},
+						
+						setCellText: function (row, column, value) {
+							// pass
+						},
+						
+						setCellValue: function (row, column, value) {
+							// pass
+						},
+						
+						performAction: function (action) {
+							// pass
+						},
+						
+						performActionOnRow: function (action, row) {
+							// pass
+						},
+						
+						performActionOnCell: function (action, row, column) {
+							// pass
+						},
+						
+						cycleHeader: function (column) {
+							// pass
+						},
+						
+						cycleCell: function (row, column) {
+							// pass
+						},
+						
+						toggleOpenState: function (row) {
+							// pass
+						},
+						
+						selectionChanged: function () {
+							// pass
+						},
+						
+						isEditable: function (row, column) {
+							return false;
+						},
+						
+						isSelectable: function (row, column) {
+							return true;
+						},
+						
+						isContainer: function (row) {
+							return false;
+						},
+						
+						isContainerOpen: function (row) {
+							return false;
+						},
+						
+						isContainerEmpty: function (row) {
+							return true;
+						},
+						
+						isSeparator: function (row) {
+							let dataRow = this.getDataRow(row);
+							
+							return dataRow['_metaRowSeparater'] ? dataRow['_metaRowSeparater'] : '';
+						},
+						
+						isSorted: function (row) {
+							return false;
+						},
+						
+						hasNextSibling: function (row, after) {
+							return row < this.getDataLen();
+						},
+						
+						getParentIndex: function (row) {
+							return -1;
+						},
+						
+						canDrop: function (row, orientation, transfer) {
+							return false;
+						},
+						
+						drop: function (row, orientation, transfer) {
+							// pass
+						}
+					};
+					
+					this.dataView.basedatatreeOldInsertDataRow = this.dataView.insertDataRow;
+					this.dataView.basedatatreeOldAppendDataRow = this.dataView.appendDataRow;
+					this.dataView.basedatatreeOldUpdateDataRow = this.dataView.updateDataRow;
+					this.dataView.basedatatreeOldRemoveDataRow = this.dataView.removeDataRow;
+					this.dataView.basedatatreeOldRinseDataRows = this.dataView.rinseDataRows;
+					this.dataView.basedatatreeOldClearDataRows = this.dataView.clearDataRows;
+					
+					this.dataView.insertDataRow = function (data, row, refresh) {
+						let result = this.basedatatreeOldInsertDataRow.apply(this, arguments);
+						
+						if (refresh != false) {
+							self.refresh();
+						}
+						
+						return result;
+					};
+					
+					this.dataView.appendDataRow = function (data, refresh) {
+						let result = this.basedatatreeOldAppendDataRow.apply(this, arguments);
+						
+						if (refresh != false) {
+							self.refresh();
+						}
+						
+						return result;
+					};
+					
+					this.dataView.updateDataRow = function (data, row, refresh) {
+						let result = this.basedatatreeOldUpdateDataRow.apply(this, arguments);
+						
+						if (refresh != false) {
+							self.refresh();
+						}
+						
+						return result;
+					};
+					
+					this.dataView.removeDataRow = function (row, refresh) {
+						let result = this.basedatatreeOldRemoveDataRow.apply(this, arguments);
+						
+						if (refresh != false) {
+							self.refresh();
+						}
+						
+						return result;
+					};
+					
+					this.dataView.rinseDataRows = function (row, count, refresh) {
+						let result = this.basedatatreeOldRinseDataRows.apply(this, arguments);
+						
+						if (refresh != false) {
+							self.refresh();
+						}
+						
+						return result;
+					};
+					
+					this.dataView.clearDataRows = function (refresh) {
+						let result = this.basedatatreeOldClearDataRows.apply(this, arguments);
+						
+						if (refresh != false) {
+							self.refresh();
+						}
+						
+						return result;
+					};
+					
+					this.$tree.view = this.dataTreeView;
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

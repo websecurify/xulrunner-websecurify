@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/treebox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="treeboxitem" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="treeboxitem-container" flex="1">
+				<xul:hbox class="treeboxitem-template" flex="1">
+					<xul:disclosuretriangle class="treeboxitem-disclosuretriangle" open="false"/>
+					
+					<xul:hbox class="treeboxitem-content" flex="1">
+						<children/>
+					</xul:hbox>
+				</xul:hbox>
+				
+				<xul:vbox class="treeboxitem-children">
+					<children includes="treeboxitem"/>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$template">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$children">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$disclosuretriangle">
+				<getter><![CDATA[
+					return this.$template.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$template.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this._bindEvent(this.$disclosuretriangle, 'click', function (event) {
+						if (self.getAttribute('open') == 'true') {
+							self.setAttribute('open', 'false');
+						} else {
+							self.setAttribute('open', 'true');
+						}
+					});
+					
+					this._bindAttributes(this, this.$disclosuretriangle, ['open']);
+					this._bindAttributes(this, this.$children, ['open=collapsed']);
+					this._linkAttributeProperty(this, 'selectable', 'selectable');
+					
+					let nodes = this.childNodes;
+					let nodesLength = nodes.length;
+					let c = 0;
+					
+					for (let i = 0; i < nodesLength && c == 0; i += 1) {
+						let $node = nodes[i];
+						
+						if ($node.tagName != 'treeboxitem') {
+							c += 1;
+						}
+					}
+					
+					if (c == 0) {
+						let $label = document.createElement('label');
+						
+						$label.setAttribute('class', 'treeboxitem-label');
+						
+						this._bindAttributes(this, $label, ['value=label']);
+						
+						this.$content.appendChild($label);
+					}
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+	<binding id="treebox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="treebox-container" flex="1">
+				<xul:vbox class="treebox-content" flex="1">
+					<children includes="treeboxitem"/>
+				</xul:vbox>
+				
+				<children/>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this._bindEvent(this, 'click', function (event) {
+						// TODO: use _walkDownUntil method instead
+						let $node = self.querySelector('treeboxitem[selected="true"]');
+						//
+						
+						if ($node) {
+							$node.removeAttribute('selected');
+						}
+						
+						$node = self._walkUpUntil(event.target, 'treeboxitem');
+						
+						if ($node) {
+							if ($node.selectable) {
+								$node.selected = true;
+							}
+						}
+					});
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

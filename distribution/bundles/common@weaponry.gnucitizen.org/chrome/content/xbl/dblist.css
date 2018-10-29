@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/dblist.css");
+
+/* ------------------------------------------------------------------------ */
+
+dblist {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/dblist.xml#dblist");
+}

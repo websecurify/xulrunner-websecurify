@@ -1,0 +1,10 @@
+locationbox > .locationbox-container {
+	background: #ffffff;
+	padding: 0px 5px 0px 5px;
+}
+
+locationbox > .locationbox-container .locationbox-textbox {
+	border: 0px;
+	-moz-appearance: none;
+	background: transparent;
+}

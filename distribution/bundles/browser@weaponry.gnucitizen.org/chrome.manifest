@@ -1,0 +1,29 @@
+#
+# chrome registration
+#
+
+resource     org.gnucitizen.weaponry.browser                                           file:chrome/
+content      org.gnucitizen.weaponry.browser                                           file:chrome/content/
+locale       org.gnucitizen.weaponry.browser en-US                                     file:chrome/locale/en-US/
+skin         org.gnucitizen.weaponry.browser classic/1.0                               file:chrome/skin/classic/
+
+overlay      chrome://org.gnucitizen.acidplatform.basic/content/xul/mainWindow.xul     chrome://org.gnucitizen.weaponry.browser/content/ovl/acidplatformMainWindow.xul
+
+skin         org.gnucitizen.weaponry.browser textile                                   file:chrome/skin/textile/
+skin         org.gnucitizen.weaponry.browser phosphor                                  file:chrome/skin/phosphor/
+
+#
+# xpcom registration
+#
+
+interfaces     components/IWeaponryBrowserContentDispatcher.xpt
+interfaces     components/IWeaponryBrowserService.xpt
+
+component      {1ff99808-2fd4-4253-8511-e3cf03cd1477}                    components/WeaponryBrowserContentDispatcher.js
+contract       @browser.weaponry.gnucitizen.org/content-dispatcher;1     {1ff99808-2fd4-4253-8511-e3cf03cd1477}
+
+component      {5200cde0-040b-11df-8a39-0800200c9a66}                    components/WeaponryBrowserService.js
+contract       @browser.weaponry.gnucitizen.org/service;1                {5200cde0-040b-11df-8a39-0800200c9a66}
+
+category       profile-after-change WeaponryBrowserService               @browser.weaponry.gnucitizen.org/service;1
+category       profile-before-change WeaponryBrowserService              @browser.weaponry.gnucitizen.org/service;1

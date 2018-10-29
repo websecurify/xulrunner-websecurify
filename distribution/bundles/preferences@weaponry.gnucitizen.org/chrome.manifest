@@ -1,0 +1,27 @@
+#
+# chrome registration
+#
+
+resource     org.gnucitizen.weaponry.preferences                                                    file:chrome/
+content      org.gnucitizen.weaponry.preferences                                                    file:chrome/content/
+locale       org.gnucitizen.weaponry.preferences en-US                                              file:chrome/locale/en-US/
+skin         org.gnucitizen.weaponry.preferences classic/1.0                                        file:chrome/skin/classic/
+
+overlay      chrome://org.gnucitizen.weaponry.common/content/ovl/macMenu.xul                        chrome://org.gnucitizen.weaponry.preferences/content/ovl/macMenu.xul
+overlay      chrome://org.gnucitizen.weaponry.common/content/ovl/commonMenu.xul                     chrome://org.gnucitizen.weaponry.preferences/content/ovl/commonMenu.xul
+overlay      chrome://org.gnucitizen.weaponry.preferences/content/xul/preferencesPrefwindow.xul     chrome://org.gnucitizen.weaponry.preferences/content/hak/preferencesPrefwindow.xul
+
+skin         org.gnucitizen.weaponry.preferences textile                                            file:chrome/skin/textile/
+skin         org.gnucitizen.weaponry.preferences phosphor                                           file:chrome/skin/phosphor/
+
+#
+# xpcom registration
+#
+
+interfaces     components/IWeaponryPreferencesService.xpt
+
+component      {2711ef90-08f9-11df-8a39-0800200c9a66}               components/WeaponryPreferencesServices.js
+contract       @preferences.weaponry.gnucitizen.org/service;1       {2711ef90-08f9-11df-8a39-0800200c9a66}
+
+category       profile-after-change WeaponryPreferencesService      @preferences.weaponry.gnucitizen.org/service;1
+category       profile-before-change WeaponryPreferencesService     @preferences.weaponry.gnucitizen.org/service;1

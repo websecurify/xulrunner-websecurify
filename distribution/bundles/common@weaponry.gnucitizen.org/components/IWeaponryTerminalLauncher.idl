@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryTerminalLauncher;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(6c5bda00-5e14-11df-a08a-0800200c9a66)]
+interface IWeaponryTerminalLauncher : nsISupports {
+	void launchTerminal([optional] in AString command);
+};

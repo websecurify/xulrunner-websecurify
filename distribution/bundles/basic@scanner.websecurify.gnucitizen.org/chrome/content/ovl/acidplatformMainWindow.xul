@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.websecurify.scanner.basic/skin/ovl/acidplatformMainWindow.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.websecurify.scanner.basic/locale/ovl/acidplatformMainWindow.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.websecurify.scanner.basic/content/ovl/acidplatformMainWindow.js"/>
+	
+	<stringbundleset id="main-window-stringbundleset">
+		<stringbundle id="websecurify-scanner-basic-acidplatform-main-window-stringbundle" src="chrome://org.gnucitizen.websecurify.scanner.basic/locale/ovl/acidplatformMainWindow.properties"/>
+	</stringbundleset>
+	
+	<records id="launchers">
+		<record id="websecurify-scanner-basic-acidplatform-main-window-websecurify" label="&websecurify-scanner-basic-acidplatform-main-window-websecurify-label;" uri="chrome://org.gnucitizen.websecurify.scanner.basic/content/xul/mainWindow.xul"/>
+	</records>
+	
+</overlay>

@@ -1,0 +1,16 @@
+popupdeck.cosmopolitan > popupdeckpanel > .popupdeckpanel-container .popupdeckpanel-dim ,
+popupdeck > popupdeckpanel.cosmopolitan > .popupdeckpanel-container .popupdeckpanel-dim {
+	opacity: 0.95;
+	cursor: pointer;
+	background: #222222;
+	background-position: 0% 0%;
+	background-repeat:  no-repeat;
+	box-shadow: inset 1px 0px 10px 0px #000000;
+	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+popupdeck.cosmopolitan > popupdeckpanel:not(:first-child) > .popupdeckpanel-container .popupdeckpanel-content ,
+popupdeck > popupdeckpanel.cosmopolitan:not(:first-child) > .popupdeckpanel-container .popupdeckpanel-content {
+	margin: 0px 0px 0px 60px;
+	border-left: 5px solid Window;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/fileMenu.xul"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/editMenu.xul"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/viewMenu.xul"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/toolsMenu.xul"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/windowMenu.xul"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/helpMenu.xul"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.common/content/css/bindings.css" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.common/skin/ovl/common.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/ovl/common.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.common/content/inc/express.js"/>
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.common/content/ovl/common.js"/>
+	
+	<box id="common-box">
+		<stringbundleset id="common-stringbundleset"/>
+		<broadcasterset id="common-broadcasterset"/>
+		
+		<commandset id="common-commandset">
+			<command id="common-close-window-command"/>
+		</commandset>
+		
+		<keyset id="common-keyset">
+			<key id="common-close-window-key" modifiers="accel" key="w" command="common-close-window-command"/>
+		</keyset>
+		
+		<popupset id="common-popupset"/>
+	</box>
+	
+</overlay>

@@ -1,0 +1,19 @@
+#
+# chrome registration
+#
+
+resource     org.gnucitizen.weaponry.extensions                 file:chrome/
+content      org.gnucitizen.weaponry.extensions                 file:chrome/content/
+locale       org.gnucitizen.weaponry.extensions en-US           file:chrome/locale/en-US/
+skin         org.gnucitizen.weaponry.extensions classic/1.0     file:chrome/skin/classic/
+
+overlay      chrome://org.gnucitizen.weaponry.common/content/ovl/toolsMenu.xul     chrome://org.gnucitizen.weaponry.extensions/content/ovl/toolsMenu.xul
+
+#
+# xpcom registration
+#
+
+interfaces     components/IWeaponryExtensionsService.xpt
+
+component      {a1382300-84fc-11df-8395-0800200c9a66}            components/WeaponryExtensionsService.js
+contract       @extensions.weaponry.gnucitizen.org/service;1     {a1382300-84fc-11df-8395-0800200c9a66}

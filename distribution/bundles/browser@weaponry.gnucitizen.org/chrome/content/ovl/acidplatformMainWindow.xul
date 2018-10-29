@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.browser/skin/ovl/acidplatformMainWindow.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.browser/locale/ovl/acidplatformMainWindow.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.browser/content/ovl/acidplatformMainWindow.js"/>
+	
+	<stringbundleset id="main-window-stringbundleset">
+		<stringbundle id="weaponry-browser-acidplatform-main-window-stringbundle" src="chrome://org.gnucitizen.weaponry.browser/locale/ovl/acidplatformMainWindow.properties"/>
+	</stringbundleset>
+	
+	<records id="launchers">
+		<record id="weaponry-browser-acidplatform-main-window-browser-record" label="&weaponry-browser-acidplatform-main-window-browser-record-label;" uri="chrome://org.gnucitizen.weaponry.browser/content/xul/browserPerspective.xul"/>
+	</records>
+	
+</overlay>

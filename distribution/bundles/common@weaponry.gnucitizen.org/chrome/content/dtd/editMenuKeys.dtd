@@ -1,0 +1,15 @@
+<!ENTITY undoCmd.keycode "">
+<!ENTITY undoCmd.modifiers "accel">
+<!ENTITY redoCmd.keycode "">
+<!ENTITY redoCmd.modifiers "accel">
+<!ENTITY cutCmd.keycode "">
+<!ENTITY cutCmd.modifiers "accel">
+<!ENTITY copyCmd.keycode "">
+<!ENTITY copyCmd.modifiers "accel">
+<!ENTITY pasteCmd.keycode "">
+<!ENTITY pasteCmd.modifiers "accel">
+<!ENTITY deleteCmd.key "">
+<!ENTITY deleteCmd.keycode "VK_DELETE">
+<!ENTITY deleteCmd.modifiers "">
+<!ENTITY selectAllCmd.keycode "">
+<!ENTITY selectAllCmd.modifiers "accel">

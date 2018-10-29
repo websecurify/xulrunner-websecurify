@@ -1,0 +1,19 @@
+#
+# chrome registration
+#
+
+content      org.gnucitizen.websecurify.support                                   file:chrome/content/
+resource     org.gnucitizen.websecurify.support                                   file:chrome/
+locale       org.gnucitizen.websecurify.support en-US                             file:chrome/locale/en-US/
+skin         org.gnucitizen.websecurify.support classic/1.0                       file:chrome/skin/classic/
+
+overlay      chrome://org.gnucitizen.weaponry.common/content/ovl/helpMenu.xul     chrome://org.gnucitizen.websecurify.support/content/ovl/helpMenu.xul
+
+#
+# xpcom registration
+#
+
+interfaces     components/IWebsecurifyAboutModule.xpt
+
+component      {56bb8ab8-366b-488c-8e6a-6db5c3166848}                     components/WebsecurifyAboutModule.js
+contract       @mozilla.org/network/protocol/about;1?what=websecurify     {56bb8ab8-366b-488c-8e6a-6db5c3166848}

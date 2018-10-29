@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/statusbox.css");
+
+/* ------------------------------------------------------------------------ */
+
+statusbox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/statusbox.xml#statusbox");
+}

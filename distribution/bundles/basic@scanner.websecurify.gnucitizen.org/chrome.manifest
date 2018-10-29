@@ -1,0 +1,25 @@
+#
+# chrome registration
+#
+
+resource     org.gnucitizen.websecurify.scanner.basic                                  file:chrome/
+content      org.gnucitizen.websecurify.scanner.basic                                  file:chrome/content/
+locale       org.gnucitizen.websecurify.scanner.basic en-US                            file:chrome/locale/en-US/
+skin         org.gnucitizen.websecurify.scanner.basic classic/1.0                      file:chrome/skin/classic/
+
+overlay      chrome://org.gnucitizen.acidplatform.basic/content/xul/mainWindow.xul     chrome://org.gnucitizen.websecurify.scanner.basic/content/ovl/acidplatformMainWindow.xul
+
+skin         org.gnucitizen.websecurify.scanner.basic textile                          file:chrome/skin/textile/
+skin         org.gnucitizen.websecurify.scanner.basic phosphor                         file:chrome/skin/phosphor/
+
+#
+# xpcom registration
+#
+
+interfaces     components/IWebsecurifyScannerBasicService.xpt
+
+component      {5783e120-3274-11df-9aae-0800200c9a66}                   components/WebsecurifyScannerBasicService.js
+contract       @basic.scanner.websecurify.gnucitizen.org/service;1      {5783e120-3274-11df-9aae-0800200c9a66}
+
+category       profile-after-change WebsecurifyScannerBasicService      @basic.scanner.websecurify.gnucitizen.org/service;1
+category       profile-before-change WebsecurifyScannerBasicService     @basic.scanner.websecurify.gnucitizen.org/service;1

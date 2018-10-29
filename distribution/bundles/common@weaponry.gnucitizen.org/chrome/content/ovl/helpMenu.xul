@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.common/skin/ovl/helpMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/ovl/helpMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.common/content/ovl/helpMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="help-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.common/locale/ovl/helpMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset">
+		<command id="help-menu-check-for-updates-command" label="&help-menu-check-for-updates-command-label;"/>
+	</commandset>
+	
+	<menu id="help-menu" label="&help-menu-label;">
+		<menupopup id="help-menupopup">
+			<menuitem id="help-menupopup-check-for-updates-menuitem" command="help-menu-check-for-updates-command"/>
+		</menupopup>
+	</menu>
+	
+	<popupset id="common-popupset">
+		<menupopup id="help-context-menupopup"/>
+	</popupset>
+	
+</overlay>

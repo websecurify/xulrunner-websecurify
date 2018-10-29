@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/templatebox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="templatebox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basecomputebox.xml#basecomputebox">
+		<content>
+			<xul:vbox class="templatebox-container" flex="1">
+				<xul:vbox class="templatebox-content" hidden="true" flex="1"/>
+				
+				<xul:vbox class="templatebox-template" hidden="true">
+					<children/>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$template">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<method name="_getWorkNode">
+				<parameter name="id"/>
+				
+				<body><![CDATA[
+					let workNodes = this.$content.getElementsByAttribute('id', id);
+					
+					if (workNodes.length == 0) {
+						return null;
+					}
+					
+					return workNodes[0];
+				]]></body>
+			</method>
+			
+			<method name="_handleFieldValueChange">
+				<parameter name="$workNode"/>
+				<parameter name="event"/>
+				<parameter name="parameter"/>
+				
+				<body><![CDATA[
+					let self = this;
+					
+					this._lockEvent($workNode, event, function (event) {
+						let data = {};
+						
+						data[this.getAttribute('field')] = this[parameter];
+						
+						self._fireEvent('fieldValueChange', data);
+						
+						// TODO: the exact mechanics of how this should be achieved needs to be revised
+						self.rebuild();
+						//
+					});
+				]]></body>
+			</method>
+			
+			<method name="cloneContent">
+				<body><![CDATA[
+					return this.$content.cloneNode(true);
+				]]></body>
+			</method>
+			
+			<method name="generateContent">
+				<parameter name="fields"/>
+				
+				<body><![CDATA[
+					this.update(fields);
+					
+					return this.cloneContent();
+				]]></body>
+			</method>
+			
+			<method name="retemplate">
+				<parameter name="$sourceNode"/>
+				
+				<body><![CDATA[
+					this._removeChildren(this);
+					this._copyChildren($sourceNode, this);
+				]]></body>
+			</method>
+			
+			<method name="refresh">
+				<body><![CDATA[
+					if (!this.lastUpdateFields) {
+						return;
+					}
+					
+					let fields = this.lastUpdateFields;
+					let rememberedAttributes = {};
+					let $content = this.$content;
+					let nodes = $content.getElementsByAttribute('remember', '*');
+					let nodesLength = nodes.length;
+					
+					for (let i = 0; i < nodesLength; i += 1) {
+						let $node = nodes[i];
+						
+						if ($node.id) {
+							let values = {};
+							let attributes = $node.getAttribute('remember').split(' ');
+							let attributesLength = attributes.length;
+							
+							for (let j = 0; j < attributesLength; j += 1) {
+								let attribute = attributes[j].trim();
+								
+								values[attribute] = $node.getAttribute(attribute);
+							}
+							
+							rememberedAttributes[$node.id] = values;
+						}
+					}
+					
+					nodes = this.getElementsByTagName('*');
+					nodesLength = nodes.length;
+					
+					let $workNode;
+					
+					for (let i = 0; i < nodesLength; i += 1) {
+						let $node = nodes[i];
+						let attributes = $node.attributes;
+						let attributesLength = attributes.length;
+						
+						for (let j = 0; j < attributesLength; j += 1) {
+							let attribute = attributes[j];
+							
+							if (attribute.name == 'field') {
+								let tagName = $node.tagName;
+								
+								if (tagName == 'checkbox') {
+									$workNode = this._getWorkNode($node.id);
+									
+									if ($workNode) {
+										$workNode.setAttribute('checked', fields[attribute.value]);
+									}
+									
+									this._handleFieldValueChange($workNode, 'click', 'checked');
+								} else
+								if (tagName == 'textbox') {
+									$workNode = this._getWorkNode($node.id);
+									
+									if ($workNode) {
+										$workNode.setAttribute('value', fields[attribute.value]);
+									}
+									
+									this._handleFieldValueChange($workNode, 'change', 'value');
+								} else
+								if (tagName == 'label') {
+									$workNode = this._getWorkNode($node.id);
+									
+									if ($workNode) {
+										$workNode.setAttribute('value', fields[attribute.value]);
+									}
+								} else {
+									continue;
+								}
+							} else
+							if ((/\?\w+\^?/).test(attribute.value)) {
+								$workNode = this._getWorkNode($node.id);
+								
+								if (!$workNode) {
+									continue;
+								}
+								
+								$workNode.setAttribute(attribute.name, attribute.value.replace(/\?\w+\^?/g, function (field) {
+									let fieldName = field.substring(1).replace('^', '');
+									
+									if (fields[fieldName] != undefined) {
+										return fields[fieldName];
+									} else {
+										return '';
+									}
+								}));
+								
+								if (attribute.name == 'textcontent') {
+									$workNode.textContent = attribute.value.replace(/\?\w+\^?/g, function (field) {
+										let fieldName = field.substring(1).replace('^', '');
+										
+										if (fields[fieldName] != undefined) {
+											return fields[fieldName];
+										} else {
+											return '';
+										}
+									});
+								}
+							}
+						}
+					}
+					
+					for (let id in rememberedAttributes) {
+						nodes = $content.getElementsByAttribute('id', id);
+						nodesLength = nodes.length;
+						
+						for (let i = 0; i < nodesLength; i += 1) {
+							let $node = nodes[i];
+							let attributes = rememberedAttributes[id];
+							
+							for (attribute in attributes) {
+								$node.setAttribute(attribute, attributes[attribute]);
+							}
+						}
+					}
+					
+					$content.hidden = false;
+				]]></body>
+			</method>
+			
+			<method name="rebuild">
+				<body><![CDATA[
+					let $content = this.$content;
+					
+					this._removeChildren($content);
+					
+					let nodes = this.childNodes;
+					let nodesLength = nodes.length;
+					
+					for (let i = 0; i < nodesLength; i += 1) {
+						let $node = nodes[i];
+						
+                        $content.appendChild($node.cloneNode(true));
+					}
+					
+					this.refresh();
+				]]></body>
+			</method>
+			
+			<method name="update">
+				<parameter name="fields"/>
+				<parameter name="refresh"/>
+				
+				<body><![CDATA[
+					if (!fields) {
+						throw new Error('no fields specified');
+					}
+					
+					this.computeFields(fields);
+					
+					this.lastUpdateFields = Object.create(fields);
+					
+					if (refresh != false) {
+						this.refresh();
+					}
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					// TODO: add flag to test if auto-rebuilding needs to be used
+					this._lockEvent(this, 'DOMSubtreeModified', function (event) {
+						self.rebuild();
+					});
+					//
+					
+					this.rebuild();
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

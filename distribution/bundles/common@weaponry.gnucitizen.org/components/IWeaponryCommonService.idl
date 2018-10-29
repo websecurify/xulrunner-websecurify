@@ -1,0 +1,20 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryCommonService;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(d4071a90-84fa-11df-8395-0800200c9a66)]
+interface IWeaponryCommonService : nsISupports {
+	void registerSchemeViewer(in AString scheme, in AString uri, in boolean wrap);
+	
+	void unregisterSchemeViewer(in AString scheme, in AString uri);
+	
+	/* -------------------------------------------------------------------- */
+	
+	void registerContentViewer(in AString mimeType, in AString uri);
+	
+	void unregisterContentViewer(in AString mimeType, in AString uri);
+};

@@ -1,0 +1,33 @@
+.paneSelector {
+	list-style-image: url("images/panebuttons.png");
+}
+
+:root[lookandfeel="win"] .paneSelector {
+	padding: 0px ! important;
+}
+
+/* ------------------------------------------------------------------------ */
+
+radio[pane="preferences-prefwindow-general-prefpane"] {
+	-moz-image-region: rect(0px, 32px, 32px, 0px);
+}
+
+radio[pane="preferences-prefwindow-general-prefpane"]:active:hover {
+	-moz-image-region: rect(32px, 32px, 64px, 0px);
+}
+
+radio[pane="preferences-prefwindow-security-prefpane"] {
+	-moz-image-region: rect(0px, 192px, 32px, 160px);
+}
+
+radio[pane="preferences-prefwindow-security-prefpane"]:active:hover {
+	-moz-image-region: rect(32px, 192px, 64px, 160px);
+}
+
+radio[pane="preferences-prefwindow-advanced-prefpane"] {
+	-moz-image-region: rect(0px, 224px, 32px, 192px);
+}
+
+radio[pane="preferences-prefwindow-advanced-prefpane"]:active:hover {
+	-moz-image-region: rect(32px, 224px, 64px, 192px);
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.websecurify.support/skin/ovl/helpMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.websecurify.support/locale/ovl/helpMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.websecurify.support/content/ovl/helpMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="websecurify-support-help-menu-properties-stringbundle" src="chrome://org.gnucitizen.websecurify.support/locale/ovl/helpMenu.properties"/>
+	</stringbundleset>
+	
+	<menupopup id="help-menupopup">
+		<menuseparator id="websecurify-support-help-menu-help-section-menuseparator"/>
+		<menuitem id="websecurify-support-help-menu-help-menuitem" label="&websecurify-support-help-menu-help-menuitem-label;"/>
+		<menuseparator id="websecurify-support-help-menu-feedback-section-menuseparator"/>
+		<menuitem id="websecurify-support-help-menu-send-feedback-menuitem" label="&websecurify-support-help-menu-send-feedback-menuitem-label;"/>
+		<menuseparator id="websecurify-support-help-menu-bugs-section-menuseparator"/>
+		<menuitem id="websecurify-support-help-menu-report-bugs-menuitem" label="&websecurify-support-help-menu-report-bugs-menuitem-label;"/>
+		<menuitem id="websecurify-support-help-menu-request-features-menuitem" label="&websecurify-support-help-menu-request-features-menuitem-label;"/>
+		<menuseparator id="websecurify-support-help-menu-custom-section-menuseparator"/>
+		<menuitem id="websecurify-support-help-menu-go-to-websecurify-menuitem" label="&websecurify-support-help-menu-go-to-websecurify-menuitem-label;"/>
+		<menuitem id="websecurify-support-help-menu-go-to-gnucitizen-menuitem" label="&websecurify-support-help-menu-go-to-gnucitizen-menuitem-label;"/>
+	</menupopup>
+	
+</overlay>

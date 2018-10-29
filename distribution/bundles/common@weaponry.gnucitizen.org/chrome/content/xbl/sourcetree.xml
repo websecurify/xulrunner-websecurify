@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/sourcetree.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="sourceitem">
+		<content>
+			<xul:treeitem>
+				<xul:treerow>
+					<xul:treecell xbl:inherits="label"/>
+				</xul:treerow>
+				
+				<xul:treechildren>
+					<children/>
+				</xul:treechildren>
+			</xul:treeitem>
+		</content>
+	</binding>
+	
+	<binding id="sourcetree">
+		<content>
+			<xul:tree seltype="single" flex="1">
+				<xul:treecols>
+					<xul:treecol hideheader="true" flex="1"/>
+				</xul:treecols>
+				
+				<xul:treechildren>
+					<children/>
+				</xul:treechildren>
+			</xul:tree>
+		</content>
+	</binding>
+	
+</bindings>

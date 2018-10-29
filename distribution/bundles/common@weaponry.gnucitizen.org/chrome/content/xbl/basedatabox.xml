@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/basedatabox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="basedatabox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basecomputebox.xml#basecomputebox">
+		<implementation>
+			<method name="obtainDataLen">
+				<body><![CDATA[
+					return this.dataView.obtainDataLen.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="obtainDataPos">
+				<body><![CDATA[
+					return this.dataView.obtainDataPos.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="obtainDataRows">
+				<body><![CDATA[
+					return this.dataView.obtainDataRows.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="enlistDataRows">
+				<body><![CDATA[
+					return this.dataView.enlistDataRows.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="obtainDataRow">
+				<body><![CDATA[
+					return this.dataView.obtainDataRow.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="searchDataRow">
+				<body><![CDATA[
+					return this.dataView.searchDataRow.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="createDataRow">
+				<body><![CDATA[
+					return this.dataView.createDataRow.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="insertDataRow">
+				<body><![CDATA[
+					return this.dataView.insertDataRow.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="appendDataRow">
+				<body><![CDATA[
+					return this.dataView.appendDataRow.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="coupleDataRow">
+				<body><![CDATA[
+					return this.dataView.coupleDataRow.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="updateDataRow">
+				<body><![CDATA[
+					return this.dataView.updateDataRow.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="removeDataRow">
+				<body><![CDATA[
+					return this.dataView.removeDataRow.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="rinseDataRows">
+				<body><![CDATA[
+					return this.dataView.rinseDataRows.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<method name="clearDataRows">
+				<body><![CDATA[
+					return this.dataView.clearDataRows.apply(this.dataView, arguments);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.dataView = {
+						data: [],
+						
+						obtainDataLen: function () {
+							return this.data.length;
+						},
+						
+						obtainDataPos: function (data) {
+							let dataLength = this.obtainDataLen();
+							
+							for (let i = 0; i < dataLength; i += 1) {
+								let element = this.obtainDataRow(i);
+								let successful = true;
+								
+								for (let field in data) {
+									if (!(field in element) || element[field] != data[field]) {
+										successful = false;
+										
+										break;
+									}
+								}
+								
+								if (successful) {
+									return i;
+								}
+							}
+							
+							return null;
+						},
+						
+						obtainDataRows: function () {
+							// TODO: ensure that this method is correctly supported by all other types of components
+							return this.data;
+							//
+						},
+						
+						enlistDataRows: function (handler) {
+							// TODO: ensure that this method is correctly supported by all other types of components
+							let dataLength = this.obtainDataLen();
+							let result = null;
+							
+							for (let i = 0; i < dataLength; i += 1) {
+								result = handler(i, this.obtainDataRow(i));
+								
+								if (result) {
+									break;
+								}
+							}
+							//
+							
+							return result;
+						},
+						
+						obtainDataRow: function (row) {
+							return this.data[row];
+						},
+						
+						searchDataRow: function (data) {
+							// TODO: ensure that this method is correctly supported by all other types of components
+							return this.obtainDataRow(this.obtainDataPos(data));
+							//
+						},
+						
+						createDataRow: function (data) {
+							self.computeFields(data);
+							
+							return data;
+						},
+						
+						insertDataRow: function (data, row) {
+							this.data.splice(row, 0, this.createDataRow(data));
+							
+							return row;
+						},
+						
+						appendDataRow: function (data) {
+							this.data.push(this.createDataRow(data));
+							
+							return this.data.length - 1;
+						},
+						
+						coupleDataRow: function (data) {
+							// TODO: ensure that this method is correctly supported by all other types of components
+							return this.appendDataRow(data);
+							//
+						},
+						
+						updateDataRow: function (data, row) {
+							let newData = this.obtainDataRow(row);
+							
+							for (let property in data) {
+								newData[property] = data[property];
+							}
+							
+							let newDataRow = this.createDataRow(newData);
+							
+							this.data[row] = newData;
+							
+							return newData;
+						},
+						
+						removeDataRow: function (row) {
+							return this.data.splice(row, 1);
+						},
+						
+						rinseDataRows: function (row, count) {
+							return this.data.splice(row, count);
+						},
+						
+						clearDataRows: function () {
+							this.data = [];
+							
+							return this;
+						}
+					};
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

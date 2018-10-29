@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/recordtree.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="recordtreecol" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/datatree.xml#datatreecol"/>
+	
+	<binding id="recordtree" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/datatree.xml#datatree">
+		<implementation>
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					let $currentRecords = null;
+					
+					let domAttrModifiedEventListener = function (event) {
+						if (event.target.parentNode == $currentRecords) {
+							let data = {};
+							let index = 0;
+							
+							for (index; index < event.target.parentNode.childNodes.length; index += 1) {
+								if (event.target.parentNode.childNodes[index] == event.target) {
+									break;
+								}
+							}
+							
+							data[event.attrName] = event.newValue;
+							
+							self.dataView.updateDataRow(data, index);
+						}
+					};
+					
+					let domNodeInsertedEventListener = function (event) {
+						if (event.target.parentNode == $currentRecords) {
+							let data = {};
+							let index = 0;
+							
+							for (index; index < event.target.parentNode.childNodes.length; index += 1) {
+								if (event.target.parentNode.childNodes[index] == event.target) {
+									break;
+								}
+							}
+							
+							let attributes = event.target.attributes;
+							let attributesLength = attributes.length;
+							
+							let i, attribute;
+							
+							for (i = 0; i < attributesLength; i += 1) {
+								attribute = attributes[i];
+								
+								data[attribute.name] = attribute.value;
+							}
+							
+							self.dataView.insertDataRow(data, index);
+						}
+					};
+					
+					let domNodeRemovedEventListener = function (event) {
+						if (event.target.parentNode == $currentRecords) {
+							let index = 0;
+							
+							for (index; index < event.target.parentNode.childNodes.length; index += 1) {
+								if (event.target.parentNode.childNodes[index] == event.target) {
+									break;
+								}
+							}
+							
+							self.dataView.removeDataRow(index);
+						}
+					};
+					
+					let resource = function ($records) {
+						if ($currentRecords) {
+							$currentRecords.removeEventListener('DOMAttrModified', domAttrModifiedEventListener, false);
+							$currentRecords.removeEventListener('DOMNodeInserted', domNodeInsertedEventListener, false);
+							$currentRecords.removeEventListener('DOMNodeRemoved', domNodeRemovedEventListener, false);
+						}
+						
+						self.dataView.clearDataRows();
+						
+						let nodes = $records.childNodes;
+						let nodesLength = nodes.length;
+						
+						let i, data, attributes, attributesLength, j, attribute;
+						
+						for (i = 0; i < nodesLength; i += 1) {
+							data = {};
+							attributes = nodes[i].attributes;
+							attributesLength = attributes.length;
+							
+							for (j = 0; j < attributesLength; j += 1) {
+								attribute = attributes[j];
+								
+								data[attribute.name] = attribute.value;
+							}
+							
+							self.dataView.appendDataRow(data);
+						}
+						
+						$currentRecords = $records;
+						
+						$currentRecords.addEventListener('DOMAttrModified', domAttrModifiedEventListener, false);
+						$currentRecords.addEventListener('DOMNodeInserted', domNodeInsertedEventListener, false);
+						$currentRecords.addEventListener('DOMNodeRemoved', domNodeRemovedEventListener, false);
+					};
+					
+					if (!this.hasAttribute('records')) {
+						throw new Error('no records provided');
+					}
+					
+					let $records = document.getElementById(this.getAttribute('records'));
+					
+					if ($records) {
+						resource($records);
+					}
+					
+					this.addEventListener('DOMAttrModified', function (event) {
+						if (event.target == this && event.attrName == 'records') {
+							let $records = document.getElementById(event.newValue);
+							
+							resource($records);
+						}
+					}, false);
+					
+					delete this.insertDataRow;
+					delete this.appendDataRow;
+					delete this.updateDataRow;
+					delete this.removeDataRow;
+					delete this.clearDataRows;
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

@@ -1,0 +1,567 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/richtabbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="richtabpanel" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="richtabpanel-container" flex="1">
+				<xul:notificationbox class="richtabpanel-notificationbox" flex="1">
+					<xul:vbox class="richtabpanel-content" flex="1">
+						<children/>
+					</xul:vbox>
+				</xul:notificationbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$notificationbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$notificationbox.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$toolbarbutton">
+				<getter><![CDATA[
+					if (!this.$realToolbarbutton) {
+						this.$realToolbarbutton = document.createElement('toolbarbutton');
+						
+						this.$realToolbarbutton.setAttribute('class', 'richtabpanel-toolbarbutton');
+						this.$realToolbarbutton.setAttribute('type', 'radio');
+						this.$realToolbarbutton.setAttribute('group', 'tabs');
+						
+						this._bindAttributes(this, this.$realToolbarbutton, ['label', 'closable', 'richtabpanelid=id', 'richtabpanelclass=class']);
+						
+						let self = this;
+						
+						this._bindEvent(this.$realToolbarbutton, 'DOMAttrModified', function (event) {
+							if (event.target != self.$realToolbarbutton) {
+								return;
+							}
+							
+							if (event.attrName == 'checked') {
+								if (event.attrChange == event.REMOVAL) {
+									event.target.removeAttribute('selected');
+								} else {
+									event.target.setAttribute('selected', event.newValue);
+								}
+							}
+						});
+						
+						this._bindEvent(this.$realToolbarbutton, 'click', function (event) {
+							let $toolbarbutton = event.target;
+							let $image = document.getAnonymousNodes($toolbarbutton)[0];
+							
+							if ($toolbarbutton.getAttribute('closable') == 'true' &&
+							    event.clientX >= $image.boxObject.x &&
+							    event.clientX <= $image.boxObject.x + $image.boxObject.width &&
+							    event.clientY >= $image.boxObject.y &&
+							    event.clientY <= $image.boxObject.y + $image.boxObject.height) {
+								self.close();
+							} else {
+								self.parentNode.selectedPanel = self;
+							}
+						});
+						
+						this._bindEvent(this.$realToolbarbutton, 'mousemove', function (event) {
+							let $toolbarbutton = event.target;
+							let $image = document.getAnonymousNodes($toolbarbutton)[0];
+							
+							if ($image.getAttribute('state') != 'clicked') {
+								if (event.clientX >= $image.boxObject.x &&
+								    event.clientX <= $image.boxObject.x + $image.boxObject.width &&
+								    event.clientY >= $image.boxObject.y &&
+								    event.clientY <= $image.boxObject.y + $image.boxObject.height) {
+									$image.setAttribute('state', 'hovered');
+								} else {
+									$image.setAttribute('state', 'none');
+								}
+							}
+						});
+						
+						this._bindEvent(this.$realToolbarbutton, 'mousedown', function (event) {
+							let $toolbarbutton = event.target;
+							let $image = document.getAnonymousNodes($toolbarbutton)[0];
+							
+							if (event.clientX >= $image.boxObject.x &&
+							    event.clientX <= $image.boxObject.x + $image.boxObject.width &&
+							    event.clientY >= $image.boxObject.y &&
+							    event.clientY <= $image.boxObject.y + $image.boxObject.height) {
+								$image.setAttribute('state', 'clicked');
+							}
+						});
+						
+						this._bindEvent(this.$realToolbarbutton, 'mouseup', function (event) {
+							let $toolbarbutton = event.target;
+							let $image = document.getAnonymousNodes($toolbarbutton)[0];
+							
+							$image.setAttribute('state', 'none');
+						});
+						
+						this._bindEvent(this.$realToolbarbutton, 'mouseout', function (event) {
+							let $toolbarbutton = event.target;
+							let $image = document.getAnonymousNodes($toolbarbutton)[0];
+							
+							$image.setAttribute('state', 'none');
+						});
+					}
+					
+					return this.$realToolbarbutton;
+				]]></getter>
+			</property>
+			
+			<property name="$menuitem">
+				<getter><![CDATA[
+					if (!this.$realMenuitem) {
+						this.$realMenuitem = document.createElement('menuitem');
+						
+						this.$realMenuitem.setAttribute('class', 'richtabpanel-menuitem');
+						this.$realMenuitem.setAttribute('type', 'checkbox');
+						this.$realMenuitem.setAttribute('autocheck', 'false')
+						
+						this._bindAttributes(this, this.$realMenuitem, ['label', 'richtabpanelid=id', 'richtabpanelclass=class']);
+						
+						let self = this;
+						
+						this._bindEvent(this.$realMenuitem, 'click', function (event) {
+							self.parentNode.selectedPanel = self;
+						});
+					}
+					
+					return this.$realMenuitem;
+				]]></getter>
+			</property>
+			
+			<method name="close">
+				<body><![CDATA[
+					if (!this.hasAttribute('closable') || this.getAttribute('closable') != 'true') {
+						throw new Error('richtabpanel is not closable');
+					}
+					
+					let event = document.createEvent('Event');
+					
+					event.initEvent('richtabpanelClose', true, true);
+					
+					if (this.dispatchEvent(event) == true) {
+						this.parentNode.removeChild(this);
+					}
+				]]></body>
+			</method>
+			
+			<method name="_getPriority">
+				<parameter name="priority"/>
+				
+				<body><![CDATA[
+					let $notificationbox = this.$notificationbox;
+					
+					let priorityMap = {
+						'low': $notificationbox.PRIORITY_INFO_LOW,
+						'medium': $notificationbox.PRIORITY_WARNING_LOW,
+						'high': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'info': $notificationbox.PRIORITY_INFO_LOW,
+						'warning': $notificationbox.PRIORITY_WARNING_LOW,
+						'critical': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'info_low': $notificationbox.PRIORITY_INFO_LOW,
+						'info_medium': $notificationbox.PRIORITY_INFO_MEDIUM,
+						'info_heigh': $notificationbox.PRIORITY_INFO_HIGH,
+						'warning_low': $notificationbox.PRIORITY_WARNING_LOW,
+						'warning_medium': $notificationbox.PRIORITY_WARNING_MEDIUM,
+						'warning_heigh': $notificationbox.PRIORITY_WARNING_HIGH,
+						'critical_low': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'critical_medium': $notificationbox.PRIORITY_CRITICAL_MEDIUM,
+						'critical_heigh': $notificationbox.PRIORITY_CRITICAL_HIGH,
+						'critical_block': $notificationbox.PRIORITY_CRITICAL_BLOCK
+					};
+					
+					for (let priorityMapKey in priorityMap) {
+						if (priorityMapKey == priority) {
+							return priorityMap[priorityMapKey];
+						}
+					}
+					
+					return null;
+				]]></body>
+			</method>
+			
+			<method name="displayNotification">
+				<parameter name="label"/>
+				<parameter name="priority"/>
+				
+				<body><![CDATA[
+					this.$notificationbox.appendNotification(label, null, null, this._getPriority(priority));
+				]]></body>
+			</method>
+			
+			<method name="removeAllNotifications">
+				<body><![CDATA[
+					this.$notificationbox.removeAllNotifications.apply(this.$notificationbox, arguments);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					let processSrcAttribute = function () {
+						if (self.hasAttribute('src') && self.childNodes.length == 0) {
+							self.$iframe = document.createElement('iframe');
+							
+							self.$iframe.setAttribute('src', self.getAttribute('src'));
+							self.$iframe.setAttribute('flex', '1');
+							
+							self.$iframe.iWasHere = true;
+							
+							self.appendChild(self.$iframe);
+							
+							self._bindEvent(self.$iframe, 'DOMTitleChanged', function (event) {
+								if (event.target != self.$iframe.contentDocument) {
+									return;
+								}
+								
+								if (!self.hasAttribute('label')) {
+									self.setAttribute('label', event.target.title);
+								}
+							});
+						} else
+						if (self.firstChild && 'iWasHere' in self.firstChild && self.firstChild.iWasHere == true) {
+							self.$iframe.setAttribute('src', self.getAttribute('src'));
+						}
+					};
+					
+					processSrcAttribute();
+					
+					this._bindEvent(this, 'DOMAttrModified', function (event) {
+						if (event.target == self && event.attrName == 'url') {
+							processSrcAttribute();
+						}
+					});
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+	<binding id="richtabpanels" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="richtabpanels-container" flex="1">
+				<xul:deck class="richtabpanels-deck" flex="1">
+					<children includes="richtabpanel"/>
+				</xul:deck>
+				
+				<xul:toolbar class="richtabpanels-toolbar" flex="1">
+					<xul:arrowscrollbox class="richtabpanels-arrowscrollbox" smoothscroll="true" orient="horizontal" flex="1"/>
+					
+					<xul:toolbarbutton class="richtabpanels-selectbutton" type="menu" hidden="false" xbl:inherits="hidden=hideselectbutton">
+						<xul:menupopup class="richtabpanels-selectpopup"/>
+					</xul:toolbarbutton>
+				</xul:toolbar>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$deck">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$toolbar">
+				<getter><![CDATA[
+					if (!this.$realToolbar) {
+						this.$realToolbar = this.$container.childNodes[1];
+						
+						this.$realToolbar.parentNode.removeChild(this.$realToolbar);
+					}
+					
+					return this.$realToolbar;
+				]]></getter>
+			</property>
+			
+			<property name="$arrowscrollbox">
+				<getter><![CDATA[
+					return this.$toolbar.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$selectbutton">
+				<getter><![CDATA[
+					return this.$toolbar.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$selectpopup">
+				<getter><![CDATA[
+					return this.$selectbutton.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="selectedPanel">
+				<getter><![CDATA[
+					return this.childNodes[this.$deck.selectedIndex];
+				]]></getter>
+				
+				<setter><![CDATA[
+					try {
+						if (val && val.$toolbarbutton) {
+							let $checkedToolbarbuttons = val.$toolbarbutton.parentNode.getElementsByAttribute('checked', 'true');
+							
+							if ($checkedToolbarbuttons.length > 0) {
+								$checkedToolbarbuttons[0].removeAttribute('checked');
+							}
+						}
+					} catch (e) {
+						// pass
+					}
+					
+					try {
+						if (val && val.$menuitem) {
+							let $checkedMenuitems = val.$menuitem.parentNode.getElementsByAttribute('checked', 'true');
+							
+							if ($checkedMenuitems.length > 0) {
+								$checkedMenuitems[0].removeAttribute('checked');
+							}
+						}
+					} catch (e) {
+						// pass
+					}
+					
+					val.$toolbarbutton.setAttribute('checked', 'true');
+					val.$menuitem.setAttribute('checked', 'true');
+					
+					this.$deck.selectedPanel = val;
+					
+					if (val.firstChild) {
+						val.firstChild.focus();
+					} else {
+						val.focus();
+					}
+					
+					// NOTE: forces redraw in GTK/Linux
+					let domWindowUtils = window.QueryInterface(CI.nsIInterfaceRequestor).getInterface(CI.nsIDOMWindowUtils);
+					
+					domWindowUtils.redraw(1);
+					//
+				]]></setter>
+			</property>
+			
+			<method name="_wireNode">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					if ($element.nextSibling) {
+						this.$arrowscrollbox.insertBefore($element.$toolbarbutton, $element.nextSibling.$toolbarbutton);
+						this.$selectpopup.insertBefore($element.$menuitem, $element.nextSibling.$menuitem);
+					} else {
+						this.$arrowscrollbox.insertBefore($element.$toolbarbutton, null);
+						this.$selectpopup.insertBefore($element.$menuitem, null);
+					}
+					
+					// TODO: scroll to $element.$toolbarbutton
+					
+					let event = document.createEvent('Event');
+					
+					event.initEvent('richtabpanelCreated', true, false);
+					
+					this.parentNode.dispatchEvent(event);
+				]]></body>
+			</method>
+			
+			<method name="_unwireNode">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					let $previousSibling = $element.$toolbarbutton.previousSibling;
+					let $nextSibling = $element.$toolbarbutton.nextSibling;
+					
+					this.$arrowscrollbox.removeChild($element.$toolbarbutton);
+					this.$selectpopup.removeChild($element.$menuitem);
+					
+					if ($previousSibling) {
+						let mouseEvent = $previousSibling.ownerDocument.createEvent('MouseEvents');
+						
+						mouseEvent.initMouseEvent('click', true, true, $previousSibling.ownerDocument.defaultView, 1, 100, 100, 100, 100, false, false, false, false, 0, null);
+						
+						$previousSibling.dispatchEvent(mouseEvent);
+					} else
+					if ($nextSibling) {
+						let mouseEvent = $nextSibling.ownerDocument.createEvent('MouseEvents');
+						
+						mouseEvent.initMouseEvent('click', true, true, $nextSibling.ownerDocument.defaultView, 1, 100, 100, 100, 100, false, false, false, false, 0, null);
+						
+						$nextSibling.dispatchEvent(mouseEvent);
+					}
+					
+					let richtabpanelDestroyedEvent = document.createEvent('Event');
+					
+					richtabpanelDestroyedEvent.initEvent('richtabpanelDestroyed', true, false);
+					
+					this.parentNode.dispatchEvent(richtabpanelDestroyedEvent);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					if (this.firstChild) {
+						this.selectedPanel = this.firstChild;
+					}
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+	<binding id="richtabbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="richtabbox-container" flex="1">
+				<xul:toolbox class="richtabbox-toolbox">
+					<children includes="toolbar"/>
+				</xul:toolbox>
+				
+				<xul:notificationbox class="richtabbox-notificationbox" flex="1">
+					<xul:deck class="richtabbox-deck" flex="1">
+						<children includes="richtabpanels"/>
+					</xul:deck>
+				</xul:notificationbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$toolbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$notificationbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$deck">
+				<getter><![CDATA[
+					return this.$notificationbox.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<method name="_wireNode">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					if ($element.nextSibling) {
+						this.$toolbox.insertBefore($element.$toolbar, $element.nextSibling.$toolbar);
+					} else {
+						this.$toolbox.insertBefore($element.$toolbar, null);
+					}
+				]]></body>
+			</method>
+			
+			<method name="_unwireNode">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					this.$toolbox.removeChild($element.$toolbar);
+				]]></body>
+			</method>
+			
+			<method name="_getPriority">
+				<parameter name="priority"/>
+				
+				<body><![CDATA[
+					let $notificationbox = this.$notificationbox;
+					
+					let priorityMap = {
+						'low': $notificationbox.PRIORITY_INFO_LOW,
+						'medium': $notificationbox.PRIORITY_WARNING_LOW,
+						'high': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'info': $notificationbox.PRIORITY_INFO_LOW,
+						'warning': $notificationbox.PRIORITY_WARNING_LOW,
+						'critical': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'info_low': $notificationbox.PRIORITY_INFO_LOW,
+						'info_medium': $notificationbox.PRIORITY_INFO_MEDIUM,
+						'info_heigh': $notificationbox.PRIORITY_INFO_HIGH,
+						'warning_low': $notificationbox.PRIORITY_WARNING_LOW,
+						'warning_medium': $notificationbox.PRIORITY_WARNING_MEDIUM,
+						'warning_heigh': $notificationbox.PRIORITY_WARNING_HIGH,
+						'critical_low': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'critical_medium': $notificationbox.PRIORITY_CRITICAL_MEDIUM,
+						'critical_heigh': $notificationbox.PRIORITY_CRITICAL_HIGH,
+						'critical_block': $notificationbox.PRIORITY_CRITICAL_BLOCK
+					};
+					
+					for (let priorityMapKey in priorityMap) {
+						if (priorityMapKey == priority) {
+							return priorityMap[priorityMapKey];
+						}
+					}
+					
+					return null;
+				]]></body>
+			</method>
+			
+			<method name="displayNotification">
+				<parameter name="label"/>
+				<parameter name="priority"/>
+				
+				<body><![CDATA[
+					this.$notificationbox.appendNotification(label, null, null, this._getPriority(priority));
+				]]></body>
+			</method>
+			
+			<method name="removeAllNotifications">
+				<body><![CDATA[
+					this.$notificationbox.removeAllNotifications.apply(this.$notificationbox, arguments);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

@@ -1,0 +1,19 @@
+#
+# chrome registration
+#
+
+resource     org.gnucitizen.weaponry.security                 file:chrome/
+content      org.gnucitizen.weaponry.security                 file:chrome/content/
+locale       org.gnucitizen.weaponry.security en-US           file:chrome/locale/en-US/
+skin         org.gnucitizen.weaponry.security classic/1.0     file:chrome/skin/classic/
+
+overlay      chrome://pippki/content/certerror.xul            chrome://org.gnucitizen.weaponry.security/content/hak/certerror.xul
+
+#
+# xpcom registration
+#
+
+interfaces     components/IWeaponryCertOverrideService.xpt
+
+component      {6c367300-5a77-11df-a08a-0800200c9a66}     components/WeaponryCertOverrideService.js
+contract       @mozilla.org/security/certoverride;1       {6c367300-5a77-11df-a08a-0800200c9a66}

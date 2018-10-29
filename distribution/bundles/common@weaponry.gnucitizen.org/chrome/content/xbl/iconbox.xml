@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/icon.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="icon" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="icon-container" flex="1">
+				<xul:vbox class="icon-vbox" flex="1">
+					<xul:image class="icon-image" xbl:inherits="src"/>
+					<xul:label class="icon-label" crop="right" xbl:inherits="value=label"/>
+				</xul:vbox>
+				
+				<xul:vbox class="icon-content" hidden="true">
+					<children/>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this._bindEvent(this, 'click', function (event) {
+						if (self.parentNode && self.parentNode.tagName == 'iconbox') {
+							if (self._verifyElementAttribute(self.parentNode, 'autogroup', 'true')) {
+								let nodes = self.parentNode.childNodes;
+								let nodesLength = nodes.length;
+								
+								for (let i = 0; i < nodesLength; i += 1) {
+									let $node = nodes[i];
+									
+									if (self._verifyElementAttribute($node, 'selected', 'true')) {
+										$node.setAttribute('selected', false);
+									}
+								}
+								
+								self.setAttribute('selected', true);
+							}
+						} else {
+							if (self._verifyElementAttribute(self, 'autoselect', 'true')) {
+								if (self._verifyElementAttribute(self, 'autodeselect', 'true')) {
+									if (self._verifyElementAttribute(self, 'selected', 'true')) {
+										self.setAttribute('selected', 'false');
+									} else {
+										self.setAttribute('selected', 'true');
+									}
+								} else {
+									self.setAttribute('selected', true);
+								}
+							}
+						}
+					});
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+	<binding id="iconbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="iconbox-container" flex="1">
+				<xul:vbox class="iconbox-content" flex="1">
+					<children includes="icon"/>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

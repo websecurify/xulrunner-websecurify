@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.preferences/skin/xul/proxyPrefwindow.css" type="text/css"?>
+<!DOCTYPE prefwindow SYSTEM "chrome://org.gnucitizen.weaponry.preferences/locale/xul/proxyPrefwindow.dtd">
+<prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="proxy-prefwindow" title="&proxy-prefwindow-title;" windowtype="org.gnucitizen.weaponry.preferences:proxy-prefwindow"
+	width="500" height="550" screenX="100" screenY="100" persist="width height screenX screenY sizemode">
+	
+	<prefpane id="proxy-prefwindow-prefpane" flex="1">
+		<preferences id="proxy-prefwindow-preferences">
+			<preference id="network.proxy.type" name="network.proxy.type" type="int"/>
+			<preference id="network.proxy.http" name="network.proxy.http" type="string"/>
+			<preference id="network.proxy.http_port" name="network.proxy.http_port" type="int"/>
+			<preference id="network.proxy.ftp" name="network.proxy.ftp" type="string"/>
+			<preference id="network.proxy.ftp_port" name="network.proxy.ftp_port" type="int"/>
+			<preference id="network.proxy.ssl" name="network.proxy.ssl" type="string"/>
+			<preference id="network.proxy.ssl_port" name="network.proxy.ssl_port" type="int"/>
+			<preference id="network.proxy.socks" name="network.proxy.socks" type="string"/>
+			<preference id="network.proxy.socks_port" name="network.proxy.socks_port" type="int"/>
+			<preference id="network.proxy.socks_version" name="network.proxy.socks_version" type="int"/>
+			<preference id="network.proxy.no_proxies_on" name="network.proxy.no_proxies_on" type="string"/>
+			<preference id="network.proxy.autoconfig_url" name="network.proxy.autoconfig_url" type="string"/>
+			<preference id="network.proxy.share_proxy_settings" name="network.proxy.share_proxy_settings" type="bool"/>
+			<preference id="network.proxy.backup.ftp" name="network.proxy.backup.ftp" type="string"/>
+			<preference id="network.proxy.backup.ftp_port" name="network.proxy.backup.ftp_port" type="int"/>
+			<preference id="network.proxy.backup.ssl" name="network.proxy.backup.ssl" type="string"/>
+			<preference id="network.proxy.backup.ssl_port" name="network.proxy.backup.ssl_port" type="int"/>
+			<preference id="network.proxy.backup.socks" name="network.proxy.backup.socks" type="string"/>
+			<preference id="network.proxy.backup.socks_port" name="network.proxy.backup.socks_port" type="int"/>
+			<preference id="pref.advanced.proxies.disable_button.reload" name="pref.advanced.proxies.disable_button.reload" type="bool"/>
+		</preferences>
+		
+		<groupbox id="proxy-prefwindow-groupbox" flex="1">
+			<caption id="proxy-prefwindow-caption" label="&proxy-prefwindow-caption-label;"/>
+			
+			<radiogroup id="proxy-prefwindow-radiogroup" preference="network.proxy.type">
+				<radio id="proxy-prefwindow-radio-noproxy" value="0" label="&proxy-prefwindow-radio-noproxy-label;"/>
+				
+				<radio id="proxy-prefwindow-radio-autodetect-proxy" value="4" label="&proxy-prefwindow-radio-autodetect-prox-label;"/>
+				
+				<radio id="proxy-prefwindow-radio-system-proxy" value="5" label="&proxy-prefwindow-radio-system-proxy-label;"/>
+				
+				<radio id="proxy-prefwindow-radio-manual-proxy" value="1" label="&proxy-prefwindow-radio-manual-proxy-label;"/>
+				
+				<grid id="proxy-prefwindow-manual-grid" flex="1">
+					<columns id="proxy-prefwindow-manual-grid-columns">
+						<column id="proxy-prefwindow-manual-column-server"/>
+						<column id="proxy-prefwindow-manual-column-port" flex="1"/>
+					</columns>
+					
+					<rows id="proxy-prefwindow-manual-rows">
+						<row id="proxy-prefwindow-manual-http-row" align="center">
+							<hbox pack="end">
+								<label id="network-proxy-http-label" value="&network-proxy-http-label-value;"/>
+							</hbox>
+							
+							<hbox align="center">
+								<textbox id="network-proxy-http" preference="network.proxy.http" flex="1"/>
+								<label id="network-proxy-http-port-label" value="&network-proxy-http-port-label-value;"/>
+								<textbox id="network-proxy-http-port" type="number" max="65535" preference="network.proxy.http_port" size="5"/>
+							</hbox>
+						</row>
+						
+						<row id="proxy-prefwindow-manual-share-proxy-row">
+							<spacer/>
+							
+							<hbox>
+								<checkbox id="network-proxy-share-proxy-settings" label="&network-proxy-share-proxy-settings-label;" preference="network.proxy.share_proxy_settings"/>
+							</hbox>
+						</row>
+						
+						<row id="proxy-prefwindow-manual-ssl-row" align="center">
+							<hbox pack="end">
+								<label id="network-proxy-ssl-label" value="&network-proxy-ssl-label-value;"/>
+							</hbox>
+							
+							<hbox align="center">
+								<textbox id="network-proxy-ssl" preference="network.proxy.ssl" flex="1"/>
+								<label id="network-proxy-ssl-port-label" value="&network-proxy-ssl-port-label-value;"/>
+								<textbox id="network-proxy-ssl-port" type="number" max="65535" size="5" preference="network.proxy.ssl_port"/>
+							</hbox>
+						</row>
+						
+						<row id="proxy-prefwindow-manual-ftp-row" align="center">
+							<hbox pack="end">
+								<label id="network-proxy-ftp-label" value="&network-proxy-ftp-label-value;"/>
+							</hbox>
+							
+							<hbox align="center">
+								<textbox id="network-proxy-ftp" preference="network.proxy.ftp" flex="1"/>
+								<label id="network-proxy-ftp-port-label" value="&network-proxy-ftp-port-label-value;"/>
+								<textbox id="network-proxy-ftp-port" type="number" max="65535" size="5" preference="network.proxy.ftp_port"/>
+							</hbox>
+						</row>
+						
+						<row id="proxy-prefwindow-manual-socks-row" align="center">
+							<hbox pack="end">
+								<label id="network-proxy-socks-label" value="&network-proxy-socks-label-value;"/>
+							</hbox>
+							
+							<hbox align="center">
+								<textbox id="network-proxy-socks" preference="network.proxy.socks" flex="1"/>
+								<label id="network-proxy-socks-port-label" value="&network-proxy-socks-port-label-value;"/>
+								<textbox id="network-proxy-socks-port" type="number" max="65535" size="5" preference="network.proxy.socks_port"/>
+							</hbox>
+						</row>
+						
+						<row id="proxy-prefwindow-manual-socks-version-row">
+							<spacer/>
+							
+							<radiogroup id="network-proxy-socks-version" preference="network.proxy.socks_version" orient="horizontal">
+								<radio id="network-proxy-socks-radio-v4" value="4" label="&network-proxy-socks-radio-v4-label;"/>
+								<radio id="network-proxy-socks-radio-v5" value="5" label="&network-proxy-socks-radio-v5-label;"/>
+							</radiogroup>
+						</row>
+						
+						<row id="proxy-prefwindow-manual-no-proxy-row" align="center"> 
+							<hbox align="center" pack="end">
+								<label id="network-proxy-no-proxy-for-label" value="&network-proxy-no-proxy-for-label-value;"/>
+							</hbox>
+							<textbox id="network-proxy-no-proxies-on" preference="network.proxy.no_proxies_on"/>
+						</row>
+						
+						<row id="proxy-prefwindow-manual-no-proxy-description-row">
+							<spacer/>
+							
+							<label id="network-proxy-no-proxy-description-label" value="&network-proxy-no-proxy-description-label-value;"/>
+						</row>
+					</rows>
+				</grid>
+				
+				<radio id="proxy-prefwindow-radio-pac-proxy" value="2" label="&proxy-prefwindow-radio-pac-proxy-label;"/>
+				
+				<hbox id="proxy-prefwindow-pac-hbox" flex="1" align="center">
+					<textbox id="network-proxy-autoconfig-url" preference="network.proxy.autoconfig_url" flex="1"/>
+					<button id="network-proxy-autoconfig-reload-button" label="&network-proxy-autoconfig-reload-button-label;" preference="pref.advanced.proxies.disable_button.reload"/>
+				</hbox>
+			</radiogroup>
+		</groupbox>
+	</prefpane>
+	
+	<box id="common-box"/>
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.preferences/content/xul/proxyPrefwindow.js"/>
+	
+	<stringbundleset id="proxy-prefwindow-stringbundleset">
+		<stringbundle id="proxy-prefwindow-stringbundle" src="chrome://org.gnucitizen.weaponry.preferences/locale/xul/proxyPrefwindow.properties"/>
+	</stringbundleset>
+	
+</prefwindow>

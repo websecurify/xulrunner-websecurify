@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/dblist.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="dblist" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/datalist.xml#datalist">
+		<implementation>
+			<property name="table">
+				<getter><![CDATA[
+					return this.getAttribute('table');
+				]]></getter>
+				
+				<setter><![CDATA[
+					return this.setAttribute('table', val);
+				]]></setter>
+			</property>
+			
+			<property name="countQuery">
+				<getter><![CDATA[
+					return 'SELECT count() AS _count FROM \'' + this.table.replace(/'/g, '\\\'') + '\'' + (this.whereClause ? ' WHERE ' + this.whereClause : '');
+				]]></getter>
+			</property>
+			
+			<property name="selectQuery">
+				<getter><![CDATA[
+					return 'SELECT _ROWID_ as _ROWID_, * FROM \'' + this.getAttribute('table').replace(/'/g, '\\\'') + '\'' + (this.whereClause ? ' WHERE ' + this.whereClause : '');
+				]]></getter>
+			</property>
+			
+			<method name="filter">
+				<parameter name="whereClause"/>
+				
+				<body><![CDATA[
+					this.whereClause = whereClause;
+					
+					this.refresh();
+				]]></body>
+			</method>
+			
+			<method name="initializeConnection">
+				<body><![CDATA[
+					let self = this;
+					
+					let createConnection = function () {
+						let fileUri = weaponryCommon.ioService.newURI(self.getAttribute('database'), null, null);
+						let file = fileUri.QueryInterface(Components.interfaces.nsIFileURL).file;
+						
+						return weaponryCommon.openMozstorageConnection(file);
+					};
+					
+					if (!this.connection) {
+						this.addEventListener('DOMAttrModified', function (event) {
+							if (event.attrName == 'database') {
+								if (this.connection) {
+									if ('asyncClose' in self.connection) {
+										self.connection.asyncClose();
+									} else {
+										self.connection.close();
+									}
+								}
+								
+								self.connection = createConnection();
+								
+								self.refresh();
+							}
+						}, false);
+					}
+					
+					if (this.connection) {
+						if ('asyncClose' in this.connection) {
+							this.connection.asyncClose();
+						} else {
+							this.connection.close();
+						}
+					}
+					
+					this.connection = createConnection();
+					
+					this.refresh();
+				]]></body>
+			</method>
+			
+			<method name="refreshLater">
+				<body><![CDATA[
+					let self = this;
+					
+					setTimeout(function () {
+						self.refresh();
+					}, 5000);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.isRefreshing = false;
+					this.shouldRefreshAgain = false;
+					this.dblistOldRefresh = this.refresh;
+					
+					this.refresh = function () {
+						if (this.isRefreshing) {
+							this.shouldRefreshAgain = true;
+							
+							return;
+						}
+						
+						if (!this.connection.connectionReady) {
+							this.isRefreshing = false;
+							
+							if (this.shouldRefreshAgain) {
+								this.shouldRefreshAgain = false;
+								
+								this.refresh();
+							}
+							
+							return;
+						} else {
+							this.isRefreshing = true;
+						}
+						
+						let index = 0;
+						
+						weaponryCommon.executeMozstorageStatementAsynchronously(this.connection, this.selectQuery, null,
+							function (item) {
+								if (index < self.dataView.obtainDataLen()) {
+									self.dataView.updateDataRow(item, index);
+								} else
+								if (index >= self.dataView.obtainDataLen()) {
+									self.dataView.appendDataRow(item);
+								}
+							
+								index += 1;
+							},
+							function () {
+								let dataLen = self.dataView.obtainDataLen();
+								
+								if (index < dataLen) {
+									self.rinseDataRows(index, dataLen - index);
+								}
+								
+								self.dblistOldRefresh();
+								
+								self.isRefreshing = false;
+								
+								if (self.shouldRefreshAgain) {
+									self.shouldRefreshAgain = false;
+									
+									self.refreshLater();
+								}
+							});
+					};
+					
+					this.initializeConnection();
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

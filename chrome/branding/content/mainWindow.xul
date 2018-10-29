@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://branding/skin/mainWindow.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://branding/locale/mainWindow.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://branding/content/mainWindow.js"/>
+	
+	<stringbundleset id="main-window-stringbundleset">
+		<stringbundle id="branding-main-window-stringbundle" src="chrome://branding/locale/mainWindow.properties"/>
+	</stringbundleset>
+	
+	<window id="main-window" title="&branding-main-window-title;"/>
+	
+</overlay>

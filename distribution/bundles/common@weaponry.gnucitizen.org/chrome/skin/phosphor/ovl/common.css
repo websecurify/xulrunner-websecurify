@@ -1,0 +1,17 @@
+toolbar.cosmopolitan {
+	border: 0px;
+	padding: 5px;
+	position: relative;
+	-moz-appearance: none;
+	background: -moz-linear-gradient(135deg, #eeeeee 50%, #dddddd 100%);
+}
+
+toolbar.cosmopolitan toolbarbutton {
+	border: 0px;
+	-moz-appearance: none;
+}
+
+toolbar.cosmopolitan toolbarbutton[disabled="false"]:hover       ,
+toolbar.cosmopolitan toolbarbutton:not([disabled="true"]):hover {
+	background: #cccccc;
+}

@@ -1,0 +1,177 @@
+#main-window-navigation-richsidebox > .richsidebox-container .richsidepanel-richlistitem[richsidepanelid="main-window-home-richsidepanel"] {
+	list-style-image: url("images/home.png");
+}
+
+#main-window-navigation-richsidebox > .richsidebox-container .richsidepanel-richlistitem[richsidepanelid="main-window-tasks-richsidepanel"] {
+	list-style-image: url("images/tasks.png");
+}
+
+#main-window-navigation-richsidebox > .richsidebox-container .richsidepanel-richlistitem[richsidepanelid="main-window-report-richsidepanel"] {
+	list-style-image: url("images/report.png");
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-target-vbox {
+	padding: 5px;
+	background: -moz-linear-gradient(top, rgba(238, 238, 238, 1) 0%, rgba(204, 204, 204, 1) 100%);
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-target-deck > * {
+	overflow: auto;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.main-window-face {
+	padding: 10px;
+	background: #ffffff;
+	border-bottom: 1px solid #dddddd;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-directions-hbox {
+	padding: 20px;
+	-moz-box-align: center;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-directions-image {
+	margin-right: 20px;
+	list-style-image: url("images/warning.png");
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-directions-description {
+	font-size: 14px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-goof-hbox {
+	-moz-box-align: center;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-goof-image {
+	margin-right: 20px;
+	list-style-image: url("images/warning.png");
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-goof-description {
+	font-size: 14px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-tasks-featurebox > .featurebox-container .featurebox-image {
+	opacity: 0.5;
+	list-style-image: url("images/gear.png");
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-tasks-hbox {
+	overflow: auto;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.main-window-progress-hbox {
+	-moz-box-align: center;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.main-window-progress-hbox[state="running"] > .main-window-progress-buttons-hbox > .main-window-progress-resume-button {
+	display: none;
+}
+
+.main-window-progress-hbox[state="resting"] > .main-window-progress-buttons-hbox > .main-window-progress-pause-button {
+	display: none;
+}
+
+.main-window-progress-hbox[state="undetermined"] > .main-window-progress-buttons-hbox > .main-window-progress-pause-button  ,
+.main-window-progress-hbox[state="undetermined"] > .main-window-progress-buttons-hbox > .main-window-progress-resume-button ,
+.main-window-progress-hbox[state="undetermined"] > .main-window-progress-buttons-hbox > .main-window-progress-stop-button   ,
+.main-window-progress-hbox[state="stopped"] > .main-window-progress-buttons-hbox > .main-window-progress-pause-button       ,
+.main-window-progress-hbox[state="stopped"] > .main-window-progress-buttons-hbox > .main-window-progress-resume-button      ,
+.main-window-progress-hbox[state="stopped"] > .main-window-progress-buttons-hbox > .main-window-progress-stop-button        {
+	display: none;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.main-window-progress-buttons-hbox {
+	margin-top: 5px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.main-window-progress-status-label {
+	font-size: 80%;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-report-featurebox > .featurebox-container .featurebox-image {
+	opacity: 0.5;
+	list-style-image: url("images/chart.png");
+}
+
+/* ------------------------------------------------------------------------ */
+
+#main-window-report-hbox {
+	background: #ffffff;
+}
+
+#main-window-report-vbox {
+	padding: 20px;
+	overflow: auto;
+}
+
+#main-window-report-dataroll {
+	max-width: 800px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.main-window-issue-vbox {
+	padding: 20px;
+}
+
+.main-window-issue-vbox .main-window-issue-details-vbox {
+	margin-left: 20px;
+	padding-left: 20px;
+	border-left: 1px solid #dddddd;
+}
+
+.main-window-issue-vbox[opening="false"] .main-window-issue-description-vbox {
+	display: none;
+}
+
+.main-window-issue-vbox htmlbox > .htmlbox-container h3 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.main-window-issue-vbox htmlbox > .htmlbox-container pre {
+	word-wrap: break-word;
+	white-space: pre-wrap;
+}
+
+.main-window-issue-vbox htmlbox > .htmlbox-container div {
+	cursor: text;
+	-moz-user-select: text;
+	-moz-user-focus: normal;
+}

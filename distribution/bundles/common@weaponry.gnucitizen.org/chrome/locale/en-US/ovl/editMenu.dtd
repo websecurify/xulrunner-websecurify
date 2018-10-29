@@ -1,0 +1,8 @@
+<!ENTITY edit-menu-label "Edit">
+<!ENTITY edit-menu-undo-command-label "Undo">
+<!ENTITY edit-menu-redo-command-label "Redo">
+<!ENTITY edit-menu-cut-command-label "Cut">
+<!ENTITY edit-menu-copy-command-label "Copy">
+<!ENTITY edit-menu-paste-command-label "Paste">
+<!ENTITY edit-menu-delete-command-label "Delete">
+<!ENTITY edit-menu-select-all-command-label "Select All">

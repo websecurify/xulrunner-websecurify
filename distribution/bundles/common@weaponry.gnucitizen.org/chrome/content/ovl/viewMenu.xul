@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.common/skin/ovl/viewMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/ovl/viewMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.common/content/ovl/viewMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="view-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.common/locale/ovl/viewMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset"/>
+	
+	<menu id="view-menu" label="&view-menu-label;">
+		<menupopup id="view-menupopup"/>
+	</menu>
+	
+	<popupset id="common-popupset">
+		<menupopup id="view-context-menupopup"/>
+	</popupset>
+	
+</overlay>

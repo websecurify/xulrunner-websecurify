@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/dbtable.css");
+
+/* ------------------------------------------------------------------------ */
+
+dbtablecol {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/dbtable.xml#dbtablecol");
+}
+
+dbtable {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/dbtable.xml#dbtable");
+}

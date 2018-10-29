@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/collectionbox.css");
+
+/* ------------------------------------------------------------------------ */
+
+collectionitem {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/collectionbox.xml#collectionitem");
+}
+
+collectionbox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/collectionbox.xml#collectionbox");
+}

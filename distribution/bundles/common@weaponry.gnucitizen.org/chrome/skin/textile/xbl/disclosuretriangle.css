@@ -1,0 +1,7 @@
+disclosuretriangle[open="true"] > .disclosuretriangle-container .disclosuretriangle-image {
+	list-style-image: url("chrome://global/skin/arrow/arrow-rit-sharp.gif");
+}
+
+disclosuretriangle:not([open="true"]) > .disclosuretriangle-container .disclosuretriangle-image {
+	list-style-image: url("chrome://global/skin/arrow/arrow-dn-sharp.gif");
+}

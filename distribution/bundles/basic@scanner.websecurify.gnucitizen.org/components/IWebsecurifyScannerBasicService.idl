@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWebsecurifyScannerBasicService;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(4b8fbab0-3274-11df-9aae-0800200c9a66)]
+interface IWebsecurifyScannerBasicService : nsISupports {
+	// pass
+};

@@ -1,0 +1,21 @@
+<!ENTITY proxy-prefwindow-title "Proxy">
+<!ENTITY proxy-prefwindow-caption-label "Configure Proxies to Access the Internet">
+<!ENTITY proxy-prefwindow-radio-noproxy-label "No Proxy">
+<!ENTITY proxy-prefwindow-radio-autodetect-prox-label "Auto-detect proxy settings for this network">
+<!ENTITY proxy-prefwindow-radio-system-proxy-label "Use system proxy settings">
+<!ENTITY proxy-prefwindow-radio-manual-proxy-label "Manual proxy configuration">
+<!ENTITY proxy-prefwindow-radio-pac-proxy-label "Automatic proxy configuration url">
+<!ENTITY network-proxy-http-label-value "HTTP Proxy">
+<!ENTITY network-proxy-http-port-label-value "Port">
+<!ENTITY network-proxy-share-proxy-settings-label "Use this proxy server for all protocols">
+<!ENTITY network-proxy-ssl-label-value "SSL Proxy">
+<!ENTITY network-proxy-ssl-port-label-value "Port">
+<!ENTITY network-proxy-ftp-label-value "FTP Proxy">
+<!ENTITY network-proxy-ftp-port-label-value "Port">
+<!ENTITY network-proxy-socks-label-value "SOCKS Proxy">
+<!ENTITY network-proxy-socks-port-label-value "Port">
+<!ENTITY network-proxy-socks-radio-v4-label "SOCKS v4">
+<!ENTITY network-proxy-socks-radio-v5-label "SOCKS v5">
+<!ENTITY network-proxy-no-proxy-for-label-value "No proxy for">
+<!ENTITY network-proxy-no-proxy-description-label-value "Example: .gnucitizen.org, .net.nz, 192.168.1.0/24">
+<!ENTITY network-proxy-autoconfig-reload-button-label "Reload">

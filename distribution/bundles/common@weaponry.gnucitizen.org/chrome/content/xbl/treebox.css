@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/treebox.css");
+
+/* ------------------------------------------------------------------------ */
+
+treeboxitem {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/treebox.xml#treeboxitem");
+}
+
+treebox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/treebox.xml#treebox");
+}

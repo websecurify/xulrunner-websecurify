@@ -1,0 +1,15 @@
+<!ENTITY main-window-title "Websecurify Scanner">
+<!ENTITY main-window-home-richsidepanel-label "Home">
+<!ENTITY main-window-target-locationbox-placeholder "http://target">
+<!ENTITY main-window-directions-description-text "WARNING: You are about to start an automated web application security test which may cause damage to the target application.">
+<!ENTITY main-window-directions-clarification-description-text "Automated testing solutions submit thousands of requests with bogus and incorrect data which may be stored, processed and later used by important backend processes. Although Websecurify will try to limit the potential damage of the automated vulnerability discovery process, it is recommended to test only applications which are deployed in demo or test environments.">
+<!ENTITY main-window-directions-clarifications-textlink-label "learn more">
+<!ENTITY main-window-confirm-checkbox-label "I understand the risk.">
+<!ENTITY main-window-continue-button-label "Continue">
+<!ENTITY main-window-cancel-button-label "Cancel">
+<!ENTITY main-window-goof-description-text "The target is invalid! Please specify a valid url.">
+<!ENTITY main-window-goof-clarification-description-text "">
+<!ENTITY main-window-tasks-richsidepanel-label "Tasks">
+<!ENTITY main-window-tasks-featurebox-label "No tasks are currently available!">
+<!ENTITY main-window-report-richsidepanel-label "Report">
+<!ENTITY main-window-report-featurebox-label "No report is currently available!">

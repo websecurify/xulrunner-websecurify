@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/recordlist.css");
+
+/* ------------------------------------------------------------------------ */
+
+recordlist {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/recordlist.xml#recordlist");
+}

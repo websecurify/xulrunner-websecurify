@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/autobrowser.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="autobrowser" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="autobrowser-container" flex="1">
+				<xul:browser class="autobrowser-browser" type="content" flex="1" xbl:inherits="type,disablesecurity,src"/>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$browser">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="contentWindow">
+				<getter><![CDATA[
+					return this.$browser.contentWindow;
+				]]></getter>
+			</property>
+			
+			<property name="contentDocument">
+				<getter><![CDATA[
+					return this.$browser.contentDocument;
+				]]></getter>
+			</property>
+			
+			<method name="navigateTo">
+				<parameter name="url"/>
+				<parameter name="data"/>
+				<parameter name="headers"/>
+				<parameter name="onload"/>
+				
+				<body><![CDATA[
+					this.onetimeOnloadHandler = onload;
+					
+					let postInputStream = null;
+					
+					if (data) {
+						let dataInputStream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Components.interfaces.nsIStringInputStream);
+						
+						dataInputStream.setData(data, data.length);
+						
+						postInputStream = Components.classes['@mozilla.org/network/mime-input-stream;1'].createInstance(Components.interfaces.nsIMIMEInputStream);
+						
+						postInputStream.setData(dataInputStream);
+					}
+					
+					let headersInputStream = null;
+					
+					if (headers) {
+						headersInputStream = Components.classes['@mozilla.org/io/string-input-stream;1'].createInstance(Components.interfaces.nsIStringInputStream);
+						
+						headersInputStream.setData(headers, headers.length);
+					}
+					
+					// TODO: set the src attribute somehow to the url, perhaps we need to implement this ourselves and make custom event binding
+					// this.setAttribute('src', url);
+					//
+					
+					this.$browser.webNavigation.loadURI(url, this.$browser.webNavigation.LOAD_FLAGS_NONE, null, postInputStream, headersInputStream);
+				]]></body>
+			</method>
+			
+			<method name="loadData">
+				<parameter name="data"/>
+				<parameter name="contentType"/>
+				<parameter name="onload"/>
+				
+				<body><![CDATA[
+					if (contentType) {
+						contentType = contentType + ';base64';
+					} else {
+						contentType = 'base64';
+					}
+					
+					this.navigateTo('data:' + contentType + ',' + btoa(data), null, null, onload);
+				]]></body>
+			</method>
+			
+			<method name="getThumbnail">
+				<parameter name="maximum"/>
+				
+				<body><![CDATA[
+					let $browser = this.$browser;
+					let width = $browser.contentWindow.innerWidth - 25; // TODO: get scrollbar width dynamically
+					let height = $browser.contentWindow.innerHeight;
+					
+					if (width < 1000) {
+						$browser.contentDocument.body.style.minWidth = width = 1000;
+						
+						height = $browser.contentDocument.body.scrollHeight;
+					}
+					
+					if (width > height) {
+						height = width;
+					} else {
+						width = height;
+					}
+					
+					let canvasWidth = maximum != undefined ? maximum : 150;
+					let canvasHeight = maximum != undefined ? maximum : 150;
+					let $canvas = document.createElementNS('http://www.w3.org/1999/xhtml','canvas');
+					
+					$canvas.width = canvasWidth;
+					$canvas.height = canvasHeight;
+					$canvas.style.width = canvasWidth + 'px';
+					$canvas.style.height = canvasHeight + 'px';
+					
+					let ctx = $canvas.getContext('2d');
+					
+					ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+					ctx.save();
+					ctx.scale(canvasWidth / width, canvasHeight / height);
+					ctx.drawWindow($browser.contentWindow, 0, 0, width, height, 'rgb(255,255,255)');
+					ctx.restore();
+					
+					return $canvas.toDataURL('image/png', '');
+				]]></body>
+			</method>
+			
+			<method name="getScreenshot">
+				<parameter name="maximum"/>
+				
+				<body><![CDATA[
+					let $browser = this.$browser;
+					let width = $browser.contentWindow.innerWidth - 25; // TODO: get scrollbar width dynamically
+					let height = $browser.contentWindow.innerHeight;
+					
+					if (width < 1000) {
+						$browser.contentDocument.body.style.minWidth = width = 1000;
+						
+						height = $browser.contentDocument.body.scrollHeight;
+					}
+					
+					let canvasWidth = width;
+					let canvasHeight = height;
+					let $canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
+					
+					$canvas.width = canvasWidth;
+					$canvas.height = canvasHeight;
+					$canvas.style.width = canvasWidth + 'px';
+					$canvas.style.height = canvasHeight + 'px';
+					
+					let ctx = $canvas.getContext('2d');
+					
+					ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+					ctx.save();
+					ctx.drawWindow($browser.contentWindow, 0, 0, canvasWidth, canvasHeight, 'rgb(255,255,255)');
+					ctx.restore();
+					
+					return $canvas.toDataURL('image/png', '');
+				]]></body>
+			</method>
+			
+			<method name="getRequestParts">
+				<body><![CDATA[
+					let $browser = this.$browser;
+					let channel = $browser.docShell.currentDocumentChannel;
+					let httpChannel = null;
+					
+					try {
+						httpChannel = channel.QueryInterface(Components.interfaces.nsIHttpChannel);
+					} catch (e) {
+						return;
+					}
+					
+					return weaponryCommon.getHttpChannelRequestParts(httpChannel);
+				]]></body>
+			</method>
+			
+			<method name="getResponseParts">
+				<body><![CDATA[
+					let $browser = this.$browser;
+					let channel = $browser.docShell.currentDocumentChannel;
+					let httpChannel = null;
+					
+					try {
+						httpChannel = channel.QueryInterface(Components.interfaces.nsIHttpChannel);
+					} catch (e) {
+						return;
+					}
+					
+					return weaponryCommon.getHttpChannelResponseParts(httpChannel);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let $browser = this.$browser;
+					let features = ['Auth', 'DNSPrefetch', 'WindowControl', 'Images', 'Plugins', 'Subframes', 'Javascript', 'MetaRedirects'];
+					let featuresLength = features.length;
+					
+					for (let i = 0; i < featuresLength; i += 1) {
+						let feature = features[i];
+						let featureName = 'allow' + feature;
+						let attributeName = featureName.toLowerCase();
+						
+						if (this.hasAttribute(attributeName) && this.getAttribute(attributeName).toLowerCase() == 'true') {
+							try {
+								$browser.docShell[featureName] = true;
+							} catch (e) {
+								// pass
+							} 
+						} else {
+							try {
+								$browser.docShell[featureName] = false;
+							} catch (e) {
+								// pass
+							}
+						}
+						
+						this.addEventListener('DOMAttrModified', function (event) {
+							if (event.target == this && event.attrName == attributeName) {
+								if (event.newValue.toLowerCase() == 'true') {
+									this.$borwser.docShell[featureName] = true;
+								} else {
+									this.$borwser.docShell[featureName] = false;
+								}
+							}
+						}, false);
+					}
+					
+					let self = this;
+					
+					this.$browser.addEventListener('DOMContentLoaded', function (event) {
+						if (event.target.location == 'about:blank') {
+							return;
+						}
+						
+						if (event.target == self.$browser.contentDocument) {
+							self._fireEvent('frameavailable', {window:self.contentWindow, document:self.contentDocument});
+						} else {
+							self._fireEvent('subframeavailable', {window:event.target.defaultView, document:event.target});
+						}
+						
+						event.target.defaultView.addEventListener('load', function (event) {
+							if (event.target == self.$browser.contentDocument) {
+								if (self._fireEvent('frameloaded', {window:self.contentWindow, document:self.contentDocument})) {
+									let onetimeOnloadHandler = self.onetimeOnloadHandler;
+									
+									self.onetimeOnloadHandler = null;
+									
+									onetimeOnloadHandler.call(self, event);
+								}
+							} else {
+								self._fireEvent('subframeloaded', {window:event.target.defaultView, document:event.target});
+							}
+						}, false);
+					}, false);
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

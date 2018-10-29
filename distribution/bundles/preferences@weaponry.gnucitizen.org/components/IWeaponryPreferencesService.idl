@@ -1,0 +1,15 @@
+#include "nsISupports.idl"
+#include "nsIDOMWindow.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryPreferencesService;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(a3c95e50-08ff-11df-8a39-0800200c9a66)]
+interface IWeaponryPreferencesService : nsISupports {
+	
+	nsIDOMWindow openPreferencesWindow();
+	
+};

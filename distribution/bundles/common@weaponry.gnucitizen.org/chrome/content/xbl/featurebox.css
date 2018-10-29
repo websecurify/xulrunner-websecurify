@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/featurebox.css");
+
+/* ------------------------------------------------------------------------ */
+
+featurebox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/featurebox.xml#featurebox");
+}

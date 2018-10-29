@@ -1,0 +1,24 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+#include "IWeaponryHttpRequest.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryRawHttpRequestResponseHandler;
+interface IWeaponryRawHttpRequest;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, function, uuid(6938fc40-aeff-11df-94e2-0800200c9a66)]
+interface IWeaponryRawHttpRequestResponseHandler : IWeaponryHttpRequestResponseHandler {
+	/* pass */
+};
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(6e1aae20-aeff-11df-94e2-0800200c9a66)]
+interface IWeaponryRawHttpRequest : IWeaponryHttpRequest {
+	void init(in AString scheme, in AString host, in long port, in ACString request);
+};

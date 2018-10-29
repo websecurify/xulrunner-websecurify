@@ -1,0 +1,82 @@
+:root[parentwindowtype="org.gnucitizen.weaponry.browser:browser-perspective"] #browser-view-navigation-toolbox ,
+:root[parentwindowtype="org.gnucitizen.weaponry.browser:browser-perspective"] #browser-view-navigation-toolbar {
+	border: 0px;
+	background: #eeeeee;
+	-moz-appearance: none;
+}
+
+:root[parentwindowtype="org.gnucitizen.weaponry.browser:browser-perspective"] #browser-view-navigation-toolbox {
+	border-bottom: 1px solid #dddddd;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.browser-view-navigation-button > label {
+	display: none;
+}
+
+.browser-view-navigation-button > * {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-back-toolbarbutton {
+	list-style-image: url("images/back.png");
+}
+
+#browser-view-back-toolbarbutton[disabled="true"] > image {
+	opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-forward-toolbarbutton {
+	list-style-image: url("images/forward.png");
+}
+
+#browser-view-forward-toolbarbutton[disabled="true"] > image {
+	opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-reload-toolbarbutton {
+	list-style-image: url("images/reload.png");
+}
+
+#browser-view-reload-toolbarbutton[disabled="true"] > image {
+	opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-stop-toolbarbutton  {
+	list-style-image: url("images/stop.png");
+}
+
+#browser-view-stop-toolbarbutton[disabled="true"] > image {
+	opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-content-locationbox {
+	margin: 6px 2px 6px 0px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-macthrob-image {
+    width: 16px;
+    height: 16px;
+    background: url("images/macthrob.gif") 50% 50% no-repeat;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-go-toolbarbutton {
+	display: none;
+}

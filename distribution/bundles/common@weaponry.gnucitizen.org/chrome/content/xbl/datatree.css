@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/datatree.css");
+
+/* ------------------------------------------------------------------------ */
+
+datatreecol {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/datatree.xml#datatreecol");
+}
+
+datatree {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/datatree.xml#datatree");
+}

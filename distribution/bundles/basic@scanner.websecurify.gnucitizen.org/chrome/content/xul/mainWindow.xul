@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.browser/content/css/bindings.css" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.websecurify.scanner.basic/content/css/mainWindow.css" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.websecurify.scanner.basic/skin/xul/mainWindow.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://org.gnucitizen.websecurify.scanner.basic/locale/xul/mainWindow.dtd">
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="main-window" title="&main-window-title;" windowtype="org.gnucitizen.websecurify.scanner.basic:main-window"
+	width="900" height="600" screenX="100" screenY="100" persist="width height screenX screenY sizemode">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.websecurify.scanner.basic/content/xul/mainWindow.js"/>
+	
+	<stringbundleset id="main-window-stringbundleset">
+		<stringbundle id="main-window-stringbundle" src="chrome://org.gnucitizen.websecurify.scanner.basic/locale/xul/mainWindow.properties"/>
+	</stringbundleset>
+	
+	<menubar id="main-window-menubar">
+		<menu id="file-menu"/>
+		<menu id="edit-menu"/>
+		<menu id="view-menu"/>
+		<menu id="tools-menu"/>
+		<menu id="window-menu"/>
+		<menu id="help-menu"/>
+	</menubar>
+	
+	<vbox id="main-window-content-vbox" flex="1">
+		<richsidebox id="main-window-navigation-richsidebox" class="cosmopolitan" flex="1">
+			<richsidepanel id="main-window-home-richsidepanel" label="&main-window-home-richsidepanel-label;">
+				<vbox id="main-window-home-vbox" flex="1">
+					<vbox id="main-window-target-vbox">
+						<locationbox id="main-window-target-locationbox" class="cosmopolitan" placeholder="&main-window-target-locationbox-placeholder;" flex="1"/>
+					</vbox>
+					
+					<deck id="main-window-target-deck" flex="1">
+						<vbox id="main-window-blank-vbox" flex="1"/>
+						
+						<vbox id="main-window-overview-vbox" flex="1">
+							<hbox id="main-window-directions-hbox" class="main-window-face">
+								<image id="main-window-directions-image"/>
+								
+								<vbox id="main-window-directions-vbox" flex="1">
+									<description id="main-window-directions-description">&main-window-directions-description-text;</description>
+									<description id="main-window-directions-clarification-description">&main-window-directions-clarification-description-text; <textlink id="main-window-directions-clarifications-textlink" label="&main-window-directions-clarifications-textlink-label;" uri="http://www.websecurify.com/wiki/AutomatedTesting"/></description>
+								</vbox>
+							</hbox>
+							
+							<hbox id="main-window-confirm-hbox" class="main-window-face">
+								<checkbox id="main-window-confirm-checkbox" label="&main-window-confirm-checkbox-label;"/>
+								<button id="main-window-continue-button" label="&main-window-continue-button-label;" disabled="true"/>
+								<button id="main-window-cancel-button" label="&main-window-cancel-button-label;" disabled="false"/>
+							</hbox>
+						</vbox>
+						
+						<vbox id="main-window-error-vbox" flex="1">
+							<hbox id="main-window-goof-hbox" class="main-window-face">
+								<image id="main-window-goof-image"/>
+								
+								<vbox id="main-window-goof-vbox" flex="1">
+									<description id="main-window-goof-description">&main-window-goof-description-text;</description>
+									<description id="main-window-goof-clarification-description">&main-window-goof-clarification-description-text;</description>
+								</vbox>
+							</hbox>
+						</vbox>
+					</deck>
+				</vbox>
+			</richsidepanel>
+			
+			<richsidepanel id="main-window-tasks-richsidepanel" label="&main-window-tasks-richsidepanel-label;">
+				<featurebox id="main-window-tasks-featurebox" label="&main-window-tasks-featurebox-label;" hidebutton="true" flex="1">
+					<hbox id="main-window-tasks-hbox" flex="1">	
+						<vbox id="main-window-tasks-vbox" flex="1">
+							<dataroll id="main-window-progress-dataroll" flex="1">
+								<hbox id="main-window-progress-hbox" class="main-window-progress-hbox main-window-face" state="?state" index="?index" flex="1">
+									<image id="main-window-progress-image" class="main-window-progress-image" src="?icon"/>
+									
+									<vbox id="main-window-progress-vbox" class="main-window-progress-vbox" flex="1">
+										<label id="main-window-progress-title-label" class="main-window-progress-title-label" value="?title"/>
+										
+										<hbox id="main-window-progress-buttons-hbox" class="main-window-progress-buttons-hbox">
+											<progressmeter id="main-window-progress-percentage-progressmeter" class="main-window-progress-percentage-progressmeter" value="?percentage" mode="?mode" flex="1"/>
+											<button id="main-window-progress-pause-button" class="main-window-progress-pause-button common-pause-button"/>
+											<button id="main-window-progress-resume-button" class="main-window-progress-resume-button common-resume-button"/>
+											<button id="main-window-progress-stop-button" class="main-window-progress-stop-button common-stop-button"/>
+										</hbox>
+										
+										<label id="main-window-progress-status-label" class="main-window-progress-status-label" value="?status" crop="right"/>
+									</vbox>
+								</hbox>
+							</dataroll>
+						</vbox>
+					</hbox>
+				</featurebox>
+			</richsidepanel>
+			
+			<richsidepanel id="main-window-report-richsidepanel" label="&main-window-report-richsidepanel-label;">
+				<featurebox id="main-window-report-featurebox" label="&main-window-report-featurebox-label;" hidebutton="true" flex="1">
+					<hbox id="main-window-report-hbox" flex="1">
+						<vbox id="main-window-report-vbox" flex="1">
+							<dataroll id="main-window-report-dataroll" orderby="orderby" orderbydirection="dsc" flex="1">
+								<vbox id="main-window-issue-vbox" class="main-window-issue-vbox" opening="?opening" flex="1">
+									<vbox id="main-window-issue-description-vbox" class="main-window-issue-description-vbox">
+										<hbox id="main-window-issue-title-hbox" class="main-window-issue-title-hbox">
+											<htmlbox id="main-window-issue-title-htmlbox" class="main-window-issue-title-htmlbox" value="&lt;h3&gt;?title&lt;/h3&gt;"/>
+										</hbox>
+										
+										<htmlbox id="main-window-issue-description-htmlbox" class="main-window-issue-description-htmlbox" value="?description"/>
+									</vbox>
+									
+									<vbox id="main-window-issue-details-vbox" class="main-window-issue-details-vbox">
+										<htmlbox id="main-window-issue-details-htmlbox" class="main-window-issue-details-htmlbox" value="?details"/>
+									</vbox>
+								</vbox>
+							</dataroll>
+						</vbox>
+					</hbox>
+				</featurebox>
+			</richsidepanel>
+		</richsidebox>
+	</vbox>
+	
+	<box id="common-box"/>
+	
+</window>

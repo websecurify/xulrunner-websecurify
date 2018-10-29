@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.preferences/skin/xul/registryDialog.css" type="text/css"?>
+<!DOCTYPE dialog SYSTEM "chrome://org.gnucitizen.weaponry.preferences/locale/xul/registryDialog.dtd">
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="registry-dialog" title="&registry-dialog-title;" dialogtype="org.gnucitizen.weaponry.preferences:registry-dialog"
+	width="700" height="500" screenX="100" screenY="100" persist="width height screenX screenY sizemode"
+	buttons="accept">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.preferences/content/xul/registryDialog.js"/>
+	
+	<stringbundleset id="registry-dialog-stringbundleset">
+		<stringbundle id="registry-dialog-stringbundle" src="chrome://org.gnucitizen.weaponry.preferences/locale/xul/registryDialog.properties"/>
+	</stringbundleset>
+	
+	<vbox id="registry-dialog-content-vbox" flex="1">
+		<iframe id="registry-dialog-content-iframe" src="about:config" flex="1"/>
+	</vbox>
+	
+	<box id="common-box"/>
+	
+</dialog>

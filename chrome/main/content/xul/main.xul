@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://main/skin/xul/main.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://main/locale/xul/main.dtd">
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="main" title="&main-title;" windowtype="main:main"
+	width="950" height="550" screenX="100" screenY="100" persist="screenX screenY width height sizemode">
+	
+	<script type="application/x-javascript" src="chrome://main/content/xul/main.js"/>
+	
+	<stringbundleset id="main-stringbundleset">
+		<stringbundle id="main-stringbundle" src="chrome://main/locale/xul/main.properties"/>
+	</stringbundleset>
+	
+	<vbox id="main-content-vbox" flex="1">
+		<iframe id="main-content-iframe" src="chrome://mozapps/content/extensions/extensions.xul" flex="1"/>
+	</vbox>
+	
+</window>

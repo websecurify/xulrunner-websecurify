@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.preferences/skin/ovl/macMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.preferences/locale/ovl/macMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.preferences/content/ovl/macMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="weaponry-preferences-mac-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.preferences/locale/ovl/macMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset">
+		<command id="menu_preferences-command" label="&menu_preferences-command-label;"/>
+	</commandset>
+	
+	<keyset id="common-keyset">
+		<key id="menu_preferences-key" modifiers="accel" key="," command="menu_preferences-command"/>
+	</keyset>
+	
+	<menupopup id="tools-menupopup">
+		<menuitem id="menu_preferences" label="&menu_preferences-label;" key="menu_preferences-key" command="menu_preferences-command"/>
+	</menupopup>
+	
+</overlay>

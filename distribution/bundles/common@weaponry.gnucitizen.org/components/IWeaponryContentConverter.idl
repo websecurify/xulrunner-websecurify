@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryContentConverter;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(ad1be44d-2e79-4937-8962-5161a232b88d)]
+interface IWeaponryContentConverter : nsISupports {
+	void initWithUri(in AString uri);
+};

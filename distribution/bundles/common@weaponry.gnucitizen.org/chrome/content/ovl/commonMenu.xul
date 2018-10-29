@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.common/skin/ovl/commonMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/ovl/commonMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.common/content/ovl/commonMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="mac-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.common/locale/ovl/commonMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset">
+		<command id="file-menu-quit-command" label="&file-menu-quit-command-label;"/>
+		<command id="help-menu-about-command" label="&help-menu-about-command-label;"/>
+	</commandset>
+	
+	<keyset id="common-keyset">
+		<key id="file-menu-quit-key" modifiers="accel" key="q" command="file-menu-quit-command"/>
+	</keyset>
+	
+	<menupopup id="file-menupopup">
+		<menuseparator id="help-menu-quit-menuseparator" position="1000"/>
+		<menuitem id="file-menu-quit-menuitem" key="file-menu-quit-key" command="file-menu-quit-command" position="1001"/>
+	</menupopup>
+	
+	<menupopup id="help-menupopup">
+		<menuitem id="help-menu-about-menuitem" command="help-menu-about-command" position="1"/>
+		<menuseparator id="help-menu-about-menuseparator" position="2"/>
+	</menupopup>
+	
+</overlay>

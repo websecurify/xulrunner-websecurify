@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.common/skin/ovl/editMenu.css" type="text/css"?>
+<!DOCTYPE overlay [
+	<!ENTITY % editMenuOverlayDTD-3704939759336412 SYSTEM "chrome://global/locale/editMenuOverlay.dtd">%editMenuOverlayDTD-3704939759336412;
+	<!ENTITY % editMenuKeysDTD-515261500608176 SYSTEM "chrome://org.gnucitizen.weaponry.common/content/dtd/editMenuKeys.dtd">%editMenuKeysDTD-515261500608176;
+	<!ENTITY % editMenuDTD-8111629618797451 SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/ovl/editMenu.dtd">%editMenuDTD-8111629618797451;
+]>
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.common/content/ovl/editMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="edit-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.common/locale/ovl/editMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset">
+		<commandset id="edit-menu-focus-select-commandupdater-commandset" commandupdater="true" events="focus,select" oncommandupdate="return handleEditMenuUpdateFocusSelectCommandEvent(event);"/>
+		<commandset id="edit-menu-undo-commandupdater-commandset" commandupdater="true" events="undo" oncommandupdate="return handleEditMenuUpdateUndoCommandEvent(event);"/>
+		<commandset id="edit-menu-clipboard-commandupdater-commandset" commandupdater="true" events="clipboard" oncommandupdate="return handleEditMenuUpdateClipboardCommandEvent(event);"/>
+		<command id="edit-menu-undo-command" label="&edit-menu-undo-command-label;" oncommand="return handleEditMenuUndoCommandEvent(event);"/>
+		<command id="edit-menu-redo-command" label="&edit-menu-redo-command-label;" oncommand="return handleEditMenuRedoCommandEvent(event);"/>
+		<command id="edit-menu-cut-command" label="&edit-menu-cut-command-label;" oncommand="return handleEditMenuCutCommandEvent(event);"/>
+		<command id="edit-menu-copy-command" label="&edit-menu-copy-command-label;" oncommand="return handleEditMenuCopyCommandEvent(event);"/>
+		<command id="edit-menu-paste-command" label="&edit-menu-paste-command-label;" oncommand="return handleEditMenuPasteCommandEvent(event);"/>
+		<command id="edit-menu-delete-command" label="&edit-menu-delete-command-label;" oncommand="return handleEditMenuDeleteCommandEvent(event);"/>
+		<command id="edit-menu-select-all-command" label="&edit-menu-select-all-command-label;" oncommand="return handleEditMenuSelectAllCommandEvent(event);"/>
+	</commandset>
+	
+	<keyset id="common-keyset">
+		<key id="edit-menu-undo-key" key="&undoCmd.key;" keycode="&undoCmd.keycode;" modifiers="&undoCmd.modifiers;"/>
+		<key id="edit-menu-redo-key" key="&redoCmd.key;" keycode="&redoCmd.keycode;" modifiers="&redoCmd.modifiers;"/>
+		<key id="edit-menu-cut-key" key="&cutCmd.key;" keycode="&cutCmd.keycode;" modifiers="&cutCmd.modifiers;"/>
+		<key id="edit-menu-copy-key" key="&copyCmd.key;" keycode="&copyCmd.keycode;" modifiers="&copyCmd.modifiers;"/>
+		<key id="edit-menu-paste-key" key="&pasteCmd.key;" keycode="&pasteCmd.keycode;" modifiers="&pasteCmd.modifiers;"/>
+		<key id="edit-menu-delete-key" key="&deleteCmd.key;" keycode="&deleteCmd.keycode;" modifiers="&deleteCmd.modifiers;"/>
+		<key id="edit-menu-select-all-key" key="&selectAllCmd.key;" keycode="&selectAllCmd.keycode;" modifiers="&selectAllCmd.modifiers;"/>
+	</keyset>
+	
+	<menu id="edit-menu" label="&edit-menu-label;" onpopupshowing="return handleEditMenupopupshowingEvent(event);">
+		<menupopup id="edit-menupopup">
+			<menuitem id="edit-menupopup-undo-menuitem" key="edit-menu-undo-key" command="edit-menu-undo-command"/>
+			<menuitem id="edit-menupopup-redo-menuitem" key="edit-menu-redo-key" command="edit-menu-redo-command"/>
+			<menuseparator id="edit-menupopup-edit-section-menuseparator"/>
+			<menuitem id="edit-menupopup-cut-menuitem" key="edit-menu-cut-key" command="edit-menu-cut-command"/>
+			<menuitem id="edit-menupopup-copy-menuitem" key="edit-menu-copy-key" command="edit-menu-copy-command"/>
+			<menuitem id="edit-menupopup-paste-menuitem" key="edit-menu-paste-key" command="edit-menu-paste-command"/>
+			<menuitem id="edit-menupopup-delete-menuitem" key="edit-menu-delete-key" command="edit-menu-delete-command"/>
+			<menuseparator id="edit-menupopup-select-section-menuseparator"/>
+			<menuitem id="edit-menupopup-select-all-menuitem" key="edit-menu-select-all-key" command="edit-menu-select-all-command"/>
+		</menupopup>
+	</menu>
+	
+	<popupset id="common-popupset">
+		<menupopup id="edit-context-menupopup" onpopupshowing="return handleEditContextMenupopupshowingEvent(event);">
+			<menuitem id="edit-context-menupopup-undo-menuitem" command="edit-menu-undo-command"/>
+			<menuitem id="edit-context-menupopup-redo-menuitem" command="edit-menu-redo-command"/>
+			<menuseparator id="edit-context-menupopup-edit-section-menuseparator"/>
+			<menuitem id="edit-context-menupopup-cut-menuitem" command="edit-menu-cut-command"/>
+			<menuitem id="edit-context-menupopup-copy-menuitem" command="edit-menu-copy-command"/>
+			<menuitem id="edit-context-menupopup-paste-menuitem" command="edit-menu-paste-command"/>
+			<menuitem id="edit-context-menupopup-delete-menuitem" command="edit-menu-delete-command"/>
+			<menuseparator id="edit-context-menupopup-select-section-menuseparator"/>
+			<menuitem id="edit-context-menupopup-select-all-menuitem" command="edit-menu-select-all-command"/>
+		</menupopup>
+	</popupset>
+	
+</overlay>

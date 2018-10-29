@@ -1,0 +1,15 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/richtabbox.css");
+
+/* ------------------------------------------------------------------------ */
+
+richtabpanel {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/richtabbox.xml#richtabpanel");
+}
+
+richtabpanels {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/richtabbox.xml#richtabpanels");
+}
+
+richtabbox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/richtabbox.xml#richtabbox");
+}

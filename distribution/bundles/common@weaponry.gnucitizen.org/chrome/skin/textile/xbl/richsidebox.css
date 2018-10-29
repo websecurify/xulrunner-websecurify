@@ -1,0 +1,52 @@
+@import url("chrome://org.gnucitizen.weaponry.common.chrome.skin.shared/content/xbl/richsidebox.css");
+
+/* ------------------------------------------------------------------------ */
+
+richsidebox.cosmopolitan > .richsidebox-container .richsidepanel-hbox {
+	-moz-box-pack: center;
+	-moz-box-align: center;
+}
+
+richsidebox.cosmopolitan > .richsidebox-container .richsidepanel-hbox image {
+	margin: 10px 0px 10px 0px;
+}
+
+richsidebox.cosmopolitan > .richsidebox-container .richsidepanel-hbox label {
+	display: none;
+}
+
+/* ------------------------------------------------------------------------ */
+
+richsidebox.cosmopolitan > .richsidebox-container .richsidebox-richlistbox {
+	margin: 0px;
+	padding: 0px;
+	max-width: 60px;
+	background: #212121;
+	-moz-appearance: none;
+}
+
+richsidebox.cosmopolitan:-moz-window-inactive > .richsidebox-container .richsidebox-richlistbox {
+	background: #252525;
+}
+
+/* ------------------------------------------------------------------------ */
+
+richsidebox.cosmopolitan > .richsidebox-container .richsidepanel-richlistitem {
+	overflow: hidden;
+	background: transparent;
+	filter: url("chrome://org.gnucitizen.weaponry.common.chrome.skin.shared/content/cmn/effects.svg#blur");
+}
+
+richsidebox.cosmopolitan > .richsidebox-container .richsidepanel-richlistitem[selected="true"] {
+	filter: url("chrome://org.gnucitizen.weaponry.common.chrome.skin.shared/content/cmn/effects.svg#white");
+}
+
+/* ------------------------------------------------------------------------ */
+
+richsidebox.cosmopolitan > .richsidebox-container .richsidebox-splitter {
+	display: none;
+}
+
+richsidebox.cosmopolitan > richsidepanel {
+	background: #f5f5f5;
+}

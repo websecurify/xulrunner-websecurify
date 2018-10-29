@@ -1,0 +1,13 @@
+#include "nsISupports.idl"
+#include "nsIScriptableInputStream.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryPushbackInputStream;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(616883e0-cf35-11df-bd3b-0800200c9a66)]
+interface IWeaponryPushbackInputStream : nsIScriptableInputStream {
+	long unread(in string data);
+};

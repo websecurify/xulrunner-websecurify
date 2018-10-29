@@ -1,0 +1,28 @@
+#include "nsISupports.idl"
+#include "nsIDOMWindow.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryBrowserService;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(cb80acc0-08fd-11df-8a39-0800200c9a66)]
+interface IWeaponryBrowserService : nsISupports {
+	
+	void registerDefaultURIContentListener();
+	
+	void unregisterDefaultURIContentListener();
+	
+	/* -------------------------------------------------------------------- */
+	
+	void registerDefaultContentHandlers();
+	
+	void unregisterDefaultContentHandlers();
+	
+	/* -------------------------------------------------------------------- */
+	
+	nsIDOMWindow openBrowserView([optional] in AString url);
+	
+	nsIDOMWindow openBrowserPerspective([optional] in AString url);
+};

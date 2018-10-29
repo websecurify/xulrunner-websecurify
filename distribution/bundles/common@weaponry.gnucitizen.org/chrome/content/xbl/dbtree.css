@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/dbtree.css");
+
+/* ------------------------------------------------------------------------ */
+
+dbtreecol {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/dbtree.xml#dbtreecol");
+}
+
+dbtree {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/dbtree.xml#dbtree");
+}

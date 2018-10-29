@@ -1,0 +1,8 @@
+statusbox > .statusbox-container .statusbox-panel {
+	border: 0px;
+	color: InfoText;
+	box-shadow: none;
+	-moz-appearance: none;
+	-moz-window-shadow: none;
+	background: InfoBackground;
+}

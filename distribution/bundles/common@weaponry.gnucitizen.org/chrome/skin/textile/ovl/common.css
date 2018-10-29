@@ -1,0 +1,7 @@
+toolbar.cosmopolitan {
+	position: relative;
+}
+
+toolbar.cosmopolitan toolbarbutton {
+	-moz-box-orient: vertical;
+}

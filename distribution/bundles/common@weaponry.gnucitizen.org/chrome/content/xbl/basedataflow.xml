@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/basedataflow.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="basedataflow" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basedatabox.xml#basedatabox">
+		<implementation>
+			<property name="$content">
+				<getter><![CDATA[
+					throw new Error('not implemented');
+				]]></getter>
+			</property>
+			
+			<method name="refreshRow">
+				<parameter name="row"/>
+				
+				<body><![CDATA[
+					$content.childNodes;[i].firstChild.refresh();
+				]]></body>
+			</method>
+			
+			<method name="refresh">
+				<body><![CDATA[
+					if (this._fireEvent('refresh')) {
+						let $content = this.$content;
+						let nodes = $content.childNodes;
+						let nodesLength = nodes.length;
+						
+						for (let i = 0; i < nodesLength; i += 1) {
+							nodes[i].firstChild.refresh();
+						}
+					}
+				]]></body>
+			</method>
+			
+			<method name="rebuild">
+				<body><![CDATA[
+					if (this._fireEvent('rebuild')) {
+						let $content = this.$content;
+						let nodes = $content.childNodes;
+						let nodesLength = nodes.length;
+						
+						for (let i = 0; i < nodesLength; i += 1) {
+							nodes[i].firstChild.rebuild();
+						}
+					}
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					this.dataView.buildItem = function (data, refresh) {
+						throw new Error('not implemented');
+					};
+					
+					this.dataView.basedataflowOldInsertDataRow = this.dataView.insertDataRow;
+					this.dataView.basedataflowOldAppendDataRow = this.dataView.appendDataRow;
+					this.dataView.basedataflowOldCoupleDataRow = this.dataView.coupleDataRow;
+					this.dataView.basedataflowOldUpdateDataRow = this.dataView.updateDataRow;
+					this.dataView.basedataflowOldRemoveDataRow = this.dataView.removeDataRow;
+					this.dataView.basedataflowOldRinseDataRows = this.dataView.rinseDataRows;
+					this.dataView.basedataflowOldClearDataRows = this.dataView.clearDataRows;
+					
+					let self = this;
+					
+					this.dataView._sortAscHelper = function (a, b) {
+						return a < b;
+					};
+					
+					this.dataView._sortDscHelper = function (a, b) {
+						return a > b;
+					};
+					
+					this.dataView.insertDataRow = function (data, row, refresh) {
+						let pos = this.basedataflowOldInsertDataRow.apply(this, arguments);
+						let dataRow = this.obtainDataRow(pos);
+						let $content = self.$content;
+						
+						if (row >= 0 && row < $content.childNodes.length) {
+							let $node = $content.childNodes[pos];
+							
+							$content.insertBefore(this.buildItem(dataRow, refresh), $node);
+						} else {
+							$content.appendChild(this.buildItem(dataRow, refresh));
+						}
+						
+						return pos;
+					};
+					
+					this.dataView.appendDataRow = function (data, refresh) {
+						let pos = this.basedataflowOldAppendDataRow.apply(this, arguments);
+						let dataRow = this.obtainDataRow(pos);
+						let $content = self.$content;
+						
+						$content.appendChild(this.buildItem(dataRow, refresh));
+						
+						return pos;
+					};
+					
+					this.dataView.coupleDataRow = function (data, refresh) {
+						if (self.hasAttribute('orderby')) {
+							let orderby = self.getAttribute('orderby');
+							let orderbydirection = 'asc';
+							
+							if (self.hasAttribute('orderbydirection')) {
+								orderbydirection = self.getAttribute('orderbydirection').toLowerCase();
+							}
+							
+							let sorter;
+							
+							if (orderbydirection == 'asc') {
+								sorter = this._sortAscHelper;
+							} else
+							if (orderbydirection == 'dsc') {
+								sorter = this._sortDscHelper;
+							} else {
+								throw new Error('unrecognized value for orderbydirection attribute');
+							}
+							
+							let position = 0;
+							
+							this.enlistDataRows(function (index, rowData) {
+								if (sorter(data[orderby], rowData[orderby])) {
+									position = index;
+									
+									return true;
+								} else {
+									position = index + 1;
+									
+									return false;
+								}
+							});
+							
+							return this.insertDataRow(data, position, refresh);
+						} else {
+							return this.appendDataRow(data, refresh);
+						} 
+					};
+					
+					this.dataView.updateDataRow = function (data, row, refresh) {
+						let dataRow = this.basedataflowOldUpdateDataRow.apply(this, arguments);
+						let $content = self.$content;
+						
+						$content.childNodes[row].firstChild.update(dataRow, refresh);
+						
+						return dataRow;
+					};
+					
+					this.dataView.removeDataRow = function (row) {
+						let result = this.basedataflowOldRemoveDataRow.apply(this, arguments);
+						let $content = self.$content;
+						
+						$content.removeChild($content.childNodes[row]);
+						
+						return result;
+					};
+					
+					this.dataView.rinseDataRows = function (row, count) {
+						let result = this.basedataflowOldRinseDataRows.apply(this, arguments);
+						let $content = self.$content;
+						
+						for (let i = 0; i < count; i += 1) {
+							$content.removeChild($content.childNodes[row + i]);
+						}
+						
+						return result;
+					};
+					
+					this.dataView.clearDataRows = function () {
+						let result = this.basedataflowOldClearDataRows.apply(this, arguments);
+						let $content = self.$content;
+						
+						self._removeChildren($content);
+						
+						return result;
+					};
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

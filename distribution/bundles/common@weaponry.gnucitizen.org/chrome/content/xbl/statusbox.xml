@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/statusbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:cmn="http://www.gnucitizen.org/cmn"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="statusbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<resources>
+			<stylesheet src="chrome://org.gnucitizen.weaponry.common/content/css/bindings.css"/>
+		</resources>
+		
+		<content>
+			<xul:vbox class="statusbox-container" flex="1" cmn:exposed="$container">
+				<xul:panel class="statusbox-panel" noautohide="true" noautofocus="true" flex="1" cmn:exposed="$panel">
+					<xul:label class="statusbox-label" crop="right" flex="1" cmn:exposed="$label"/>
+				</xul:panel>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="value">
+				<getter><![CDATA[
+					return this.$label.value;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.$label.value = val;
+					
+					if (this.hideTimeout) {
+						clearTimeout(this.hideTimeout);
+					} else {
+						this.$panel.openPopup(this, 'before_start', 0, 0, false, false);
+					}
+					
+					let self = this;
+					let timeout = weaponryCommon.getPref('org.gnucitizen.weaponry.common.xbl.statusbox.timeout');
+					
+					this.hideTimeout = setTimeout(function () {
+						self.$panel.hidePopup();
+						
+						delete self.hideTimeout;
+					}, timeout ? timeout : 3000);
+				]]></setter>
+			</property>
+		</implementation>
+	</binding>
+	
+</bindings>

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.browser/locale/xbl/locationbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="locationbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<resources>
+			<stylesheet src="chrome://org.gnucitizen.weaponry.browser/content/css/bindings.css"/>
+		</resources>
+		
+		<content>
+			<xul:hbox class="locationbox-container" flex="1">
+				<xul:hbox class="locationbox-content" flex="1">
+					<children includes="hbox"/>
+					<xul:textbox class="locationbox-textbox" type="autocomplete" autocompletesearch="history" flex="1"/>
+					<children/>
+				</xul:hbox>
+			</xul:hbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return this.$firstAnonymousNode;
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$textbox">
+				<getter><![CDATA[
+					return this.$content.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="value">
+				<getter><![CDATA[
+					return this.$textbox.value;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.$textbox.value = val;
+				]]></setter>
+			</property>
+			
+			<property name="disabled">
+				<getter><![CDATA[
+					return this.$textbox.disabled;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.$textbox.disabled = val;
+				]]></setter>
+			</property>
+			
+			<method name="focus">
+				<body><![CDATA[
+					this.$textbox.focus();
+				]]></body>
+			</method>
+			
+			<method name="select">
+				<body><![CDATA[
+					this.$textbox.select();
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this._bindEvent(this.$textbox, 'keypress', function (event) {
+						if (event.keyCode == KeyEvent.DOM_VK_RETURN) {
+							self._fireEvent('locationChange');
+						}
+					});
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

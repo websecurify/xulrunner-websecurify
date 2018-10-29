@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryCertOverrideService;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(f918ff50-5a76-11df-a08a-0800200c9a66)]
+interface IWeaponryCertOverrideService : nsISupports {
+	// pass
+};

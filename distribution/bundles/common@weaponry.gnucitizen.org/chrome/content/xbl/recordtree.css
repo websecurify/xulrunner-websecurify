@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/recordtree.css");
+
+/* ------------------------------------------------------------------------ */
+
+recordtreecol {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/recordtree.xml#recordtreecol");
+}
+
+recordtree {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/recordtree.xml#recordtree");
+}

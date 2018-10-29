@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.common/skin/ovl/macMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/ovl/macMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.common/content/ovl/macMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="mac-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.common/locale/ovl/macMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset">
+		<command id="menu_FileQuitItem-command" label="&menu_FileQuitItem-command-label;"/>
+		<command id="aboutName-command" label="&aboutName-command-label;"/>
+	</commandset>
+	
+	<keyset id="common-keyset">
+		<key id="menu_FileQuitItem-key" modifiers="accel" key="q" command="menu_FileQuitItem-command"/>
+	</keyset>
+	
+	<menupopup id="file-menupopup">
+		<menuitem id="menu_FileQuitItem" key="menu_FileQuitItem-key" command="menu_FileQuitItem-command"/>
+	</menupopup>
+	
+	<menupopup id="help-menupopup">
+		<menuitem id="aboutName" command="aboutName-command"/>
+	</menupopup>
+	
+</overlay>

@@ -1,0 +1,14 @@
+expandablebox > .expandablebox-container .expandablebox-label {
+	margin-left: 0px;
+	padding-left: 16px;
+	background-repeat: no-repeat;
+	background-image: url("chrome://global/skin/arrow/arrow-dn-sharp.gif");
+}
+
+expandablebox[expanded="false"] > .expandablebox-container .expandablebox-label {
+	background-image: url("chrome://global/skin/arrow/arrow-rit-sharp.gif");
+}
+
+expandablebox[expanded="false"] > .expandablebox-container .expandablebox-content {
+	display: none;
+}

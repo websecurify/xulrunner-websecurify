@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/structuredsidebox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="structuredsideitem" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="structuredsideitem-container" flex="1">
+				<xul:vbox class="structuredsideitem-content" flex="1">
+					<xul:hbox class="structuredsideitem-element" flex="1">
+						<xul:image class="structuredsideitem-arrow"/>
+						<xul:image class="structuredsideitem-icon" xbl:inherits="src=icon"/>
+						<xul:label class="structuredsideitem-label" xbl:inherits="value=label"/>
+					</xul:hbox>
+					
+					<children/>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+	<binding id="structuredsidebox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="structuredsidebox-container" flex="1">
+				<xul:informationbox class="structuredsidebox-informationbox" flex="1">
+					<xul:vbox class="structuredsidebox-content" flex="1">
+						<children/>
+					</xul:vbox>
+				</xul:informationbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$informationbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$informationbox.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

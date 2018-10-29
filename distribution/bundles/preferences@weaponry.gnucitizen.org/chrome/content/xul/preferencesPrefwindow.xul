@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.preferences/skin/xul/preferencesPrefwindow.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://org.gnucitizen.weaponry.preferences/locale/xul/preferencesPrefwindow.dtd">
+<prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="preferences-prefwindow" title="&preferences-prefwindow-title;" windowtype="org.gnucitizen.weaponry.preferences:preferences-prefwindow"
+	width="600" height="400" screenX="100" screenY="100" persist="width height screenX screenY sizemode">
+	
+	<prefpane id="preferences-prefwindow-general-prefpane" label="&preferences-prefwindow-general-prefpane-label;">
+		<preferences id="preferences-prefwindow-general-preferences"/>
+		
+		<vbox id="preferences-prefwindow-general-preferences-content-vbox" flex="1">
+			<groupbox id="preferences-prefwindow-proxy-groupbox">
+				<caption id="preferences-prefwindow-proxy-caption" label="&preferences-prefwindow-proxy-caption-label;"/>
+				
+				<hbox id="preferences-prefwindow-proxy-hbox" align="center">
+					<description id="preferences-prefwindow-proxy-description" value="&preferences-prefwindow-proxy-description-value;" flex="1"/>
+					<button id="preferences-prefwindow-open-proxy-dialog-button" label="&preferences-prefwindow-open-proxy-dialog-button-label;"/>
+				</hbox>
+			</groupbox>
+		</vbox>
+	</prefpane>
+	
+	<prefpane id="preferences-prefwindow-security-prefpane" label="&preferences-prefwindow-security-prefpane-label;">
+		<preferences id="preferences-prefwindow-security-preferences"/>
+		
+		<vbox id="preferences-prefwindow-security-preferences-content-vbox" flex="1">
+			<groupbox id="preferences-prefwindow-security-certificates-groupbox">
+				<caption id="preferences-prefwindow-security-certificates-caption" label="&preferences-prefwindow-security-certificates-caption-label;"/>
+				
+				<hbox id="preferences-prefwindow-security-certificates-hbox" align="center">
+					<description id="preferences-prefwindow-security-certificates-description" value="&preferences-prefwindow-security-certificates-description-value;" flex="1"/>
+					<button id="preferences-prefwindow-open-security-certificates-dialog-button" label="&preferences-prefwindow-open-security-certificates-dialog-button-label;"/>
+				</hbox>
+			</groupbox>
+			
+			<groupbox id="preferences-prefwindow-security-devices-groupbox">
+				<caption id="preferences-prefwindow-security-devices-caption" label="&preferences-prefwindow-security-devices-caption-label;"/>
+				
+				<hbox id="preferences-prefwindow-security-devices-hbox" align="center">
+					<description id="preferences-prefwindow-security-devices-description" value="&preferences-prefwindow-security-devices-description-value;" flex="1"/>
+					<button id="preferences-prefwindow-open-security-devices-dialog-button" label="&preferences-prefwindow-open-security-devices-dialog-button-label;"/>
+				</hbox>
+			</groupbox>
+		</vbox>
+	</prefpane>
+	
+	<prefpane id="preferences-prefwindow-advanced-prefpane" label="&preferences-prefwindow-advanced-prefpane-label;">
+		<preferences id="preferences-prefwindow-advanced-preferences"/>
+		
+		<vbox id="preferences-prefwindow-advanced-preferences-content-vbox" flex="1">
+			<groupbox id="preferences-prefwindow-registry-groupbox">
+				<caption id="preferences-prefwindow-registry-caption" label="&preferences-prefwindow-registry-caption-label;"/>
+				
+				<hbox id="preferences-prefwindow-registry-hbox" align="center">
+					<description id="preferences-prefwindow-registry-description" value="&preferences-prefwindow-registry-description-value;" flex="1"/>
+					<button id="preferences-prefwindow-open-registry-dialog-button" label="&preferences-prefwindow-open-registry-dialog-button-label;"/>
+				</hbox>
+			</groupbox>
+		</vbox>
+	</prefpane>
+	
+	<box id="common-box"/>
+	
+	<stringbundleset id="preferences-prefwindow-stringbundleset">
+		<stringbundle id="preferences-prefwindow-stringbundle" src="chrome://org.gnucitizen.weaponry.preferences/locale/xul/preferencesPrefwindow.properties"/>
+	</stringbundleset>
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.preferences/content/xul/preferencesPrefwindow.js"/>
+	
+</prefwindow>

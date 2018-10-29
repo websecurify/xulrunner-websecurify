@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.browser/content/css/bindings.css" type="text/css"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.browser/skin/xul/browserView.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://org.gnucitizen.weaponry.browser/locale/xul/browserView.dtd">
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="browser-view" title="&browser-view-title;" windowtype="org.gnucitizen.weaponry.browser:browser-view"
+	width="800" height="640" screenX="100" screenY="100" persist="width height screenX screenY sizemode">
+	
+	<script type="application/x-javascript" src="chrome://global/content/printUtils.js"/>
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.browser/content/xul/browserView.js"/>
+	
+	<stringbundleset id="browser-view-stringbundleset">
+		<stringbundle id="browser-view-stringbundle" src="chrome://org.gnucitizen.weaponry.browser/locale/xul/browserView.properties"/>
+	</stringbundleset>
+	
+	<commandset id="browser-view-commandset">
+		<command id="browser-view-new-window-command" label="&browser-view-new-window-command-label;" oncommand="return handleNewWindowCommandEvent(event);"/>
+		<command id="browser-view-print-setup-command" label="&browser-view-print-setup-command-label;" oncommand="return handlePrintSetupCommandEvent(event);"/>
+		<command id="browser-view-print-command" label="&browser-view-print-command-label;" oncommand="return handlePrintCommandEvent(event);"/>
+		<command id="browser-view-open-findbar-command" label="&browser-view-open-findbar-command-label;" oncommand="return handleOpenFindbarCommandEvent(event);"/>
+		<command id="browser-view-view-source-command" label="&browser-view-view-source-command-label;" oncommand="return handleViewSourceCommandEvent(event);"/>
+		<command id="browser-view-back-command" label="&browser-view-back-command-label;" disabled="true" oncommand="return handleBrowserBackCommandEvent(event);"/>
+		<command id="browser-view-forward-command" label="&browser-view-forward-command-label;" disabled="true" oncommand="return handleBrowserForwardCommandEvent(event);"/>
+		<command id="browser-view-reload-command" label="&browser-view-reload-command-label;" disabled="true" oncommand="return handleBrowserReloadCommandEvent(event);"/>
+		<command id="browser-view-stop-command" label="&browser-view-stop-command-label;" disabled="true" oncommand="return handleBrowserStopCommandEvent(event);"/>
+		<command id="browser-view-go-command" label="&browser-view-go-command-label;" disabled="true" oncommand="return handleBrowserGoCommandEvent(event);"/>
+	</commandset>
+	
+	<keyset id="browser-view-keyset">
+		<key id="browser-view-new-window-key" modifiers="accel" key="n" command="browser-view-new-window-command"/>
+		<key id="browser-view-print-key" modifiers="accel" key="p" command="browser-view-print-command"/>
+		<key id="browser-view-open-findbar-key" modifiers="accel" key="f" command="browser-view-open-findbar-command"/>
+	</keyset>
+	
+	<menubar id="browser-view-menubar">
+		<menu id="file-menu">
+			<menupopup id="file-menupopup">
+				<menuitem id="browser-view-new-window-menuitem" key="browser-view-new-window-key" command="browser-view-new-window-command"/>
+				<menuseparator id="browser-view-print-section-menuseparator"/>
+				<menuitem id="browser-view-print-setup-menuitem" key="browser-view-print-setup-key" command="browser-view-print-setup-command"/>
+				<menuitem id="browser-view-print-menuitem" key="browser-view-print-key" command="browser-view-print-command"/>
+			</menupopup>
+		</menu>
+		
+		<menu id="edit-menu"/>
+		<menu id="view-menu"/>
+		<menu id="tools-menu"/>
+		<menu id="window-menu"/>
+		<menu id="help-menu"/>
+	</menubar>
+	
+	<popupset id="browser-view-popupset">
+		<menupopup id="browser-view-content-menupopup">
+			<menuitem id="browser-view-content-undo-menuitem" command="edit-menu-undo-command"/>
+			<menuitem id="browser-view-content-redo-menuitem" command="edit-menu-redo-command"/>
+			<menuseparator id="browser-view-content-edit-section-menuseparator"/>
+			<menuitem id="browser-view-content-cut-menuitem" command="edit-menu-cut-command"/>
+			<menuitem id="browser-view-content-copy-menuitem" command="edit-menu-copy-command"/>
+			<menuitem id="browser-view-content-paste-menuitem" command="edit-menu-paste-command"/>
+			<menuitem id="browser-view-content-delete-menuitem" command="edit-menu-delete-command"/>
+			<menuseparator id="browser-view-content-select-section-menuseparator"/>
+			<menuitem id="browser-view-content-select-all-menuitem" command="edit-menu-select-all-command"/>
+			<menuseparator id="browser-view-content-page-section-menuseparator"/>
+			<menuitem id="browser-view-content-view-source-menuitem" command="browser-view-view-source-command"/>
+		</menupopup>
+	</popupset>
+	
+	<vbox id="browser-view-content-vbox" flex="1">
+		<toolbox id="browser-view-navigation-toolbox">
+			<toolbar id="browser-view-navigation-toolbar" class="cosmopolitan chromeclass-toolbar" autohide="true">
+				<toolbarbutton id="browser-view-back-toolbarbutton" class="browser-view-navigation-button" command="browser-view-back-command"/>
+				<toolbarbutton id="browser-view-forward-toolbarbutton" class="browser-view-navigation-button" command="browser-view-forward-command"/>
+				<toolbarbutton id="browser-view-reload-toolbarbutton" class="browser-view-navigation-button" command="browser-view-reload-command"/>
+				<toolbarbutton id="browser-view-stop-toolbarbutton" class="browser-view-navigation-button" command="browser-view-stop-command"/>
+				
+				<locationbox id="browser-view-content-locationbox" class="cosmopolitan" flex="1" onlocationchange="return handleLocationChangeEvent(event);">
+					<image id="browser-view-macthrob-image" collapsed="true"/>
+				</locationbox>
+				
+				<toolbarbutton id="browser-view-go-toolbarbutton" class="browser-view-navigation-button" command="browser-view-go-command"/>
+			</toolbar>
+		</toolbox>
+		
+		<notificationbox id="browser-view-content-notificationbox" flex="1">
+			<browser id="browser-view-content-browser" src="about:blank" type="content-primary" contextmenu="browser-view-content-menupopup" flex="1"/>
+			<statusbox id="browser-view-statusbox"/>
+			<findbar id="browser-view-content-findbar" browserid="browser-view-content-browser"/>
+		</notificationbox>
+	</vbox>
+	
+	<box id="common-box"/>
+	
+</window>

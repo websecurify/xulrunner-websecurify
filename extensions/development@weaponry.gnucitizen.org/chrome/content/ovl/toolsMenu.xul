@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.development/skin/ovl/toolsMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.development/locale/ovl/toolsMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.development/content/ovl/toolsMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="weaponry-development-tools-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.development/locale/ovl/toolsMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset">
+		<command id="weaponry-development-tools-menu-reload-ui-command" label="&weaponry-development-tools-menu-reload-ui-command-label;"/>
+	</commandset>
+	
+	<keyset id="common-keyset">
+		<key id="weaponry-development-tools-menu-reload-ui-key" modifiers="shift accel" key="r" command="weaponry-development-tools-menu-reload-ui-command"/>
+	</keyset>		
+	
+	<menupopup id="tools-menupopup">
+		<menuseparator id="weaponry-development-tools-menu-development-section-menuseparator"/>
+		
+		<menu id="weaponry-development-tools-menu-development-menu" label="&weaponry-development-tools-menu-development-menu-label;">
+			<menupopup id="weaponry-development-tools-menu-development-menupopup">
+				<menuitem id="weaponry-development-tools-menu-memory-menuitem" label="&weaponry-development-tools-menu-memory-menuitem-label;"/>
+				<menuitem id="weaponry-development-tools-menu-colors-menuitem" label="&weaponry-development-tools-menu-colors-menuitem-label;"/>
+				<menuitem id="weaponry-development-tools-menu-requests-menuitem" label="&weaponry-development-tools-menu-requests-menuitem-label;"/>
+				<menuseparator id="weaponry-development-tools-menu-integrated-menuseparator"/>
+				<menuitem id="weaponry-development-tools-menu-inspector-menuitem" label="&weaponry-development-tools-menu-inspector-menuitem-label;"/>
+				<menuitem id="weaponry-development-tools-menu-jsshell-menuitem" label="&weaponry-development-tools-menu-jsshell-menuitem-label;"/>
+				<menuseparator id="weaponry-development-tools-menu-actions-menuseparator"/>
+				<menuitem id="weaponry-development-tools-menu-clear-cookies-menuitem" label="&weaponry-development-tools-menu-clear-cookies-menuitem-label;"/>
+				<menuitem id="weaponry-development-tools-menu-dump-heap-menuitem" label="&weaponry-development-tools-menu-dump-heap-menuitem-label;"/>
+				<menuitem id="weaponry-development-tools-menu-exit-normally-menuitem" label="&weaponry-development-tools-menu-exit-normally-menuitem-label;"/>
+				<menuitem id="weaponry-development-tools-menu-exit-forcefully-menuitem" label="&weaponry-development-tools-menu-exit-forcefully-menuitem-label;"/>
+				<menuseparator id="weaponry-development-tools-menu-special-menuseparator"/>
+				<menuitem id="weaponry-development-tools-menu-reload-ui-menuitem" key="weaponry-development-tools-menu-reload-ui-key" command="weaponry-development-tools-menu-reload-ui-command"/>
+			</menupopup>
+		</menu>
+	</menupopup>
+	
+</overlay>

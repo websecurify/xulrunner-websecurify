@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/contentbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="contentbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="contentbox-container" flex="1">
+				<xul:informationbox class="contentbox-informationbox" flex="1">
+					<xul:vbox class="contentbox-content" flex="1">
+						<children/>
+					</xul:vbox>
+				</xul:informationbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$informationbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$informationbox.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<method name="displayNotification">
+				<body><![CDATA[
+					return this.$informationbox.displayNotification.apply(this.$informationbox, arguments);
+				]]></body>
+			</method>
+			
+			<method name="removeAllNotifications">
+				<body><![CDATA[
+					return this.$informationbox.removeAllNotifications.apply(this.$informationbox, arguments);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

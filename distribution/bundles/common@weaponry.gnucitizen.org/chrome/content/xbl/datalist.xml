@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/datalist.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="datalist" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basedataflow.xml#basedataflow">
+		<content>
+			<xul:vbox class="datalist-container" flex="1">
+				<xul:richlistbox class="datalist-content" seltype="single" flex="1"/>
+				
+				<xul:box class="datalist-template" hidden="true">
+					<children/>
+				</xul:box>
+				
+				<xul:templatebox class="datalist-templatebox"/>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$template">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$templatebox">
+				<getter><![CDATA[
+					return this.$container.childNodes[2];
+				]]></getter>
+			</property>
+			
+			<property name="selectedIndex">
+				<getter><![CDATA[
+					return this.$content.selectedIndex;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.$content.selectedIndex = val;
+				]]></setter>
+			</property>
+			
+			<property name="selectedDataRow">
+				<getter><![CDATA[
+					return this.dataView.obtainDataRow(this.selectedIndex);
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.dataView.buildItem = function (data, refresh) {
+						let $templatebox = self.$templatebox.cloneNode(true);
+						
+						$templatebox.setAttribute('class', 'datalist-templatebox');
+						$templatebox.setAttribute('flex', '1');
+						$templatebox.retemplate(self);
+						$templatebox.update(data, refresh);
+						
+						self._lockEvent($templatebox, 'fieldValueChange', function (event) {
+							let $item = event.originalTarget.parentNode;
+							let $itemParent = $item.parentNode;
+							let index = self._getChildIndex($itemParent, $item);
+							
+							if (index >= 0) {
+								self.updateDataRow(event.data, index, false);
+							}
+						});
+						
+						let $item = document.createElement('richlistitem');
+						
+						$item.setAttribute('class', 'datalist-item');
+						$item.appendChild($templatebox);
+						
+						return $item;
+					};
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

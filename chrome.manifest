@@ -1,0 +1,23 @@
+#
+# branding chrome registration
+#
+
+resource     branding                 file:chrome/branding/
+content      branding                 file:chrome/branding/content/
+locale       branding en-US           file:chrome/branding/locale/en-US/
+skin         branding classic/1.0     file:chrome/branding/skin/classic/
+
+#
+# main chrome registration
+#
+
+resource     main                 file:chrome/main/
+content      main                 file:chrome/main/content/
+locale       main en-US           file:chrome/main/locale/en-US/
+skin         main classic/1.0     file:chrome/main/skin/classic/
+
+#
+# chrome registration
+#
+
+overlay     chrome://org.gnucitizen.websecurify.scanner.basic/content/xul/mainWindow.xul     chrome://branding/content/mainWindow.xul

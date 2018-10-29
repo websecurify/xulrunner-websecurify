@@ -1,0 +1,16 @@
+.main-window-progress-hbox[state="running"] .main-window-progress-resume-button {
+	display: none;
+}
+
+.main-window-progress-hbox[state="resting"] .main-window-progress-pause-button {
+	display: none;
+}
+
+.main-window-progress-hbox[state="undetermined"] .main-window-progress-pause-button  ,
+.main-window-progress-hbox[state="undetermined"] .main-window-progress-resume-button ,
+.main-window-progress-hbox[state="undetermined"] .main-window-progress-stop-button   ,
+.main-window-progress-hbox[state="stopped"] .main-window-progress-pause-button       ,
+.main-window-progress-hbox[state="stopped"] .main-window-progress-resume-button      ,
+.main-window-progress-hbox[state="stopped"] .main-window-progress-stop-button        {
+	display: none;
+}

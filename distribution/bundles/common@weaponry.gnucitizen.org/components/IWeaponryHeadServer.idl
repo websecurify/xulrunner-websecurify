@@ -1,0 +1,36 @@
+#include "nsISupports.idl"
+#include "nsIInputStream.idl"
+#include "nsIOutputStream.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryHeadServerHandler;
+interface IWeaponryHeadServer;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, function, uuid(45d465b0-cf38-11df-bd3b-0800200c9a66)]
+interface IWeaponryHeadServerHandler : nsISupports {
+	void handleHeadRequest(in AString head, in nsIInputStream inputStream, in nsIOutputStream outputStream);
+};
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(54ae8a80-cf37-11df-bd3b-0800200c9a66)]
+interface IWeaponryHeadServer : nsISupports {
+	const unsigned long DEFAULT_BACKLOG = 50;
+	
+	const unsigned long DEFAULT_SEGMENT_SIZE = 8192;
+	
+	const unsigned long DEFAULT_SEGMENT_COUNT = 1024;
+	
+	/* -------------------------------------------------------------------- */
+	
+	void init(in long port, in IWeaponryHeadServerHandler handler, [optional] in long backlog, [optional] in boolean isLoopback);
+	
+	/* -------------------------------------------------------------------- */
+	
+	void start();
+	
+	void stop();
+};

@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/richsidebox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="richsidepanel" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="richsidepanel-container" flex="1">
+				<xul:contentbox class="richsidepanel-contentbox" xbl:inherits="src" flex="1">
+					<children/>
+				</xul:contentbox>
+				
+				<xul:functionalbox class="richsidepanel-functionalbox">
+					<children includes="richlistitem"/>
+				</xul:functionalbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$contentbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$functionalbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$richlistitem">
+				<getter><![CDATA[
+					if ('$realRichlistitem' in this) {
+						return this.$realRichlistitem;
+					} else {
+						let $realRichlistitem;
+						
+						let nodes = this.childNodes;
+						let nodesLength = nodes.length;
+						
+						for (let i = 0; i < nodesLength; i += 1) {
+							let $node = nodes[i];
+							
+							if ($node.tagName == 'richlistitem') {
+								$realRichlistitem = $node;
+								
+								break;
+							}
+						}
+						
+						if (!$realRichlistitem) {
+							$realRichlistitem = document.createElement('richlistitem');
+							
+							let $hbox = document.createElement('hbox');
+							
+							$hbox.setAttribute('class', 'richsidepanel-hbox');
+							$hbox.setAttribute('flex', '1');
+							
+							let $image = document.createElement('image');
+							
+							$image.setAttribute('class', 'richsidepanel-image');
+							
+							this._bindAttributes(this, $image, ['src=icon']);
+							
+							$hbox.appendChild($image);
+							
+							let $label = document.createElement('label');
+							
+							$label.setAttribute('class', 'richsidepanel-label');
+							$label.setAttribute('crop', 'right');
+							$label.setAttribute('flex', '1');
+							
+							this._bindAttributes(this, $label, ['value=label']);
+							
+							$hbox.appendChild($label);
+							
+							$realRichlistitem.appendChild($hbox);
+						}
+						
+						this._expandElementClasses($realRichlistitem, 'richsidepanel-richlistitem');
+						this._bindAttributes(this, $realRichlistitem, ['richsidepanelid=id', 'richsidepanelclass=class']);
+						
+						this.$realRichlistitem = $realRichlistitem;
+						
+						return this.$realRichlistitem;
+					}
+				]]></getter>
+			</property>
+			
+			<method name="displayNotification">
+				<body><![CDATA[
+					return this.$contentbox.displayNotification.apply(this.$contentbox, arguments);
+				]]></body>
+			</method>
+			
+			<method name="removeAllNotifications">
+				<body><![CDATA[
+					return this.$contentbox.removeAllNotifications.apply(this.$contentbox, arguments);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+	<binding id="richsidebox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="richsidebox-container" flex="1">
+				<xul:contentbox class="richsidebox-contentbox" flex="1">
+					<xul:richlistbox class="richsidebox-richlistbox" flex="1" width="200" xbl:inherits="flex=richlistboxflex,width=richlistboxwidth"/>
+					
+					<xul:splitter class="richsidebox-splitter" resizeafter="closest" collapse="before" xbl:inherits="state=splitterstate">
+						<xul:grippy class="richsidebox-grippy"/>
+					</xul:splitter>
+					
+					<xul:deck class="richsidebox-deck" flex="5" width="100" xbl:inherits="flex=deckflex,width=deckwidth">
+						<children includes="richsidepanel"/>
+					</xul:deck>
+				</xul:contentbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$contentbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$richlistbox">
+				<getter><![CDATA[
+					return this.$contentbox.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$splitter">
+				<getter><![CDATA[
+					return this.$contentbox.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$deck">
+				<getter><![CDATA[
+					return this.$contentbox.childNodes[2];
+				]]></getter>
+			</property>
+			
+			<property name="selectedPanel">
+				<getter><![CDATA[
+					return this.childNodes[this.$deck.selectedIndex];
+				]]></getter>
+				
+				<setter><![CDATA[
+					try {
+						val.$richlistitem.parentNode.selectedItem = val.$richlistitem;
+					} catch (e) {
+						// pass
+					}
+					
+					this.$deck.selectedPanel = val;
+					
+					// NOTE: autofocusing on the first element is disabled for now
+					// if (val.firstChild) {
+					// 	val.firstChild.focus();
+					// } else {
+					// 	val.focus();
+					// }
+					//
+				]]></setter>
+			</property>
+			
+			<method name="_wireNode">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					if ($element.nextSibling) {
+						this.$richlistbox.insertBefore($element.$richlistitem, $element.nextSibling.$richlistitem);
+					} else {
+						this.$richlistbox.insertBefore($element.$richlistitem, null);
+					}
+					
+					// TODO: fire richsidepanelCreated event
+				]]></body>
+			</method>
+			
+			<method name="_unwireNode">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					if ($element.$richlistitem.previousSibling) {
+						$element.$richlistitem.previousSibling.click();
+					} else
+					if ($element.$richlistitem.nextSibling) {
+						$element.$richlistitem.nextSibling.click();
+					}
+					
+					this.$richlistbox.removeChild($element.$richlistitem);
+					
+					// TODO: fire richsidepanelDestroyed event
+				]]></body>
+			</method>
+			
+			<method name="displayNotification">
+				<body><![CDATA[
+					return this.$contentbox.displayNotification.apply(this.$contentbox, arguments);
+				]]></body>
+			</method>
+			
+			<method name="removeAllNotifications">
+				<body><![CDATA[
+					return this.$contentbox.removeAllNotifications.apply(this.$contentbox, arguments);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.$richlistbox.addEventListener('select', function (event) {
+						self.selectedPanel = self.childNodes[event.target.selectedIndex];
+					}, false);
+					
+					if (this.firstChild) {
+						this.selectedPanel = this.firstChild;
+					}
+					
+					if (this.hasAttribute('persist')) {
+						this.setAttribute('persist', this.getAttribute('persist') + ' richlistboxwidth splitterstate deckwidth');
+					} else {
+						this.setAttribute('persist', 'richlistboxwidth splitterstate deckwidth');
+					}
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					if ('width' in this.$richlistbox) {
+						this.setAttribute('richlistboxwidth', this.$richlistbox.width);
+					}
+					
+					if ('state' in this.$splitter) {
+						this.setAttribute('splitterstate', this.$splitter.state);
+					}
+					
+					if ('width' in this.$deck) {
+						this.setAttribute('deckwidth', this.$deck.width);
+					}
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

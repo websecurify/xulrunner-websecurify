@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.browser/content/css/bindings.css" type="text/css"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.browser/skin/xul/browserPerspective.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://org.gnucitizen.weaponry.browser/locale/xul/browserPerspective.dtd">
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="browser-perspective" title="&browser-perspective-title;" windowtype="org.gnucitizen.weaponry.browser:browser-perspective"
+	width="800" height="640" screenX="100" screenY="100" persist="width height screenX screenY sizemode">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.browser/content/xul/browserPerspective.js"/>
+	
+	<stringbundleset id="browser-perspective-stringbundleset">
+		<stringbundle id="browser-perspective-stringbundle" src="chrome://org.gnucitizen.weaponry.browser/locale/xul/browserPerspective.properties"/>
+	</stringbundleset>
+	
+	<commandset id="browser-perspective-commandset">
+		<command id="browser-perspective-new-window-command" label="&browser-perspective-new-window-command-label;" oncommand="return handleNewWindowCommandEvent(event);"/>
+		<command id="browser-perspective-open-tab-command" label="&browser-perspective-open-tab-command-label;" oncommand="return handleOpenTabCommandEvent(event);"/>
+		<command id="browser-perspective-close-tab-command" label="&browser-perspective-close-tab-command-label;" oncommand="return handleCloseTabCommandEvent(event);"/>
+		<command id="browser-perspective-print-setup-command" label="&browser-perspective-print-setup-command-label;" oncommand="return handlePrintSetupCommandEvent(event);"/>
+		<command id="browser-perspective-print-command" label="&browser-perspective-print-command-label;" oncommand="return handlePrintCommandEvent(event);"/>
+	</commandset>
+	
+	<keyset id="browser-perspective-keyset">
+		<key id="browser-perspective-new-window-key" modifiers="accel" key="n" command="browser-perspective-new-window-command"/>
+		<key id="browser-perspective-open-tab-key" modifiers="accel" key="t" command="browser-perspective-open-tab-command"/>
+		<key id="browser-perspective-close-tab-key" modifiers="accel" key="w" command="browser-perspective-close-tab-command"/>
+		<key id="browser-perspective-print-key" modifiers="accel" key="p" command="browser-perspective-print-command"/>
+	</keyset>
+	
+	<menubar id="browser-perspective-menubar">
+		<menu id="file-menu">
+			<menupopup id="file-menupopup">
+				<menuitem id="weaponry-browser-file-menupopup-new-window-menuitem" key="browser-perspective-new-window-key" command="browser-perspective-new-window-command"/>
+				<menuitem id="weaponry-browser-file-menupopup-open-tab-menuitem" key="browser-perspective-new-tab-key" command="browser-perspective-open-tab-command"/>
+				<menuseparator id="weaponry-browser-file-menupopup-print-section-menuseparator"/>
+				<menuitem id="weaponry-browser-file-menupopup-print-setup-menuitem" key="browser-perspective-print-setup-key" command="browser-perspective-print-setup-command"/>
+				<menuitem id="weaponry-browser-file-menupopup-print-menuitem" key="browser-perspective-print-key" command="browser-perspective-print-command"/>
+			</menupopup>
+		</menu>
+		
+		<menu id="edit-menu"/>
+		<menu id="view-menu"/>
+		<menu id="tools-menu"/>
+		<menu id="window-menu"/>
+		<menu id="help-menu"/>
+	</menubar>
+	
+	<vbox id="browser-perspective-content-vbox" flex="1">
+		<richtabbox id="browser-perspective-tabs-richtabbox" class="cosmopolitan" flex="1">
+			<toolbar id="browser-perspective-tabs-toolbar">
+				<toolbarbutton id="browser-perspective-open-tab-toolbarbutton" class="browser-perspective-navigation-button" command="browser-perspective-open-tab-command"/>
+			</toolbar>
+			
+			<richtabpanels id="browser-perspective-tabs-richtabpanels"/>
+		</richtabbox>
+	</vbox>
+	
+	<box id="common-box"/>
+	
+</window>

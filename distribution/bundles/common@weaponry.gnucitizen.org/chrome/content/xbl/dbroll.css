@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/dbroll.css");
+
+/* ------------------------------------------------------------------------ */
+
+dbroll {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/dbroll.xml#dbroll");
+}

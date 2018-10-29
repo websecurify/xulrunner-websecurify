@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/featurebox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="featurebox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="featurebox-container" flex="1">
+				<xul:deck class="featurebox-deck" flex="1">
+					<xul:vbox class="featurebox-vbox" flex="1">
+						<xul:image class="featurebox-image" xbl:inherits="src=image,hidden=hideimage"/>
+						<xul:label class="featurebox-label" xbl:inherits="value=label,hidden=hidelabel"/>
+						<xul:button class="featurebox-button" xbl:inherits="label,hidden=hidebutton"/>
+					</xul:vbox>
+					
+					<xul:vbox class="featurebox-content" flex="1">
+						<children/>
+					</xul:vbox>
+				</xul:deck>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>	
+			</property>
+			
+			<property name="$deck">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>	
+			</property>
+			
+			<property name="$vbox">
+				<getter><![CDATA[
+					return this.$deck.childNodes[0];
+				]]></getter>	
+			</property>
+			
+			<property name="$image">
+				<getter><![CDATA[
+					return this.$vbox.childNodes[0];
+				]]></getter>	
+			</property>
+			
+			<property name="$label">
+				<getter><![CDATA[
+					return this.$vbox.childNodes[1];
+				]]></getter>	
+			</property>
+			
+			<property name="$button">
+				<getter><![CDATA[
+					return this.$vbox.childNodes[2];
+				]]></getter>	
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$deck.childNodes[1];
+				]]></getter>	
+			</property>
+			
+			<property name="enabled">
+				<getter><![CDATA[
+					return this.$deck.selectedIndex == 1;
+				]]></getter>
+				
+				<setter><![CDATA[
+					if (val) {
+						this.$deck.selectedIndex = 1;
+					} else {
+						this.$deck.selectedIndex = 0;
+					} 
+				]]></setter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this._lockEvent(this.$button, 'command', function (event) {
+						if (self._fireEvent('enable')) {
+							self.enabled = true;
+						}
+					});
+					
+					this._linkAttributeProperty(this, 'enabled', 'enabled');
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

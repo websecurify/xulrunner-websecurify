@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/dataroll.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="dataroll" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basedataflow.xml#basedataflow">
+		<content>
+			<xul:vbox class="dataroll-container" flex="1">
+				<xul:vbox class="dataroll-content" flex="1"/>
+				
+				<xul:box class="dataroll-template" hidden="true">
+					<children/>
+				</xul:box>
+				
+				<xul:templatebox class="dataroll-templatebox"/>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$template">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$templatebox">
+				<getter><![CDATA[
+					return this.$container.childNodes[2];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.dataView.buildItem = function (data, refresh) {
+						let $templatebox = self.$templatebox.cloneNode(true);
+						
+						$templatebox.setAttribute('class', 'dataroll-templatebox');
+						$templatebox.setAttribute('flex', '1');
+						$templatebox.retemplate(self);
+						$templatebox.update(data, refresh);
+						
+						self._lockEvent($templatebox, 'fieldValueChange', function (event) {
+							let $item = event.originalTarget.parentNode;
+							let $itemParent = $item.parentNode;
+							let index = self._getChildIndex($itemParent, $item);
+							
+							if (index >= 0) {
+								self.updateDataRow(event.data, index, false);
+							}
+						});
+						
+						let $item = document.createElement('vbox');
+						
+						$item.setAttribute('class', 'dataroll-item');
+						$item.appendChild($templatebox);
+						
+						return $item;
+					};
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

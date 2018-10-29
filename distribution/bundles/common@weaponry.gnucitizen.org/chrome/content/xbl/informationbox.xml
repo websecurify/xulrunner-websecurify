@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/informationbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:cmn="http://www.gnucitizen.org/cmn"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="informationbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="informationbox-container" flex="1" cmn:exposed="$container">
+				<xul:notificationbox class="informationbox-notificationbox" flex="1" cmn:exposed="$notificationbox">
+					<children/>
+				</xul:notificationbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<method name="_getPriority">
+				<parameter name="priority"/>
+				
+				<body><![CDATA[
+					let $notificationbox = this.$notificationbox;
+					
+					let priorityMap = {
+						'low': $notificationbox.PRIORITY_INFO_LOW,
+						'medium': $notificationbox.PRIORITY_WARNING_LOW,
+						'high': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'info': $notificationbox.PRIORITY_INFO_LOW,
+						'warning': $notificationbox.PRIORITY_WARNING_LOW,
+						'critical': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'info_low': $notificationbox.PRIORITY_INFO_LOW,
+						'info_medium': $notificationbox.PRIORITY_INFO_MEDIUM,
+						'info_heigh': $notificationbox.PRIORITY_INFO_HIGH,
+						'warning_low': $notificationbox.PRIORITY_WARNING_LOW,
+						'warning_medium': $notificationbox.PRIORITY_WARNING_MEDIUM,
+						'warning_heigh': $notificationbox.PRIORITY_WARNING_HIGH,
+						'critical_low': $notificationbox.PRIORITY_CRITICAL_LOW,
+						'critical_medium': $notificationbox.PRIORITY_CRITICAL_MEDIUM,
+						'critical_heigh': $notificationbox.PRIORITY_CRITICAL_HIGH,
+						'critical_block': $notificationbox.PRIORITY_CRITICAL_BLOCK
+					};
+					
+					for (let priorityMapKey in priorityMap) {
+						if (priorityMapKey == priority) {
+							return priorityMap[priorityMapKey];
+						}
+					}
+					
+					return null;
+				]]></body>
+			</method>
+			
+			<method name="displayNotification">
+				<parameter name="label"/>
+				<parameter name="priority"/>
+				
+				<body><![CDATA[
+					this.$notificationbox.appendNotification(label, null, null, this._getPriority(priority));
+				]]></body>
+			</method>
+			
+			<method name="removeAllNotifications">
+				<body><![CDATA[
+					this.$notificationbox.removeAllNotifications.apply(this.$notificationbox, arguments);
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+	
+</bindings>

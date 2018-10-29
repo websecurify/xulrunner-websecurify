@@ -1,0 +1,15 @@
+.browser-perspective-navigation-button > label {
+	display: none;
+}
+
+.browser-perspective-navigation-button > * {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-perspective-open-tab-toolbarbutton {
+	list-style-image: url("images/open.png");
+}

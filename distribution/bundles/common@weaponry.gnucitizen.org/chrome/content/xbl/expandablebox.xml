@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/expandablebox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="expandablebox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="expandablebox-container" flex="1">
+				<xul:label class="expandablebox-label" xbl:inherits="value=label"/>
+				
+				<xul:vbox class="expandablebox-content">
+					<children/>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>	
+			</property>
+			
+			<property name="$label">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>	
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>	
+			</property>
+			
+			<property name="autosize">
+				<getter><![CDATA[
+					return this.hasAttribute('autosize') && this.getAttribute('autosize') == 'true' ? true : false;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.setAttribute('autosize', val == true || val == 'true' ? 'true' : 'false');
+				]]></setter>	
+			</property>
+			
+			<property name="expanded">
+				<getter><![CDATA[
+					return this.hasAttribute('expanded') && this.getAttribute('expanded') == 'true' ? true : false;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.setAttribute('expanded', val == true || val == 'true' ? 'true' : 'false');
+					
+					if (this.autosize) {
+						// TODO: perhaps we should detect if offset is present and resize only then
+						window.sizeToContent();
+						//
+					}
+				]]></setter>	
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					if (this.hasAttribute('expanded')) {
+						this.expanded = this.getAttribute('expanded');
+					} else {
+						this.expanded = false;
+					}
+					
+					let self = this;
+					
+					this.$label.addEventListener('click', function (event) {
+						if (self.expanded == true) {
+							self.expanded = false;
+						} else {
+							self.expanded = true;
+						}
+					}, false);
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

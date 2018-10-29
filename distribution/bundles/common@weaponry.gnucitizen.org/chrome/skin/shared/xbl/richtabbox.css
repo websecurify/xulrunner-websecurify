@@ -1,0 +1,22 @@
+richtabbox > .richtabbox-container .richtabbox-toolbox {
+	-moz-box-orient: horizontal;
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox > .richtabbox-container .richtabpanels-selectbutton > image ,
+richtabbox > .richtabbox-container .richtabpanels-selectbutton > label {
+	display: none;
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox > .richtabbox-container .richtabpanels-arrowscrollbox > .autorepeatbutton-up[orient="horizontal"] {
+	padding: 0px;
+	list-style-image: url("chrome://global/skin/arrow/arrow-lft-sharp.gif");
+}
+
+richtabbox > .richtabbox-container .richtabpanels-arrowscrollbox > .autorepeatbutton-down[orient="horizontal"] {
+	padding: 0px;
+	list-style-image: url("chrome://global/skin/arrow/arrow-rit-sharp.gif");
+}

@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/basedatabox.css");
+
+/* ------------------------------------------------------------------------ */
+
+basedatabox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/basedatabox.xml#basedatabox");
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.preferences/skin/hak/preferencesPrefwindow.css" type="text/css"?>
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.preferences/content/hak/preferencesPrefwindow.js"/>
+	
+	<prefwindow id="preferences-prefwindow" persist=""/>	
+	
+</overlay>

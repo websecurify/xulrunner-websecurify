@@ -1,0 +1,21 @@
+html {
+	background: #ffffff;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.code {
+	font-size: 10px;
+	font-weight: bolder;
+	font-family: "monospace";
+}
+
+.method {
+	font-size: 10px;
+	font-family: "monospace";
+}
+
+.url {
+	font-size: 10px;
+	font-family: "monospace";
+}

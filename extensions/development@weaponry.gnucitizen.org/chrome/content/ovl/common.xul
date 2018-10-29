@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.development/skin/ovl/common.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.development/locale/ovl/common.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.development/content/ovl/common.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="weaponry-development-common-stringbundle" src="chrome://org.gnucitizen.weaponry.development/locale/ovl/common.properties"/>
+	</stringbundleset>
+	
+</overlay>

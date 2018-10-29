@@ -1,0 +1,11 @@
+<!ENTITY weaponry-development-tools-menu-reload-ui-command-label "Reload UI">
+<!ENTITY weaponry-development-tools-menu-development-menu-label "Development">
+<!ENTITY weaponry-development-tools-menu-memory-menuitem-label "Memory">
+<!ENTITY weaponry-development-tools-menu-colors-menuitem-label "Colors">
+<!ENTITY weaponry-development-tools-menu-requests-menuitem-label "Requests">
+<!ENTITY weaponry-development-tools-menu-inspector-menuitem-label "Inspector">
+<!ENTITY weaponry-development-tools-menu-jsshell-menuitem-label "Jsshell">
+<!ENTITY weaponry-development-tools-menu-clear-cookies-menuitem-label "Clear Cookies">
+<!ENTITY weaponry-development-tools-menu-dump-heap-menuitem-label "Dump Heap">
+<!ENTITY weaponry-development-tools-menu-exit-normally-menuitem-label "Exit Normally">
+<!ENTITY weaponry-development-tools-menu-exit-forcefully-menuitem-label "Exit Forcefully">

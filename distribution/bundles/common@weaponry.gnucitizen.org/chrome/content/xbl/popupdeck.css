@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/popupdeck.css");
+
+/* ------------------------------------------------------------------------ */
+
+popupdeckpanel {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/popupdeck.xml#popupdeckpanel");
+}
+
+popupdeck {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/popupdeck.xml#popupdeck");
+}

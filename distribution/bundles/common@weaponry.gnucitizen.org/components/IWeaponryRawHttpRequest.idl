@@ -1,0 +1,31 @@
+#include "nsISupports.idl"
+#include "nsISocketTransport.idl"
+
+/* ------------------------------------------------------------------------ */
+
+#include "IWeaponryHttpRequest.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryRawHttpRequestResponseHandler;
+interface IWeaponryRawHttpRequest;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, function, uuid(0a0ede60-4942-11df-9879-0800200c9a66)]
+interface IWeaponryRawHttpRequestResponseHandler : IWeaponryHttpRequestResponseHandler {
+	/* pass */
+};
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(fd47d790-4941-11df-9879-0800200c9a66)]
+interface IWeaponryRawHttpRequest : IWeaponryHttpRequest {
+	readonly attribute boolean usesProxy;
+	
+	readonly attribute nsISocketTransport socketTransport;
+	
+	/* -------------------------------------------------------------------- */
+	
+	void init(in AString scheme, in AString host, in long port, in ACString request, [optional] in short redirectionLimit, [optional] in boolean autoDecode);
+};

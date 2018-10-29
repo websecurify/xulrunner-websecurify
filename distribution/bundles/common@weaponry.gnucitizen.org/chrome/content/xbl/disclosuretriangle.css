@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/disclosuretriangle.css");
+
+/* ------------------------------------------------------------------------ */
+
+disclosuretriangle {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/disclosuretriangle.xml#disclosuretriangle");
+}

@@ -1,0 +1,117 @@
+.common-start-button  ,
+.common-stop-button   ,
+.common-pause-button  ,
+.common-resume-button ,
+.common-act-button    ,
+.common-push-button   {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	min-width: 0px;
+	min-height: 0px;
+	-moz-appearance: none;
+	background-color: transparent;
+	list-style-image: url("images/buttons.png");
+}
+
+.common-start-button .button-icon  ,
+.common-stop-button .button-icon   ,
+.common-pause-button .button-icon  ,
+.common-resume-button .button-icon ,
+.common-act-button .button-icon    ,
+.common-push-button .button-icon   {
+	display: -moz-box;
+}
+
+.common-start-button hbox  ,
+.common-stop-button hbox   ,
+.common-pause-button hbox  ,
+.common-resume-button hbox ,
+.common-act-button hbox    ,
+.common-push-button hbox   {
+	margin: 0px;
+	padding: 0px;
+}
+
+.common-start-button label  ,
+.common-stop-button label   ,
+.common-pause-button label  ,
+.common-resume-button label ,
+.common-act-button label    ,
+.common-push-button label   {
+	margin: 0px;
+	padding: 0px;
+	display: none;
+}
+
+.common-start-button {
+	-moz-image-region: rect(16px, 16px, 32px, 0px);
+}
+
+.common-start-button:hover {
+	-moz-image-region: rect(16px, 32px, 32px, 16px);
+}
+
+.common-start-button:hover:active {
+	-moz-image-region: rect(16px, 48px, 32px, 32px);
+}
+
+.common-stop-button {
+	-moz-image-region: rect(0px, 16px, 16px, 0px);
+}
+
+.common-stop-button:hover {
+	-moz-image-region: rect(0px, 32px, 16px, 16px);
+}
+
+.common-stop-button:hover:active {
+	-moz-image-region: rect(0px, 48px, 16px, 32px);
+}
+
+.common-pause-button {
+	-moz-image-region: rect(48px, 16px, 64px, 0px);
+}
+
+.common-pause-button:hover {
+	-moz-image-region: rect(48px, 32px, 64px, 16px);
+}
+
+.common-pause-button:hover:active {
+	-moz-image-region: rect(48px, 16px, 64px, 0px);
+}
+
+.common-resume-button {
+	-moz-image-region: rect(16px, 16px, 32px, 0px);
+}
+
+.common-resume-button:hover {
+	-moz-image-region: rect(16px, 32px, 32px, 16px);
+}
+
+.common-resume-button:hover:active {
+	-moz-image-region: rect(16px, 48px, 32px, 32px);
+}
+
+.common-act-button {
+	-moz-image-region: rect(32px, 16px, 48px, 0px);
+}
+
+.common-act-button:hover {
+	-moz-image-region: rect(32px, 32px, 48px, 16px);
+}
+
+.common-act-button:hover:active {
+	-moz-image-region: rect(32px, 48px, 48px, 32px);
+}
+
+.common-push-button {
+	-moz-image-region: rect(80px, 16px, 96px, 0px);
+}
+
+.common-push-button:hover {
+	-moz-image-region: rect(80px, 32px, 96px, 16px);
+}
+
+.common-push-button:active {
+	-moz-image-region: rect(80px, 48px, 96px, 32px);
+}

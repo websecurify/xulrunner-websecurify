@@ -1,0 +1,11 @@
+radio[pane="preferences-prefwindow-general-prefpane"] {
+	list-style-image: url("images/gear.png");
+}
+
+radio[pane="preferences-prefwindow-security-prefpane"] {
+	list-style-image: url("images/lock.png");
+}
+
+radio[pane="preferences-prefwindow-advanced-prefpane"] {
+	list-style-image: url("images/more.png");
+}

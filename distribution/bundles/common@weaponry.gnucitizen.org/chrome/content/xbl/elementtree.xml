@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/elementtree.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="elementtree" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="elementtree-container" flex="1">
+				<xul:tree class="elementtree-tree" datasources="rdf:null" querytype="xml" ref="*" flags="dont-build-content" seltype="cell" hidecolumnpicker="true" flex="1">
+					<xul:treecols>
+						<xul:treecol primary="true" flex="1" xbl:inherits="label=columnlabel,hideheader"/>
+					</xul:treecols>
+					
+					<xul:template>
+						<xul:query expr="*"/>
+						
+						<xul:action>
+							<xul:treechildren>
+								<xul:treeitem uri="?">
+									<xul:treerow properties="?properties">
+										<xul:treecell label="?label" value="?value" properties="?properties"/>
+									</xul:treerow>
+								</xul:treeitem>
+							</xul:treechildren>
+						</xul:action>
+					</xul:template>
+				</xul:tree>
+				
+				<xul:vbox class="elementtree-content" hidden="true" flex="1">
+					<children/>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$tree">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<method name="refresh">
+				<body><![CDATA[
+					this.$tree.builder.rebuild();
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					function setup() {
+						if (self.hasAttribute('datasource')) {
+							self.$tree.datasources = self.getAttribute('datasource');
+							
+							self.refresh();
+						} else
+						if (self.firstChild && self.firstChild.id) {
+							self.$tree.datasources = '#' + self.firstChild.id;
+							
+							self.refresh();
+						}
+						
+						// TODO: this needs to be revised
+						self.$tree.view.isSelectable = function (row, col) {
+							let rowProperties = weaponryCommon.createInstance('@mozilla.org/supports-array;1', 'nsISupportsArray');
+							
+							this.getRowProperties(row, rowProperties);
+							
+							log(rowProperties);
+							
+							let cellProperties = weaponryCommon.createInstance('@mozilla.org/supports-array;1', 'nsISupportsArray');
+							
+							this.getCellProperties(row, col, cellProperties);
+							
+							log(cellProperties);
+							
+							return false;
+						};
+						//
+					}
+					
+					self._bindEvent(window, 'load', function (event) {
+						if (event.target == document) {
+							setup();
+						}
+					});
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/expandabletextbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="expandabletextbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:hbox class="expandabletextbox-container" flex="1">
+				<xul:textbox class="expandabletextbox-textbox" flex="1" xbl:inherits="cols,disabled,emptytext,newlines,onchange,oninput,placeholder,preference,readonly,rows,searchbutton,size,spellcheck,type,value,wrap"/>
+				<xul:toolbarbutton class="expandabletextbox-toolbarbutton"/>
+			</xul:hbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$textbox">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$toolbarbutton">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="value">
+				<getter><![CDATA[
+					return this.$textbox.value;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.$textbox.value = val;
+				]]></setter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.$toolbarbutton.addEventListener('click', function (event) {
+						let $textbox = self.$textbox;
+						let value = $textbox.value;
+						
+						if ($textbox.getAttribute('multiline').toLowerCase() == 'true') {
+							$textbox.setAttribute('multiline', 'false');
+							
+							self.setAttribute('expanded', 'false');
+						} else {
+							$textbox.setAttribute('multiline', 'true');
+							
+							self.setAttribute('expanded', 'true');
+						}
+						
+						$textbox.setAttribute('value', value);
+					}, false);
+					
+					let expanded = this.getAttribute('expanded');
+					let $textbox = self.$textbox;
+					
+					if (expanded == 'true') {
+						$textbox.setAttribute('multiline', 'true');
+					} else
+					if (expanded == 'false') {
+						$textbox.setAttribute('multiline', 'false');
+					} else {
+						if ($textbox.getAttribute('multiline').toLowerCase() == 'true') {
+							self.setAttribute('expanded', 'true');
+						} else {
+							self.setAttribute('expanded', 'false');
+						}
+					}
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

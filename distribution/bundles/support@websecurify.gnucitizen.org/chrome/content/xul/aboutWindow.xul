@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xul-overlay href="chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.websecurify.support/skin/xul/aboutWindow.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://org.gnucitizen.websecurify.support/locale/xul/aboutWindow.dtd">
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="about-window" title="&about-window-title;" windowtype="branding:about"
+	width="400" height="500" screenX="100" screenY="100" persist="width height screenX screenY sizemode">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.websecurify.support/content/xul/aboutWindow.js"/>
+	
+	<stringbundleset id="about-window-stringbundleset">
+		<stringbundle id="about-window-properties-stringbundle" src="chrome://org.gnucitizen.websecurify.support/locale/xul/aboutWindow.properties"/>
+	</stringbundleset>
+	
+	<vbox id="about-window-content-vbox" flex="1">
+		<vbox id="about-window-information-vbox" flex="1">
+			<image id="about-window-logo-image"/>
+			<label id="about-window-slogan-label" value="&about-window-slogan-label-value;"/>
+			<label id="about-window-version-label" value="&about-window-version-label-value;"/>
+			<image id="about-window-versions-image"/>
+		</vbox>
+	</vbox>
+	
+	<box id="common-box"/>
+	
+</window>

@@ -1,0 +1,9 @@
+html ,
+body {
+	margin: 0px;
+	padding: 0px;
+	background-color: #ffffff;
+	background-repeat: no-repeat, repeat-x;
+	background-position: 50% 50px, 0px 0px;
+	background-image: url("images/sprite.png"), url("images/background.png");
+}

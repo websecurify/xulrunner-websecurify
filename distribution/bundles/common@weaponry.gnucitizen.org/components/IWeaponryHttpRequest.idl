@@ -1,0 +1,44 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryHttpRequestResponseHandler;
+interface IWeaponryHttpRequest;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, function, uuid(199c2040-aeff-11df-94e2-0800200c9a66)]
+interface IWeaponryHttpRequestResponseHandler : nsISupports {
+	void handle(in ACString response);
+};
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(20d61a00-aeff-11df-94e2-0800200c9a66)]
+interface IWeaponryHttpRequest : nsISupports {
+	readonly attribute AString scheme;
+	
+	readonly attribute AString host;
+	
+	readonly attribute long port;
+	
+	readonly attribute ACString request;
+	
+	readonly attribute ACString actualRequest;
+	
+	readonly attribute ACString head;
+	
+	readonly attribute ACString body;
+	
+	readonly attribute ACString headers;
+	
+	/* -------------------------------------------------------------------- */
+	
+	ACString send([optional] in IWeaponryHttpRequestResponseHandler handler);
+	
+	void sendAsynchronously(in IWeaponryHttpRequestResponseHandler handler);
+	
+	/* -------------------------------------------------------------------- */
+	
+	void abort();
+};

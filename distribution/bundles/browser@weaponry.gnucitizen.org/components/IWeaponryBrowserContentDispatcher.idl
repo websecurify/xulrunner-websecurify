@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryBrowserContentDispatcher;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(69d87737-c50a-49d3-89dc-02b1e21bc1d0)]
+interface IWeaponryBrowserContentDispatcher : nsISupports {
+	// pass
+};

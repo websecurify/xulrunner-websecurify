@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/iconbox.css");
+
+/* ------------------------------------------------------------------------ */
+
+icon {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/iconbox.xml#icon");
+}
+
+iconbox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/iconbox.xml#iconbox");
+}

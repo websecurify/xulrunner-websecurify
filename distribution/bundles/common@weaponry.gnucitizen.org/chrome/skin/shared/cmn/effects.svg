@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<filter id="f1">
+		<feGaussianBlur stdDeviation="1"/>
+	</filter>
+	
+	<filter id="f2">
+		<feFlood flood-color="#ffffff" flood-opacity="0.8" result="tint"/>
+		<feComposite in="tint" in2="SourceGraphic" operator="in"/>
+	</filter>
+	
+	<filter id="f3">
+		<feImage xlink:href="cloth.png" width="47" height="30" result="cloth"/>
+		<feComposite in="cloth" in2="SourceGraphic" operator="in"/>
+	</filter>
+	
+	<filter id="gray">
+		<feColorMatrix in="SourceGraphic" values="0" type="saturate"/>
+    </filter>
+	
+	<filter id="black">
+		<feFlood in="SourceAlpha" result="tint" flood-color="#000000" flood-opacity="0.8"/>
+		<feComposite in="tint" in2="SourceGraphic" operator="in"/>
+    </filter>
+	
+	<filter id="white">
+		<feFlood in="SourceAlpha" result="tint" flood-color="#ffffff" flood-opacity="0.8"/>
+		<feComposite in="tint" in2="SourceGraphic" operator="in"/>
+    </filter>
+	
+	<filter id="blur">
+		<feGaussianBlur in="SourceAlpha" result="result1" stdDeviation="4"/>
+		<feOffset in="result1" result="result2" dx="0" dy="0"/> 
+		<feBlend in="SourceGraphic" in2="result2" mode="normal"/>
+    </filter>
+	
+	<filter id="invert">
+		<feColorMatrix in="SourceGraphic" result="result1" values="1" type="saturate"/>
+		<feColorMatrix in="result1" result="result2" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"/>
+	</filter>
+</svg>

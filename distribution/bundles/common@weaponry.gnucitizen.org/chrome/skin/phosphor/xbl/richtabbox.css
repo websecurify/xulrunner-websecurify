@@ -1,0 +1,65 @@
+@import url("chrome://org.gnucitizen.weaponry.common.chrome.skin.shared/content/xbl/richtabbox.css");
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > toolbar                                      ,
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanels-toolbar {
+	border: 0px;
+	-moz-appearance: none;
+	background: -moz-linear-gradient(135deg, #eeeeee 50%, #dddddd 100%);
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton {
+	border: 0px;
+	min-width: 10em;
+	max-width: 20em;
+	background: #cccccc;
+	-moz-appearance: none;
+	-moz-box-align: center;
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[checked="true"] {
+	background: #aaaaaa;
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"] > image {
+	width: 12px;
+	height: 12px;
+	margin-left: 4px;
+	margin-right: -18px;
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover > image {
+	list-style-image: url("images/close.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover > image[state="hovered"] {
+	list-style-image: url("images/close.hovered.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover > image[state="clicked"] {
+	list-style-image: url("images/close.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover:not([checked="true"]) > image {
+	list-style-image: url("images/close.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover:not([checked="true"]) > image[state="hovered"] {
+	list-style-image: url("images/close.hovered.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover:not([checked="true"]) > image[state="clicked"] {
+	list-style-image: url("images/close.png");
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton > label {
+	padding-left: 25px;
+	padding-right: 25px;
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/richcollectionbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="richcollectionpanel" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/contentbox.xml#contentbox">
+		<implementation>
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+	<binding id="richcollectionbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="richcollectionbox-container" flex="1">
+				<xul:vbox class="richcollectionbox-content" flex="1">
+					<xul:informationbox class="richcollectionbox-informationbox" flex="1">
+						<xul:collectionbox class="richcollectionbox-collectionbox" flex="1"/>
+						
+						<xul:splitter class="richcollectionbox-splitter" resizeafter="closest" collapse="before" xbl:inherits="state=splitterstate">
+							<xul:grippy class="richcollectionbox-grippy"/>
+						</xul:splitter>
+						
+						<xul:deck class="richcollectionbox-deck" flex="1" height="100" xbl:inherits="flex=deckflex,width=deckwidth">
+							<children includes="richcollectionpanel"/>
+						</xul:deck>
+					<xul:informationbox>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$informationbox">
+				<getter><![CDATA[
+					return this.$content.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$collectionbox">
+				<getter><![CDATA[
+					return this.$informationbox.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$splitter">
+				<getter><![CDATA[
+					return this.$informationbox.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<property name="$deck">
+				<getter><![CDATA[
+					return this.$informationbox.childNodes[2];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

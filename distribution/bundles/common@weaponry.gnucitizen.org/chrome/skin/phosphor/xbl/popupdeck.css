@@ -1,0 +1,16 @@
+popupdeck.cosmopolitan > popupdeckpanel > .popupdeckpanel-container .popupdeckpanel-dim ,
+popupdeck > popupdeckpanel.cosmopolitan > .popupdeckpanel-container .popupdeckpanel-dim {
+	opacity: 0.8;
+	cursor: pointer;
+	background: #222222;
+	background-color: #26a0da;
+	background-repeat: repeat;
+	background-position: 0% 0%;
+	background-image: url("images/stripe.png");
+}
+
+popupdeck.cosmopolitan > popupdeckpanel:not(:first-child) > .popupdeckpanel-container .popupdeckpanel-content ,
+popupdeck > popupdeckpanel.cosmopolitan:not(:first-child) > .popupdeckpanel-container .popupdeckpanel-content {
+	margin: 0px 0px 0px 60px;
+	border-left: 2px solid #ffffff;
+}

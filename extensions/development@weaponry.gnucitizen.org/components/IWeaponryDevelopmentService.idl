@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponryDevelopmentService;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(6a07b5d7-7d6a-4015-a737-3c9739925394)]
+interface IWeaponryDevelopmentService : nsISupports {
+	// pass
+};

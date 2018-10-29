@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.common/skin/ovl/toolsMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/ovl/toolsMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.common/content/ovl/toolsMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="tools-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.common/locale/ovl/toolsMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset">
+		<command id="tools-menu-open-error-console-command" label="&tools-menu-open-error-console-command-label;"/>
+	</commandset>
+	
+	<commandset id="common-keyset">
+		<key id="tools-menu-open-error-console-key" modifiers="shift accel" key="e" command="tools-menu-open-error-console-command"/>
+	</commandset>
+	
+	<menu id="tools-menu" label="&tools-menu-label;">
+		<menupopup id="tools-menupopup">
+			<menuitem id="tools-menupopup-open-error-console-menuitem" key="tools-menu-open-error-console-key" command="tools-menu-open-error-console-command"/>
+		</menupopup>
+	</menu>
+	
+	<popupset id="common-popupset">
+		<menupopup id="tools-context-menupopup"/>
+	</popupset>
+	
+</overlay>

@@ -1,0 +1,11 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/recordtable.css");
+
+/* ------------------------------------------------------------------------ */
+
+recordtablecol {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/recordtable.xml#recordtablecol");
+}
+
+recordtable {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/recordtable.xml#recordtable");
+}

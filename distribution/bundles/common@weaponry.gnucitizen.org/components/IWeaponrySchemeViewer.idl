@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWeaponrySchemeViewer;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(4dbb29f7-30c5-4155-ba2a-19c9192d7937)]
+interface IWeaponrySchemeViewer : nsISupports {
+	void init(in AString scheme, in AString uri, in boolean wrap);
+};

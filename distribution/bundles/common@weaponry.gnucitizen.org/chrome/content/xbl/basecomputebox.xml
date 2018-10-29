@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/basecomputebox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="basecomputebox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<implementation>
+			<method name="registerFieldsComputer">
+				<body><![CDATA[
+					return this.fieldsComputer.registerFieldsComputer.apply(this.fieldsComputer, arguments);
+				]]></body>
+			</method>
+			
+			<method name="unregisterFieldsComputer">
+				<body><![CDATA[
+					return this.fieldsComputer.unregisterFieldsComputer.apply(this.fieldsComputer, arguments);
+				]]></body>
+			</method>
+			
+			<method name="computeFields">
+				<body><![CDATA[
+					return this.fieldsComputer.computeFields.apply(this.fieldsComputer, arguments);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					this.fieldsComputer = {
+						computers: [],
+						
+						registerFieldsComputer: function (computer) {
+							this.computers.push(computer);
+						},
+						
+						unregisterFieldsComputer: function (computer) {
+							let computers = this.computers;
+							let index = computers.indexOf(computer);
+							
+							if (index >= 0) {
+								computers.splice(index, 1);
+							}
+						},
+						
+						enumerateRegisteredFieldsComputers: function () {
+							return this.computers;
+						},
+						
+						computeFields: function (fields) {
+							let computers = this.computers;
+							let computersLength = computers.length;
+							
+							for (let i = 0; i < computersLength; i += 1) {
+								let computer = computers[i];
+								
+								try {
+									computer(fields);
+								} catch (e) {
+									Components.utils.reportError(e);
+								}
+							}
+						}
+					};
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					let registeredFieldsComputers = this.fieldsComputer.enumerateRegisteredFieldsComputers();
+					let registeredFieldsComputersLength = registeredFieldsComputers.length;
+					
+					for (let i = 0; i < registeredFieldsComputersLength; i += 1) {
+						this.fieldsComputer.unregisterFieldsComputer(registeredFieldsComputers[i]);
+					}
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

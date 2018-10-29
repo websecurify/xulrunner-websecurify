@@ -1,0 +1,15 @@
+toolbar.cosmopolitan {
+	position: relative;
+}
+
+toolbar.cosmopolitan toolbarbutton {
+	-moz-box-orient: vertical;
+}
+
+:root[lookandfeel="win"] toolbar.cosmopolitan toolbarbutton {
+	padding: 5px;
+}
+
+toolbar.cosmopolitan toolbarbutton[disabled="true"] > image {
+	filter: url("chrome://org.gnucitizen.weaponry.common.chrome.skin.shared/content/cmn/effects.svg#gray");
+}

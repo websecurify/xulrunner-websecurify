@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+/* ------------------------------------------------------------------------ */
+
+interface IWebsecurifyAboutModule;
+
+/* ------------------------------------------------------------------------ */
+
+[scriptable, uuid(8d0289c2-4820-4118-bd27-79408b4ee914)]
+interface IWebsecurifyAboutModule : nsISupports {
+	// pass
+};

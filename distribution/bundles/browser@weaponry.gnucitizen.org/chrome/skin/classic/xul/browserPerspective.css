@@ -1,0 +1,23 @@
+.browser-perspective-navigation-button {
+	margin: 0px ! important;
+	padding: 0px ! important;
+}
+
+.browser-perspective-navigation-button > label {
+	display: none ! important;
+}
+
+.browser-perspective-navigation-button > * {
+	margin: 0px ! important;
+	padding: 0px ! important;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-perspective-open-tab-toolbarbutton {
+	list-style-image: url("images/open.png");
+}
+
+#browser-perspective-open-tab-toolbarbutton[disabled="true"] > image {
+	opacity: 0.5;
+}

@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.common/skin/xbl/htmlbox.css");
+
+/* ------------------------------------------------------------------------ */
+
+htmlbox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.common/content/xbl/htmlbox.xml#htmlbox");
+}

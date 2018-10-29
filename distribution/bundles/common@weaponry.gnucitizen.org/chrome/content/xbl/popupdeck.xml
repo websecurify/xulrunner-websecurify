@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/popupdeck.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="popupdeckpanel" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:stack class="popupdeckpanel-container" flex="1">
+				<xul:box class="popupdeckpanel-dim" flex="1" tooltip="popupdeckpanel-tooltip"/>
+				
+				<xul:vbox class="popupdeckpanel-content" flex="1">
+					<children/>
+				</xul:vbox>
+			</xul:stack>
+			
+			<xul:tooltip id="popupdeckpanel-tooltip" class="popupdeckpanel-tooltip">
+				<xul:label class="popupdeckpanel-tooltip-label" value="&popupdeckpanel-tooltip-label;" xbl:inherits="value=tooltipvalue"/>
+			</xul:tooltip>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$dim">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					this._lockEvent(this.$dim, 'click', function (event) {
+						this.parentNode.parentNode.parentNode.selectedIndex = 0;
+					});
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+	<binding id="popupdeck" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="popupdeck-container" flex="1">
+				<xul:stack class="popupdeck-content" flex="1">
+					<children/>
+				</xul:stack>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="selectedIndex">
+				<getter><![CDATA[
+					return this._getChildIndex(this, this.selectedPanel);
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.selectedPanel = this.childNodes[val];
+				]]></setter>
+			</property>
+			
+			<property name="selectedPanel">
+				<getter><![CDATA[
+					return this.$realSelectedPanel;
+				]]></getter>
+				
+				<setter><![CDATA[
+					this.$realSelectedPanel = val;
+					
+					let nodes = this.childNodes;
+					let nodesLength = nodes.length;
+					
+					for (let i = 0; i < nodesLength; i += 1) {
+						if (i != 0) {
+							let $node = nodes[i];
+							
+							if ($node == this.$realSelectedPanel) {
+								$node.collapsed = false;
+							} else {
+								$node.collapsed = true;
+							}
+						}
+					}
+				]]></setter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					this._linkAttributeProperty(this, 'selectedindex', 'selectedIndex');
+					
+					if (this.hasAttribute('selectedindex')) {
+						this.selectedIndex = parseInt(this.getAttribute('selectedindex'), 10);
+					} else {
+						this.selectedIndex = 0;
+					}
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

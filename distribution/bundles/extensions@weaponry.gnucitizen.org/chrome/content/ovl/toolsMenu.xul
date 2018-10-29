@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.extensions/skin/ovl/toolsMenu.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.extensions/locale/ovl/toolsMenu.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.extensions/content/ovl/toolsMenu.js"/>
+	
+	<stringbundleset id="common-stringbundleset">
+		<stringbundle id="weaponry-extensions-tools-menu-stringbundle" src="chrome://org.gnucitizen.weaponry.extensions/locale/ovl/toolsMenu.properties"/>
+	</stringbundleset>
+	
+	<commandset id="common-commandset">
+		<command id="weaponry-extensions-tools-menu-open-add-ons-command" label="&weaponry-extensions-tools-menu-open-add-ons-command-label;"/>
+	</commandset>
+	
+	<menupopup id="tools-menupopup">
+		<menuitem id="weaponry-extensions-tools-menupopup-open-add-ons-menuitem" command="weaponry-extensions-tools-menu-open-add-ons-command"/>
+	</menupopup>
+	
+</overlay>

@@ -1,0 +1,6 @@
+<!ENTITY browser-perspective-title "Browser">
+<!ENTITY browser-perspective-new-window-command-label "New Window">
+<!ENTITY browser-perspective-open-tab-command-label "Open Tab">
+<!ENTITY browser-perspective-close-tab-command-label "Close Tab">
+<!ENTITY browser-perspective-print-setup-command-label "Print Setup">
+<!ENTITY browser-perspective-print-command-label "Print">

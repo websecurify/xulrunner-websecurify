@@ -1,0 +1,7 @@
+expandabletextbox > .expandabletextbox-container .expandabletextbox-toolbarbutton {
+	list-style-image: url("chrome://global/skin/arrow/arrow-dn-sharp.gif");
+}
+
+expandabletextbox[expanded="false"] > .expandabletextbox-container .expandabletextbox-toolbarbutton {
+	list-style-image: url("chrome://global/skin/arrow/arrow-lft-sharp.gif");
+}

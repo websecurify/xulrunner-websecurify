@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.development/skin/ovl/preferencesPrefwindow.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.development/locale/ovl/preferencesPrefwindow.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.development/content/ovl/preferencesPrefwindow.js"/>
+	
+	<stringbundleset id="preferences-prefwindow-stringbundleset">
+		<stringbundle id="weaponry-development-preferences-prefwindow-stringbundle" src="chrome://org.gnucitizen.weaponry.development/locale/ovl/preferencesPrefwindow.properties"/>
+	</stringbundleset>
+	
+	<preferences id="preferences-prefwindow-advanced-preferences">
+		<preference id="org.gnucitizen.weaponry.development.openErrorConsoleOnStartup" name="org.gnucitizen.weaponry.development.openErrorConsoleOnStartup" type="bool"/>
+		<preference id="javascript.options.strict" name="javascript.options.strict" type="bool"/>
+	</preferences>
+	
+	<vbox id="preferences-prefwindow-advanced-preferences-content-vbox">
+		<checkbox id="weaponry-development-preferences-prefwindow-open-error-console-on-startup-checkbox" label="&weaponry-development-preferences-prefwindow-open-error-console-on-startup-checkbox-label;" preference="org.gnucitizen.weaponry.development.openErrorConsoleOnStartup"/>
+		<checkbox id="weaponry-development-preferences-prefwindow-enable-strick-javascript-warnings-checkbox" label="&weaponry-development-preferences-prefwindow-enable-strick-javascript-warnings-checkbox-label;" preference="javascript.options.strict"/>
+	</vbox>
+	
+</overlay>

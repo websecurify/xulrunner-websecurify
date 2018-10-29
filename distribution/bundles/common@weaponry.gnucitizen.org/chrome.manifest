@@ -1,0 +1,59 @@
+#
+# chrome registration
+#
+
+resource     org.gnucitizen.weaponry.common                                           file:chrome/
+content      org.gnucitizen.weaponry.common                                           file:chrome/content/
+locale       org.gnucitizen.weaponry.common en-US                                     file:chrome/locale/en-US/
+skin         org.gnucitizen.weaponry.common classic/1.0                               file:chrome/skin/classic/
+
+overlay      chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul           chrome://org.gnucitizen.weaponry.common/content/ovl/commonMenu.xul os=Linux os=WINNT
+overlay      chrome://org.gnucitizen.weaponry.common/content/xul/hiddenWindow.xul     chrome://org.gnucitizen.weaponry.common/content/ovl/macMenu.xul os=Darwin
+
+content      org.gnucitizen.weaponry.common.sites                                     file:sites/
+content      org.gnucitizen.weaponry.common.chrome.skin.shared                        file:chrome/skin/shared/
+skin         org.gnucitizen.weaponry.common textile                                   file:chrome/skin/textile/
+skin         org.gnucitizen.weaponry.common phosphor                                  file:chrome/skin/phosphor/
+
+style        chrome://org.gnucitizen.weaponry.common/content/ovl/common.xul           chrome://org.gnucitizen.weaponry.common.chrome.skin.shared/content/ovl/common.css
+
+#
+# xpcom registration
+#
+
+interfaces     components/IWeaponryPushbackInputStream.xpt
+interfaces     components/IWeaponryHeadServer.xpt
+interfaces     components/IWeaponryTerminalLauncher.xpt
+interfaces     components/IWeaponryHttpRequest.xpt
+interfaces     components/IWeaponryBasicHttpRequest.xpt
+interfaces     components/IWeaponryRawHttpRequest.xpt
+interfaces     components/IWeaponryCommonService.xpt
+interfaces     components/IWeaponryContentConverter.xpt
+interfaces     components/IWeaponrySchemeViewer.xpt
+
+component      {b1ed27d0-cf35-11df-bd3b-0800200c9a66}                       components/WeaponryPushbackInputStream.js
+contract       @common.weaponry.gnucitizen.org/pushback-input-stream;1      {b1ed27d0-cf35-11df-bd3b-0800200c9a66}
+
+component      {482cd6e0-e47c-11df-bccf-0800200c9a66}                       components/WeaponryHeadServer.js
+contract       @common.weaponry.gnucitizen.org/head-server;1                {482cd6e0-e47c-11df-bccf-0800200c9a66}
+
+component      {3041d510-84fc-11df-8395-0800200c9a66}                       components/WeaponryCommonService.js
+contract       @common.weaponry.gnucitizen.org/service;1                    {3041d510-84fc-11df-8395-0800200c9a66}
+
+component      {484638d0-5e15-11df-a08a-0800200c9a66}                       components/WeaponryTerminalLauncher.js
+contract       @common.weaponry.gnucitizen.org/terminal-launcher;1          {484638d0-5e15-11df-a08a-0800200c9a66}
+
+component      {a251af40-aeff-11df-94e2-0800200c9a66}                       components/WeaponryBasicHttpRequest.js
+contract       @common.weaponry.gnucitizen.org/basic-http-request;1         {a251af40-aeff-11df-94e2-0800200c9a66}
+
+component      {59d45ec0-4947-11df-9879-0800200c9a66}                       components/WeaponryRawHttpRequest.js
+contract       @common.weaponry.gnucitizen.org/raw-http-request;1           {59d45ec0-4947-11df-9879-0800200c9a66}
+
+component      {b4eb018f-cd1c-4696-b67c-3d7db8af02c2}                       components/WeaponryContentConverter.js
+contract       @common.weaponry.gnucitizen.org/content-converter;1          {b4eb018f-cd1c-4696-b67c-3d7db8af02c2}
+
+component      {a8c1cefe-5cf7-414d-b189-930c490fb421}                       components/WeaponrySchemeViewer.js
+contract       @common.weaponry.gnucitizen.org/scheme-viewer;1              {a8c1cefe-5cf7-414d-b189-930c490fb421}
+
+category       profile-after-change WeaponryCommonService                   @common.weaponry.gnucitizen.org/service;1
+category       profile-before-change WeaponryCommonService                  @common.weaponry.gnucitizen.org/service;1

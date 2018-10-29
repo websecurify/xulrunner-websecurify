@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/textlink.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:cmn="http://www.gnucitizen.org/cmn"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="textlink" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="textlink-container" flex="1" cmn:exposed="$container">
+				<xul:label class="textlink-label text-link" flex="1" xbl:inherits="value=label" cmn:exposed="$label" cmn:properties="label=value"/>
+			</xul:vbox>
+		</content>
+		
+		<handlers>
+			<handler event="click">
+				<action><![CDATA[
+					if (this.hasAttribute('uri')) {
+						weaponryCommon.openUri(this.getAttribute('uri'));
+					}
+				]]></action>
+			</handler>
+		</handlers>
+	</binding>
+	
+</bindings>

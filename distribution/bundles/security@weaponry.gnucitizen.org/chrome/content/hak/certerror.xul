@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://org.gnucitizen.weaponry.security/skin/hak/certerror.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://org.gnucitizen.weaponry.security/locale/hak/certerror.dtd">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<script type="application/x-javascript" src="chrome://org.gnucitizen.weaponry.security/content/hak/certerror.js"/>
+	
+	<dialog id="certErrorDialog" buttons="cancel,extra1,extra2" buttonlabelextra2="&add-certificate-exception-label;" buttonaccesskeyextra1="a" ondialogextra2="addSecurityCertificateException();"/>
+	
+</overlay>

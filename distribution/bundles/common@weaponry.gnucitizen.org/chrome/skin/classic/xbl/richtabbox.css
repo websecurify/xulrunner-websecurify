@@ -1,0 +1,82 @@
+@import url("chrome://org.gnucitizen.weaponry.common.chrome.skin.shared/content/xbl/richtabbox.css");
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabbox-toolbox {
+	border: 0px;
+	margin: 0px;
+	-moz-appearance: none;
+	padding: 3px 0px 0px 0px;
+	background: -moz-linear-gradient(#797979, #8a8a8a);
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > toolbar                                      ,
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanels-toolbar {
+	border: 0px;
+	padding: 0px;
+	-moz-appearance: none;
+	margin: 0px 0px 0px 3px;
+	background: transparent;
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton {
+	border: 0px;
+	padding: 0px;
+	color: #444444;
+	min-width: 150px;
+	max-width: 250px;
+	background: #999999;
+	-moz-appearance: none;
+	-moz-box-align: center;
+	margin: 0px 3px 0px 0px;
+	border-radius: 3px 3px 0px 0px
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[checked="true"] {
+	background: #eeeeee;
+	color: #000000 ! important;
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"] > image {
+	width: 12px;
+	height: 12px;
+	padding: 0px;
+	margin: 0px -18px 0px 4px;
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover > image {
+	list-style-image: url("images/close.active.still.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover > image[state="hovered"] {
+	list-style-image: url("images/close.active.hovered.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover > image[state="clicked"] {
+	list-style-image: url("images/close.active.pressed.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover:not([checked="true"]) > image {
+	list-style-image: url("images/close.inactive.still.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover:not([checked="true"]) > image[state="hovered"] {
+	list-style-image: url("images/close.inactive.hovered.png");
+}
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton[closable="true"]:hover:not([checked="true"]) > image[state="clicked"] {
+	list-style-image: url("images/close.inactive.pressed.png");
+}
+
+/* ------------------------------------------------------------------------ */
+
+richtabbox.cosmopolitan > .richtabbox-container .richtabpanel-toolbarbutton > label {
+	margin: 0px;
+	padding: 0px 25px 0px 25px;
+}

@@ -1,0 +1,7 @@
+@import url("chrome://org.gnucitizen.weaponry.browser/skin/xbl/locationbox.css");
+
+/* ------------------------------------------------------------------------ */
+
+locationbox {
+	-moz-binding: url("chrome://org.gnucitizen.weaponry.browser/content/xbl/locationbox.xml#locationbox");
+}

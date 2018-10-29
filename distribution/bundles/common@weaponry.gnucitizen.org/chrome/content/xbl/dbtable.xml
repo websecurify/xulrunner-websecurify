@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/dbtable.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="dbtablecol" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/datatable.xml#datatablecol"/>
+	
+	<binding id="dbtable" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/datatable.xml#datatable">
+		<implementation>
+			<property name="table">
+				<getter><![CDATA[
+					return this.getAttribute('table');
+				]]></getter>
+				
+				<setter><![CDATA[
+					return this.setAttribute('table', val);
+				]]></setter>
+			</property>
+			
+			<property name="countQuery">
+				<getter><![CDATA[
+					return 'SELECT count() AS _count FROM \'' + this.table.replace(/'/g, '\\\'') + '\'' + (this.whereClause ? ' WHERE ' + this.whereClause : '');
+				]]></getter>
+			</property>
+			
+			<property name="selectQuery">
+				<getter><![CDATA[
+					return 'SELECT _ROWID_ as _ROWID_, * FROM \'' + this.table.replace(/'/g, '\\\'') + '\'' + (this.whereClause ? ' WHERE ' + this.whereClause : '');
+				]]></getter>
+			</property>
+			
+			<method name="filter">
+				<parameter name="whereClause"/>
+				
+				<body><![CDATA[
+					this.whereClause = whereClause;
+					
+					this.refresh();
+				]]></body>
+			</method>
+			
+			<method name="initializeConnection">
+				<body><![CDATA[
+					let self = this;
+					
+					let createConnection = function () {
+						let fileUri = weaponryCommon.ioService.newURI(self.getAttribute('database'), null, null);
+						let file = fileUri.QueryInterface(Components.interfaces.nsIFileURL).file;
+						
+						return weaponryCommon.openMozstorageConnection(file);
+					};
+					
+					if (!this.connection) {
+						this.addEventListener('DOMAttrModified', function (event) {
+							if (event.attrName == 'database') {
+								if (this.connection) {
+									if ('asyncClose' in self.connection) {
+										self.connection.asyncClose();
+									} else {
+										self.connection.close();
+									}
+								}
+								
+								self.connection = createConnection();
+								
+								self.refresh();
+							}
+						}, false);
+					}
+					
+					if (this.connection) {
+						if ('asyncClose' in this.connection) {
+							this.connection.asyncClose();
+						} else {
+							this.connection.close();
+						}
+					}
+					
+					this.connection = createConnection();
+					
+					this.refresh();
+				]]></body>
+			</method>
+			
+			<method name="refreshLater">
+				<body><![CDATA[
+					let self = this;
+					
+					setTimeout(function () {
+						self.refresh();
+					}, 5000);
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.dataTreeView.tablesNum = weaponryCommon.getPref('org.gnucitizen.weaponry.common.xbl.dbtable.tablesNum');
+					this.dataTreeView.tableSize = weaponryCommon.getPref('org.gnucitizen.weaponry.common.xbl.dbtable.tableSize');
+					
+					this.dataTreeView.cursor = 0;
+					this.dataTreeView.tableStack = [];
+					this.dataTreeView.tables = {};
+					
+					this.dataTreeView.loadTableFor = function (row) {
+						let limit = this.tableSize;
+						let offset = Math.floor(row/this.tableSize) * this.tableSize;
+						
+						if (this.tables[limit + '-' + offset]) {
+							this.cursor = offset;
+							
+							self.dataView.data = this.tables[limit + '-' + offset];
+							
+							return;
+						}
+						
+						if (!self.connection.connectionReady) {
+							self.dataView.data = {};
+							
+							return;
+						}
+						
+						let data = [];
+						let items = weaponryCommon.executeMozstorageStatement(self.connection, self.selectQuery);
+						let itemsLength = items.length;
+						
+						for (let i = 0; i < itemsLength; i += 1) {
+							data.push(self.dataView.createDataRow(items[i]));
+						}
+						
+						if (this.tableStack.length > this.tablesNum) {
+							delete this.tables[this.tableStack.shift()];
+						}
+						
+						this.tableStack.push(limit + '-' + offset);
+						
+						this.tables[limit + '-' + offset] = data;
+						
+						this.cursor = offset;
+						
+						self.dataView.data = data;
+					};
+					
+					this.dataTreeView.clearTables = function () {
+						this.tableStack = [];
+						this.tables = {};
+					};
+					
+					this.dataTreeView.getDataLen = function () {
+						if (!self.connection.connectionReady) {
+							return 0;
+						}
+						
+						let count = 0;
+						let items = weaponryCommon.executeMozstorageStatement(self.connection, self.countQuery);
+						
+						if (items.length > 0) {
+							count = items[0]._count;
+						}
+						
+						return count;
+					};
+					
+					this.dataTreeView.getDataRow = function (row) {
+						if (!(row >= this.cursor && row < this.cursor + this.tableSize) || !self.dataView.data[row - this.cursor]) {
+							this.loadTableFor(row);
+						}
+						
+						return self.dataView.data[row - this.cursor];
+					};
+					
+					this.dataView.obtainDataRow = function (row) {
+						return self.dataTreeView.getDataRow(row);
+					};
+					
+					this.dbtableOldRefresh = this.refresh;
+					
+					this.refresh = function () {
+						this.dataTreeView.clearTables();
+						
+						this.dataView.data = [];
+						
+						this.dbtableOldRefresh();
+					};
+					
+					this.initializeConnection();
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

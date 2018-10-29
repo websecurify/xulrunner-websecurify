@@ -1,0 +1,21 @@
+#about-window-information-vbox {
+	-moz-box-pack: center;
+	-moz-box-align: center;
+	background: #ffffff url("images/background.png") repeat-x;
+}
+
+#about-window-logo-image {
+	min-width: 256px;
+	margin-bottom: 20px;
+	list-style-image: url("images/logo.png");
+}
+
+#about-window-version-label {
+	font-size: 80%;
+	margin-bottom: 20px;
+}
+
+#about-window-versions-image {
+	min-width: 385px;
+	list-style-image: url("images/versions.png");
+}

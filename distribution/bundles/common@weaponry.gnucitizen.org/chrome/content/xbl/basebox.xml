@@ -1,0 +1,470 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/basebox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="basebox">
+		<resources>
+			<stylesheet src="chrome://org.gnucitizen.weaponry.common/content/css/bindings.css"/>
+		</resources>
+		
+		<implementation>
+			<property name="$firstAnonymousNode">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<method name="_removeChildren">
+				<parameter name="$element"/>
+				
+				<body><![CDATA[
+					while ($element.hasChildNodes()) {
+					    $element.removeChild($element.lastChild);
+					}
+				]]></body>
+			</method>
+			
+			<method name="_copyChildren">
+				<parameter name="$sourceElement"/>
+				<parameter name="$destinationElement"/>
+				
+				<body><![CDATA[
+					let nodes = $sourceElement.childNodes;
+					let nodesLength = nodes.length;
+					
+					for (let i = 0; i < nodesLength; i += 1) {
+						$destinationElement.appendChild(nodes[i].cloneNode(true));
+					}
+				]]></body>
+			</method>
+			
+			<method name="_moveChildren">
+				<parameter name="$sourceElement"/>
+				<parameter name="$destinationElement"/>
+				
+				<body><![CDATA[
+					let nodes = $sourceElement.childNodes;
+					let nodesLength = nodes.length;
+					
+					for (let i = 0; i < nodesLength; i += 1) {
+						$destinationElement.appendChild(nodes[i]);
+					}
+				]]></body>
+			</method>
+			
+			<method name="_getChildIndex">
+				<parameter name="$parent"/>
+				<parameter name="$child"/>
+				
+				<body><![CDATA[
+					let childNodes = $parent.childNodes;
+					let childNodesLength = childNodes.length;
+					
+					for (let i = 0; i < childNodesLength; i += 1) {
+						let $node = childNodes[i];
+						
+						if ($node == $child) {
+							return i;
+						}
+					}
+					
+					return -1;
+				]]></body>
+			</method>
+			
+			<method name="_walkUpUntil">
+				<parameter name="$source"/>
+				<parameter name="destination"/>
+				<parameter name="inclusive"/>
+				
+				<body><![CDATA[
+					let $parentNode;
+					
+					if (inclusive) {
+						$parentNode = source;
+					} else {
+						$parentNode = $source.parentNode;
+					}
+					
+					if (typeof(destination) == 'string') {
+						// TODO: check if there is = and use attribute selector instead
+						function compare($node) {
+							return $node.tagName = destination;
+						}
+						//
+					} else {
+						function compare($node) {
+							return $node == destination.tagName;
+						}
+					}
+					
+					while (true) {
+						if (!$parentNode) {
+							return null;
+						} else
+						if (compare($parentNode)) {
+							return $parentNode;
+						} else
+						if ($parentNode == document.documentElement) {
+							return null;
+						} else {
+							$parentNode = $parentNode.parentNode; 
+						}
+					}
+				]]></body>
+			</method>
+			
+			<method name="_walkDownUntil">
+				<parameter name="$source"/>
+				<parameter name="destination"/>
+				<parameter name="inclusive"/>
+				
+				<body><![CDATA[
+					// TODO: add code here
+				]]></body>
+			</method>
+			
+			<method name="_verifyElementAttribute">
+				<parameter name="$element"/>
+				<parameter name="attribute"/>
+				<parameter name="value"/>
+				
+				<body><![CDATA[
+					return $element.hasAttribute(attribute) && $element.getAttribute(attribute) == value;
+				]]></body>
+			</method>
+			
+			<method name="_expandElementClasses">
+				<parameter name="$element"/>
+				<parameter name="clazz"/>
+				
+				<body><![CDATA[
+					$element.setAttribute('class', $element.getAttribute('class') + ' ' + clazz);
+				]]></body>
+			</method>
+			
+			<method name="_fireEvent">
+				<parameter name="eventName"/>
+				<parameter name="data"/>
+				
+				<body><![CDATA[
+					let event = document.createEvent('Event');
+					
+					event.initEvent(eventName, true, true);
+					
+					if (data) {
+						event.data = data;
+					}
+					
+					if (this.hasAttribute('on' + eventName.toLowerCase())) {
+						let result = eval('(function (event) {' + this.getAttribute('on' + eventName.toLowerCase()) + '})(event)');
+						
+						if (result == false) {
+							event.preventDefault();
+						}
+					}
+					
+					if (this['on' + eventName.toLowerCase()]) {
+						let result = this['on' + eventName.toLowerCase()](event);
+						
+						if (result == false) {
+							event.preventDefault();
+						}
+					}
+					
+					return this.dispatchEvent(event);
+				]]></body>
+			</method>
+			
+			<method name="_ensureProperty">
+				<parameter name="target"/>
+				<parameter name="property"/>
+				<parameter name="value"/>
+				
+				<body><![CDATA[
+					if (!(property in target)) {
+						target[property] = value;
+					}
+					
+					return target[property];
+				]]></body>
+			</method>
+			
+			<method name="_bindWatch">
+				<parameter name="target"/>
+				<parameter name="property"/>
+				<parameter name="handler"/>
+				
+				<body><![CDATA[
+					this._ensureProperty(this, '_boundWatches', []);
+					
+					this._boundWatches.push([target, property, handler]);
+					
+					target.watch(property, handler);
+				]]></body>
+			</method>
+			
+			<method name="_bindEvent">
+				<parameter name="$element"/>
+				<parameter name="event"/>
+				<parameter name="handler"/>
+				
+				<body><![CDATA[
+					this._ensureProperty(this, '_boundEvents', []);
+					
+					this._boundEvents.push([$element, event, handler]);
+					
+					$element.addEventListener(event, handler, false);
+				]]></body>
+			</method>
+			
+			<method name="_lockWatch">
+				<parameter name="target"/>
+				<parameter name="property"/>
+				<parameter name="handler"/>
+				
+				<body><![CDATA[
+					return this._bindWatch(target, property, function (property, oldValue, newValue) {
+						return handler.apply(this, arguments);
+					});
+				]]></body>
+			</method>
+			
+			<method name="_lockEvent">
+				<parameter name="$element"/>
+				<parameter name="event"/>
+				<parameter name="handler"/>
+				
+				<body><![CDATA[
+					return this._bindEvent($element, event, function (event) {
+						if (event.originalTarget == this) {
+							handler.apply(this, arguments);
+						}
+					});
+				]]></body>
+			</method>
+			
+			<method name="_linkAttributeProperty">
+				<parameter name="$sourceElement"/>
+				<parameter name="attribute"/>
+				<parameter name="property"/>
+				
+				<body><![CDATA[
+					this._lockEvent($sourceElement, 'DOMAttrModified', function (event) {
+						if (event.attrName == attribute && (!('_assignPropertyAction' in this) || !this._assignPropertyAction)) {
+							this._assignPropertyAction = true;
+							this[property] = event.newValue;
+							this._assignPropertyAction = undefined;
+						}
+					});
+					
+					this._lockWatch($sourceElement, property, function (property, oldValue, newValue) {
+						if ((!('_assignPropertyAction' in this) || !this._assignPropertyAction)) {
+							this._assignPropertyAction = true;
+							this.setAttribute('attribute', newValue);
+							this._assignPropertyAction = undefined;
+						}
+						
+						return newValue;
+					});
+				]]></body>
+			</method>
+			
+			<method name="_defaultBindAttributesAssigner">
+				<parameter name="$from"/>
+				<parameter name="fromValue"/>
+				<parameter name="$to"/>
+				<parameter name="toValue"/>
+				
+				<body><![CDATA[
+					$to.setAttribute(toValue, $from.getAttribute(fromValue));
+				]]></body>
+			</method>
+			
+			<method name="_bindAttributes">
+				<parameter name="$sourceElement"/>
+				<parameter name="$destinationElement"/>
+				<parameter name="attributes"/>
+				<parameter name="assigner"/>
+				
+				<body><![CDATA[
+					if (!assigner) {
+						assigner = this._defaultBindAttributesAssigner;
+					}
+					
+					let attributeLookupTable = {};
+					let attributesLength = attributes.length;
+					
+					for (let i = 0; i < attributesLength; i += 1) {
+						let attribute = attributes[i];
+						let attributeName = attribute;
+						let attributeLookup = attribute;
+						
+						if (attribute.indexOf('=') >= 0) {
+							attributeName = attribute.split(/\s*=/g)[0];
+							attributeLookup = attribute.split(/=\s*/g)[1];
+						}
+						
+						attributeLookupTable[attributeName] = attributeLookup;
+						
+						if ($sourceElement.hasAttribute(attributeLookup)) {
+							assigner($sourceElement, attributeLookup, $destinationElement, attributeName);
+						}
+					}
+					
+					this._lockEvent($sourceElement, 'DOMAttrModified', (function (attributeLookupTable, $destinationElement, assigner) {
+						return function (event) {
+							if (event.attrName in attributeLookupTable) {
+								assigner(event.target, event.attrName, $destinationElement, attributeLookupTable[event.attrName]);
+							}
+						};
+					})(attributeLookupTable, $destinationElement, assigner));
+					
+					this._lockEvent($destinationElement, 'DOMAttrModified', (function (attributeLookupTable, $sourceElement, assigner) {
+						return function (event) {
+							if (event.attrName in attributeLookupTable) {
+								assigner(event.target, event.attrName, $sourceElement, attributeLookupTable[event.attrName]);
+							}
+						};
+					})(attributeLookupTable, $sourceElement, assigner));
+				]]></body>
+			</method>
+			
+			<method name="_generateId">
+				<body><![CDATA[
+					return 'id-' + (new Date()).getTime().toString() + Math.random().toString().substring(2);
+				]]></body>
+			</method>
+			
+			<method name="_wireNode">
+				<parameter name="$node"/>
+				
+				<body><![CDATA[
+					// pass
+				]]></body>
+			</method>
+			
+			<method name="_unwireNode">
+				<parameter name="$node"/>
+				
+				<body><![CDATA[
+					// pass
+				]]></body>
+			</method>
+			
+			<method name="_updateNode">
+				<parameter name="$node"/>
+				
+				<body><![CDATA[
+					// pass
+				]]></body>
+			</method>
+			
+			<method name="_processCommonAttributes">
+				<parameter name="$node"/>
+				
+				<body><![CDATA[
+					let exposed = $node.getAttributeNS('http://www.gnucitizen.org/cmn', 'exposed');
+					
+					if (exposed) {
+						this.__defineGetter__(exposed, function () {
+							return $node;
+						});
+					}
+					
+					let properties = $node.getAttributeNS('http://www.gnucitizen.org/cmn', 'properties');
+					
+					if (properties) {
+						let tokens = properties.split(',');
+						let tokensLength = tokens.length;
+						
+						for (let i = 0; i < tokensLength; i += 1) {
+							let token = tokens[i];
+							let subtokens = token.split('=');
+							let property = subtokens[0];
+							let source = subtokens[1];
+							
+							this.__defineGetter__(property, function () {
+								return $node[source];
+							});
+							
+							this.__defineSetter__(property, function (value) {
+								$node[source] = value;
+							});
+						}
+					}
+					
+					let childNodes = $node.childNodes;
+					let childNodesLength = childNodes.length;
+					
+					for (let i = 0; i < childNodesLength; i += 1) {
+						this._processCommonAttributes(childNodes[i]);
+					}
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					// NOTE: new improved code
+					this._processCommonAttributes(this.$firstAnonymousNode);
+					//
+					
+					this._ensureProperty(this, '_boundWatches', []);
+					this._ensureProperty(this, '_boundEvents', []);
+					
+					if (!this.id) {
+						this.id = this._generateId();
+					}
+					
+					if (this.hasAttribute('sourceelementid')) {
+						let $element = document.getElementById(this.getAttribute('sourceelementid'));
+						
+						if ($element) {
+							this.appendChild($element);
+						}
+						
+						this.removeAttribute('sourceelementid');
+					}
+					
+					this._lockEvent(this, 'DOMNodeRemoved', function (event) {
+						if (this.parentNode && '_unwireNode' in this.parentNode && this.parentNode._unwireNode) {
+							this.parentNode._unwireNode(this);
+						}
+					});
+					
+					if (this.parentNode && '_wireNode' in this.parentNode && this.parentNode._wireNode) {
+						this.parentNode._wireNode(this);
+					}
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					let boundWatchesLength = this._boundWatches.length;
+					
+					for (let i = 0; i < boundWatchesLength; i += 1) {
+						let watch = this._boundWatches[i];
+						
+						watch[0].unwatch(watch[1], watch[2]);
+					}
+					
+					this._boundWatches = null;
+					
+					let boundEventsLength = this._boundEvents.length;
+					
+					for (let i = 0; i < boundEventsLength; i += 1) {
+						let event = this._boundEvents[i];
+						
+						event[0].removeEventListener(event[1], event[2], false);
+					}
+					
+					this._boundEvents = null;
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

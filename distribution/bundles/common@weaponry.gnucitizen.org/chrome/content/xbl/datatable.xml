@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/datatable.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="datatablecol" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basedatatree.xml#basedatatreecol"/>
+	
+	<binding id="datatable" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basedatatree.xml#basedatatree">
+		<implementation>
+			<property name="selectedDataRow">
+				<getter><![CDATA[
+					return this.dataView.obtainDataRow(this.selectedIndex);
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.dataTreeView.getDataLen = function () {
+						return self.dataView.obtainDataLen();
+					};
+					
+					this.dataTreeView.getDataRow = function (row) {
+						return self.dataView.obtainDataRow(row);
+					};
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

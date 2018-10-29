@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/datatree.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="datatreecol" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basedatatree.xml#basedatatreecol"/>
+	
+	<binding id="datatree" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basedatatree.xml#basedatatree">
+		<implementation>
+			<property name="selectedDataRow">
+				<getter><![CDATA[
+					return this.dataTreeView.visibleDataRows[this.selectedIndex];
+				]]></getter>
+			</property>
+			
+			<constructor>
+				<action><![CDATA[
+					let self = this;
+					
+					this.dataView.datatreeOldInsertDataRow = this.dataView.insertDataRow;
+					this.dataView.datatreeOldAppendDataRow = this.dataView.appendDataRow;
+					
+					this.dataView.generateMetaID = function () {
+						return self._generateId();
+					};
+					
+					this.dataView.prepareDataRow = function (data) {
+						if (!data['_metaID']) {
+							data['_metaID'] = this.generateMetaID();
+						}
+						
+						if (!data['_metaParentID']) {
+							data['_metaParentID'] = '_metaRoot';
+						}
+					};
+					
+					this.dataView.insertDataRow = function (data, row) {
+						this.prepareDataRow(data);
+						
+						return this.datatreeOldInsertDataRow.apply(this, arguments);
+					};
+					
+					this.dataView.appendDataRow = function (data) {
+						this.prepareDataRow(data);
+						
+						return this.datatreeOldAppendDataRow.apply(this, arguments);
+					};
+					
+					this.dataTreeView.displayData = {};
+					this.dataTreeView.visibleDataRows = [];
+					this.dataTreeView.visibleDataPosMap = {};
+					this.dataTreeView.visibleDataRowsMap = {};
+					this.dataTreeView.childDataMap = {};
+					
+					this.dataTreeView.ensureDisplayData = function (_metaID) {
+						if (!this.displayData[_metaID]) {
+							this.displayData[_metaID] = {isVisible:false, isContainer:false, isContainerOpen:false};
+						}
+					};
+					
+					this.dataTreeView.getDataLen = function () {
+						this.visibleDataRows = [];
+						this.visibleDataPosMap = {};
+						this.visibleDataRowsMap = {};
+						this.childDataMap = {};
+						
+						let dataLen = self.dataView.obtainDataLen();
+						let dataPossitions = {};
+						
+						for (let i = 0; i < dataLen; i += 1) {
+							let dataRow = self.dataView.obtainDataRow(i);
+							
+							dataPossitions[dataRow['_metaID']] = i;
+							
+							if (!this.childDataMap[dataRow['_metaParentID']]) {
+								this.childDataMap[dataRow['_metaParentID']] = [];
+							}
+							
+							this.childDataMap[dataRow['_metaParentID']].push(dataRow['_metaID']);
+							
+							this.ensureDisplayData(dataRow['_metaID']);
+							
+							if (dataRow['_metaParentID'] == '_metaRoot') {
+								this.displayData[dataRow['_metaID']].isVisible = true;
+							} else {
+								this.ensureDisplayData(dataRow['_metaParentID']);
+								
+								this.displayData[dataRow['_metaParentID']].isContainer = true;
+							}
+						}
+						
+						let dataTreeView = this;
+						let orderedDataIDs = [];
+						
+						(function (_metaID) {
+							if (dataTreeView.childDataMap[_metaID]) {
+								let _metaIDs = dataTreeView.childDataMap[_metaID];
+								let _metaIDsLength = _metaIDs.length;
+								
+								for (let i = 0; i < _metaIDsLength; i += 1) {
+									let _metaID = _metaIDs[i];
+									
+									orderedDataIDs.push(_metaID);
+									
+									arguments.callee(_metaID);
+								}
+							}
+						})('_metaRoot');
+						
+						let orderedDataIDsLength = orderedDataIDs.length;
+						
+						for (let i = 0; i < orderedDataIDsLength; i += 1) {
+							let _metaID = orderedDataIDs[i];
+							let dataRow = self.dataView.obtainDataRow(dataPossitions[_metaID]);
+							let displayData = dataTreeView.displayData[dataRow['_metaID']];
+							
+							if (dataRow['_metaParentID'] != '_metaRoot') {
+								let parentDisplayData = dataTreeView.displayData[dataRow['_metaParentID']];
+								
+								if (parentDisplayData.isVisible && parentDisplayData.isContainerOpen) {
+									displayData.isVisible = true;
+								} else {
+									displayData.isVisible = false;
+								}
+							}
+							
+							if (displayData.isVisible) {
+								dataTreeView.visibleDataRows.push(dataRow);
+								
+								dataTreeView.visibleDataPosMap[dataRow['_metaID']] = dataTreeView.visibleDataRows.length - 1;
+								dataTreeView.visibleDataRowsMap[dataRow['_metaID']] = dataRow;
+							}
+						}
+						
+						return this.visibleDataRows.length;
+					};
+					
+					this.dataTreeView.getVisibleDataRow = function (row) {
+						return this.visibleDataRows[row];
+					};
+					
+					this.dataTreeView.getDataRow = function (row) {
+						let dataRow = this.getVisibleDataRow(row);
+						
+						return dataRow;
+					};
+					
+					this.dataTreeView.getLevel = function (row) {
+						let dataRow = this.getVisibleDataRow(row);
+						let level = 0;
+						
+						while (dataRow['_metaParentID'] != '_metaRoot') {
+							dataRow = this.visibleDataRowsMap[dataRow['_metaParentID']];
+							
+							level += 1;
+						}
+						
+						return level;
+					};
+					
+					this.dataTreeView.toggleOpenState = function (row) {
+						let dataRow = this.getVisibleDataRow(row);
+						let displayData = this.displayData[dataRow['_metaID']];
+						
+						let isContainerOpen = displayData.isContainerOpen ? false : true;
+						
+						displayData.isContainerOpen = isContainerOpen;
+						
+						self.refresh();
+					}
+					
+					this.dataTreeView.isContainer = function (row) {
+						let dataRow = this.getVisibleDataRow(row);
+						let displayData = this.displayData[dataRow['_metaID']];
+						
+						return displayData.isContainer;
+					};
+					
+					this.dataTreeView.isContainerOpen = function (row) {
+						let dataRow = this.getVisibleDataRow(row);
+						let displayData = this.displayData[dataRow['_metaID']];
+						
+						return displayData.isContainerOpen;
+					};
+					
+					this.dataTreeView.isContainerEmpty = function (row) {
+						let dataRow = this.getVisibleDataRow(row);
+						let displayData = this.displayData[dataRow['_metaID']];
+						
+						return !displayData.isContainer;
+					};
+					
+					this.dataTreeView.hasNextSibling = function (row, afterRow) {
+						let dataRow = this.getVisibleDataRow(row);
+						let afterRow = this.visibleDataRows[afterRow + 1];
+						
+						return afterRow && dataRow['_metaParentID'] == afterRow['_metaParentID'];
+					};
+					
+					this.dataTreeView.getParentIndex = function (row) {
+						let dataRow = this.getVisibleDataRow(row);
+						
+						if (dataRow['_metaParentID'] == '_metaRoot') {
+							return -1;
+						} else {
+							return this.visibleDataPosMap[dataRow['_metaParentID']];
+						}
+					};
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>

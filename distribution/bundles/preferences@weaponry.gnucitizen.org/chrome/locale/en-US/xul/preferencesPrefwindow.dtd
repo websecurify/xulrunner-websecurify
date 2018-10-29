@@ -1,0 +1,16 @@
+<!ENTITY preferences-prefwindow-title "Preferences">
+<!ENTITY preferences-prefwindow-general-prefpane-label "General">
+<!ENTITY preferences-prefwindow-proxy-caption-label "Proxy Configuration">
+<!ENTITY preferences-prefwindow-proxy-description-value "Configure proxy settings">
+<!ENTITY preferences-prefwindow-open-proxy-dialog-button-label "Settings...">
+<!ENTITY preferences-prefwindow-security-prefpane-label "Security">
+<!ENTITY preferences-prefwindow-security-certificates-caption-label "Security Certificates Configuration">
+<!ENTITY preferences-prefwindow-security-certificates-description-value "Configure security certificates settings">
+<!ENTITY preferences-prefwindow-open-security-certificates-dialog-button-label "Settings...">
+<!ENTITY preferences-prefwindow-security-devices-caption-label "Security Devices Configuration">
+<!ENTITY preferences-prefwindow-security-devices-description-value "Configure security devices settings">
+<!ENTITY preferences-prefwindow-open-security-devices-dialog-button-label "Settings...">
+<!ENTITY preferences-prefwindow-advanced-prefpane-label "Advanced">
+<!ENTITY preferences-prefwindow-registry-caption-label "Registry Configuration">
+<!ENTITY preferences-prefwindow-registry-description-value "Configure registry settings">
+<!ENTITY preferences-prefwindow-open-registry-dialog-button-label "Settings...">

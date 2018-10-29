@@ -1,0 +1,91 @@
+:root[parentwindowtype="org.gnucitizen.weaponry.browser:browser-perspective"] #browser-view-navigation-toolbox {
+	border: 0px;
+	-moz-appearance: none;
+}
+
+:root[lookandfeel="win"]:not([parentwindowtype="org.gnucitizen.weaponry.browser:browser-perspective"]) #browser-view-navigation-toolbox {
+	border: 0px;
+	-moz-appearance: none;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-navigation-toolbar {
+	padding: 3px;
+}
+
+:root[parentwindowtype="org.gnucitizen.weaponry.browser:browser-perspective"] #browser-view-navigation-toolbar {
+	border: 0px;
+	background: #eeeeee;
+	-moz-appearance: none;
+	border-bottom: 1px solid #dddddd;
+}
+
+:root[lookandfeel="win"]:not([parentwindowtype="org.gnucitizen.weaponry.browser:browser-perspective"]) #browser-view-navigation-toolbar {
+	border: 0px;
+	background: Menu;
+	-moz-appearance: none;
+	border-bottom: 1px solid ThreeDShadow;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.browser-view-navigation-button {
+	margin: 0px ! important;
+	padding: 0px ! important;
+}
+
+.browser-view-navigation-button > label {
+	display: none ! important;
+}
+
+.browser-view-navigation-button > * {
+	margin: 0px ! important;
+	padding: 0px ! important;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-back-toolbarbutton {
+	list-style-image: url("images/back.png");
+}
+
+#browser-view-forward-toolbarbutton {
+	list-style-image: url("images/forward.png");
+}
+
+#browser-view-reload-toolbarbutton {
+	list-style-image: url("images/reload.png");
+}
+
+#browser-view-stop-toolbarbutton  {
+	list-style-image: url("images/stop.png");
+}
+
+#browser-view-back-toolbarbutton[disabled="true"] > image    ,
+#browser-view-forward-toolbarbutton[disabled="true"] > image ,
+#browser-view-reload-toolbarbutton[disabled="true"] > image  ,
+#browser-view-stop-toolbarbutton[disabled="true"] > image    {
+	opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-content-locationbox {
+	max-height: 24px;
+	margin: 1px 5px 1px 5px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-macthrob-image {
+    width: 16px;
+    height: 16px;
+    background: transparent url("images/macthrob.gif") 50% 50% no-repeat;
+}
+
+/* ------------------------------------------------------------------------ */
+
+#browser-view-go-toolbarbutton {
+	display: none;
+}

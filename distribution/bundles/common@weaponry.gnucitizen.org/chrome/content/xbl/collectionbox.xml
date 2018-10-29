@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings SYSTEM "chrome://org.gnucitizen.weaponry.common/locale/xbl/collectionbox.dtd">
+<bindings
+	xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="collectionitem" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox"/>
+	
+	<binding id="collectionbox" extends="chrome://org.gnucitizen.weaponry.common/content/xbl/basebox.xml#basebox">
+		<content>
+			<xul:vbox class="collectionbox-container" flex="1">
+				<xul:dataroll class="collectionbox-dataroll" flex="1">
+					<xul:vbox class="collectionbox-item" flex="1">
+						<xul:image class="collectionbox-item-image" src="?icon"/>
+						<xul:label class="collectionbox-item-label" value="?label" crop="right"/>
+					</xul:vbox>
+				</xul:dataroll>
+				
+				<xul:vbox class="collectionbox-content" collapsed="true">
+					<children/>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
+		
+		<implementation>
+			<property name="$container">
+				<getter><![CDATA[
+					return document.getAnonymousNodes(this)[0];
+				]]></getter>
+			</property>
+			
+			<property name="$dataroll">
+				<getter><![CDATA[
+					return this.$container.childNodes[0];
+				]]></getter>
+			</property>
+			
+			<property name="$content">
+				<getter><![CDATA[
+					return this.$container.childNodes[1];
+				]]></getter>
+			</property>
+			
+			<method name="_wireNode">
+				<parameter name="$node"/>
+				
+				<body><![CDATA[
+					let label = $node.getAttribute('label');
+					let icon = $node.getAttribute('icon');
+					let self = this;
+					
+					setTimeout(function () {
+						self.$dataroll.appendDataRow({label: label, icon: icon});
+					}, 1);
+				]]></body>
+			</method>
+			
+			<method name="_unwireNode">
+				<parameter name="$node"/>
+				
+				<body><![CDATA[
+				]]></body>
+			</method>
+			
+			<constructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</constructor>
+			
+			<destructor>
+				<action><![CDATA[
+					// pass
+				]]></action>
+			</destructor>
+		</implementation>
+	</binding>
+	
+</bindings>
